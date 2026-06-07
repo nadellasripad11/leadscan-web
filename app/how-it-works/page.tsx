@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 function Step({ n, title, desc, children }: { n: string; title: string; desc: string; children?: React.ReactNode }) {
   return (
     <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
-      <div style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 12, background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.22)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <span style={{ fontSize: 13, fontWeight: 800, color: "#a78bfa", fontFamily: "'SF Mono','Fira Code',monospace" }}>{n}</span>
+      <div style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 12, background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.22)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <span style={{ fontSize: 13, fontWeight: 800, color: "#93c5fd", fontFamily: "'SF Mono','Fira Code',monospace" }}>{n}</span>
       </div>
       <div style={{ flex: 1, paddingTop: 4 }}>
         <p style={{ fontSize: 16, fontWeight: 700, margin: "0 0 6px", letterSpacing: "-0.01em" }}>{title}</p>
@@ -52,8 +52,8 @@ function Card({ children, style = {} }: { children: React.ReactNode; style?: Rea
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#a78bfa", textTransform: "uppercase", marginBottom: 14 }}>
-      <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#a78bfa", display: "inline-block" }} />
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#93c5fd", textTransform: "uppercase", marginBottom: 14 }}>
+      <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#93c5fd", display: "inline-block" }} />
       {children}
     </span>
   );
@@ -68,12 +68,12 @@ export default function HowItWorksPage() {
         {/* ── Hero ── */}
         <section style={{ position: "relative", textAlign: "center", padding: "80px 20px 60px", overflow: "hidden" }}>
           <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px)", backgroundSize: "28px 28px", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", top: -300, left: "50%", transform: "translateX(-50%)", width: 700, height: 500, background: "radial-gradient(ellipse, rgba(124,58,237,0.09) 0%, transparent 65%)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", top: -300, left: "50%", transform: "translateX(-50%)", width: 700, height: 500, background: "radial-gradient(ellipse, rgba(59,130,246,0.09) 0%, transparent 65%)", pointerEvents: "none" }} />
           <div style={{ maxWidth: 680, margin: "0 auto", position: "relative" }}>
             <Tag>How it works</Tag>
             <h1 style={{ fontSize: "clamp(34px,6vw,64px)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1.04, margin: "0 0 20px" }}>
               From domain to intelligence<br />
-              <span style={{ background: "linear-gradient(135deg,#fff 0%,#a78bfa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              <span style={{ background: "linear-gradient(135deg,#fff 0%,#93c5fd 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 in 5 seconds.
               </span>
             </h1>
@@ -81,7 +81,7 @@ export default function HowItWorksPage() {
               Use LeadScan on the web from any device, or run it directly in your terminal. Same intelligence, two ways to access it.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 24px", borderRadius: 12, background: "#7c3aed", color: "#fff", fontSize: 14, fontWeight: 600, textDecoration: "none", boxShadow: "0 0 20px rgba(124,58,237,0.3)" }}>
+              <Link href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 24px", borderRadius: 12, background: "#3b82f6", color: "#fff", fontSize: 14, fontWeight: 600, textDecoration: "none", boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                 Try it now — free
               </Link>
@@ -141,10 +141,10 @@ export default function HowItWorksPage() {
 
               <Step n="02" title="Enter any domain" desc="Paste a URL or type a company name. LeadScan strips the https:// and www. automatically — just the domain name is enough.">
                 <Card style={{ padding: "16px 20px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#111113", borderRadius: 10, padding: "12px 16px", border: "1px solid rgba(124,58,237,0.3)" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#111113", borderRadius: 10, padding: "12px 16px", border: "1px solid rgba(59,130,246,0.3)" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                     <span style={{ fontSize: 13, color: "#fafafa", fontWeight: 500, flex: 1 }}>stripe.com</span>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: "#fff", background: "#7c3aed", padding: "5px 14px", borderRadius: 8 }}>Scan →</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: "#fff", background: "#3b82f6", padding: "5px 14px", borderRadius: 8 }}>Scan →</span>
                   </div>
                   <div style={{ marginTop: 10, display: "flex", gap: 7, flexWrap: "wrap" }}>
                     <span style={{ fontSize: 11, color: "#52525b" }}>Try:</span>
@@ -167,10 +167,10 @@ export default function HowItWorksPage() {
                     <div style={{ flex: 1, minWidth: 180 }}>
                       <p style={{ fontSize: 13, fontWeight: 700, margin: "0 0 10px", color: "#fafafa" }}>stripe.com</p>
                       {[
-                        { label: "Tech modernity",  v: 85, c: "#a78bfa" },
-                        { label: "Growth signals",  v: 80, c: "#a78bfa" },
-                        { label: "Market presence", v: 72, c: "#7c3aed" },
-                        { label: "Contactability",  v: 60, c: "#6d28d9" },
+                        { label: "Tech modernity",  v: 85, c: "#93c5fd" },
+                        { label: "Growth signals",  v: 80, c: "#93c5fd" },
+                        { label: "Market presence", v: 72, c: "#3b82f6" },
+                        { label: "Contactability",  v: 60, c: "#2563eb" },
                       ].map(b => (
                         <div key={b.label} style={{ marginBottom: 7 }}>
                           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
@@ -200,9 +200,9 @@ export default function HowItWorksPage() {
                       <p style={{ fontSize: 10, color: "#52525b", margin: "0 0 3px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>What you&apos;re selling</p>
                       <p style={{ fontSize: 13, color: "#a1a1aa", margin: 0 }}>Observability and monitoring tool</p>
                     </div>
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "9px 16px", borderRadius: 9, background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.25)", alignSelf: "flex-start" }}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"/></svg>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: "#a78bfa" }}>Generate outreach →</span>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "9px 16px", borderRadius: 9, background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.25)", alignSelf: "flex-start" }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" strokeWidth="2.5"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"/></svg>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: "#93c5fd" }}>Generate outreach →</span>
                     </div>
                   </div>
                 </Card>
@@ -211,7 +211,7 @@ export default function HowItWorksPage() {
             </div>
 
             <div style={{ marginTop: 44, textAlign: "center" }}>
-              <Link href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 30px", borderRadius: 12, background: "#7c3aed", color: "#fff", fontSize: 15, fontWeight: 600, textDecoration: "none", boxShadow: "0 0 20px rgba(124,58,237,0.25)" }}>
+              <Link href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 30px", borderRadius: 12, background: "#3b82f6", color: "#fff", fontSize: 15, fontWeight: 600, textDecoration: "none", boxShadow: "0 0 20px rgba(59,130,246,0.25)" }}>
                 Open the scanner →
               </Link>
             </div>
@@ -236,7 +236,7 @@ export default function HowItWorksPage() {
               <Step n="01" title="Install or run with npx" desc="No install required — npx fetches and runs it instantly. Or install globally to use without the npx prefix.">
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <Terminal lines={[
-                    { prompt: true,  color: "#a78bfa", text: "npx leadscan analyze stripe.com" },
+                    { prompt: true,  color: "#93c5fd", text: "npx leadscan analyze stripe.com" },
                     { prompt: false, color: "#3f3f46", text: "" },
                     { prompt: false, color: "#22c55e", text: "✓  Fetching stripe.com..." },
                     { prompt: false, color: "#22c55e", text: "✓  stripe.com — Conviction: 78/100" },
@@ -253,7 +253,7 @@ export default function HowItWorksPage() {
 
               <Step n="02" title="Analyze any company" desc="Get a full company report directly in your terminal — tech stack, signals, score, emails, and social links.">
                 <Terminal lines={[
-                  { prompt: true,  color: "#a78bfa", text: "npx leadscan analyze stripe.com" },
+                  { prompt: true,  color: "#93c5fd", text: "npx leadscan analyze stripe.com" },
                   { prompt: false, color: "#3f3f46", text: "" },
                   { prompt: false, color: "#22c55e", text: "✓  stripe.com — Conviction: 78/100" },
                   { prompt: false, color: "#71717a", text: "   Tech:      React, Next.js, AWS, TypeScript" },
@@ -269,18 +269,18 @@ export default function HowItWorksPage() {
 
               <Step n="03" title="Generate AI outreach" desc="Pass your role and product to generate a tailored cold email, LinkedIn message, and call opener for any company.">
                 <Terminal lines={[
-                  { prompt: true,  color: "#a78bfa", text: 'npx leadscan outreach stripe.com --role "Head of Engineering" --product "observability tool"' },
+                  { prompt: true,  color: "#93c5fd", text: 'npx leadscan outreach stripe.com --role "Head of Engineering" --product "observability tool"' },
                   { prompt: false, color: "#3f3f46", text: "" },
                   { prompt: false, color: "#22c55e", text: "✓  Generating outreach for stripe.com..." },
                   { prompt: false, color: "#3f3f46", text: "" },
-                  { prompt: false, color: "#a78bfa", text: "  COLD EMAIL" },
+                  { prompt: false, color: "#93c5fd", text: "  COLD EMAIL" },
                   { prompt: false, color: "#71717a", text: '  Subject: "Quick question about Stripe\'s infra"' },
                   { prompt: false, color: "#71717a", text: "  Body:    [3-paragraph personalized email]" },
                   { prompt: false, color: "#3f3f46", text: "" },
-                  { prompt: false, color: "#a78bfa", text: "  LINKEDIN" },
+                  { prompt: false, color: "#93c5fd", text: "  LINKEDIN" },
                   { prompt: false, color: "#71717a", text: "  [280-char connection message]" },
                   { prompt: false, color: "#3f3f46", text: "" },
-                  { prompt: false, color: "#a78bfa", text: "  CALL OPENER" },
+                  { prompt: false, color: "#93c5fd", text: "  CALL OPENER" },
                   { prompt: false, color: "#71717a", text: "  [15-second phone opener]" },
                 ]} />
               </Step>
@@ -300,7 +300,7 @@ figma.com`}
                     </pre>
                   </Card>
                   <Terminal lines={[
-                    { prompt: true,  color: "#a78bfa", text: "npx leadscan batch domains.txt" },
+                    { prompt: true,  color: "#93c5fd", text: "npx leadscan batch domains.txt" },
                     { prompt: false, color: "#3f3f46", text: "" },
                     { prompt: false, color: "#22c55e", text: "  1.  stripe.com      78/100  ████████░░" },
                     { prompt: false, color: "#22c55e", text: "  2.  vercel.com      74/100  ███████░░░" },
@@ -315,8 +315,8 @@ figma.com`}
 
               <Step n="05" title="Export as JSON" desc="Add --json to any command to get machine-readable output you can pipe, save, or feed into other tools.">
                 <Terminal lines={[
-                  { prompt: true,  color: "#a78bfa", text: "npx leadscan analyze stripe.com --json > stripe.json" },
-                  { prompt: true,  color: "#a78bfa", text: "npx leadscan analyze stripe.com --json | jq '.convictionScore'" },
+                  { prompt: true,  color: "#93c5fd", text: "npx leadscan analyze stripe.com --json > stripe.json" },
+                  { prompt: true,  color: "#93c5fd", text: "npx leadscan analyze stripe.com --json | jq '.convictionScore'" },
                   { prompt: false, color: "#22c55e", text: "78" },
                 ]} />
               </Step>
@@ -330,7 +330,7 @@ figma.com`}
                   <p style={{ fontSize: 13, color: "#71717a", margin: 0 }}>Full reference with every flag and option.</p>
                 </div>
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  <Link href="/docs#cli" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 18px", borderRadius: 99, background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.3)", color: "#a78bfa", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+                  <Link href="/docs#cli" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 18px", borderRadius: 99, background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.3)", color: "#93c5fd", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
                     CLI Docs →
                   </Link>
                   <a href="https://npmjs.com/package/leadscan" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 18px", borderRadius: 99, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#71717a", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>

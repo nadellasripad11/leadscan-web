@@ -47,9 +47,9 @@ export function TechBadge({ name }: { name: string }) {
     <span style={{
       display: "inline-block", padding: "3px 10px", borderRadius: 6,
       fontSize: 12, fontWeight: 500,
-      background: "rgba(124,58,237,0.08)",
-      color: "#a78bfa",
-      border: "1px solid rgba(124,58,237,0.18)",
+      background: "rgba(59,130,246,0.08)",
+      color: "#93c5fd",
+      border: "1px solid rgba(59,130,246,0.18)",
     }}>
       {name}
     </span>

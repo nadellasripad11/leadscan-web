@@ -45,7 +45,7 @@ export default function TermsPage() {
 
           {/* Header */}
           <div style={{ marginBottom: 52 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#7c3aed", textTransform: "uppercase", margin: "0 0 14px" }}>Legal</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase", margin: "0 0 14px" }}>Legal</p>
             <h1 style={{ fontSize: "clamp(30px,5vw,48px)", fontWeight: 900, letterSpacing: "-0.035em", margin: "0 0 16px", lineHeight: 1.05 }}>
               Terms of Service
             </h1>
@@ -54,8 +54,8 @@ export default function TermsPage() {
             </p>
           </div>
 
-          <div style={{ background: "rgba(124,58,237,0.05)", border: "1px solid rgba(124,58,237,0.18)", borderRadius: 12, padding: "16px 20px", marginBottom: 44 }}>
-            <p style={{ fontSize: 13, color: "#a78bfa", margin: 0, lineHeight: 1.7 }}>
+          <div style={{ background: "rgba(59,130,246,0.05)", border: "1px solid rgba(59,130,246,0.18)", borderRadius: 12, padding: "16px 20px", marginBottom: 44 }}>
+            <p style={{ fontSize: 13, color: "#93c5fd", margin: 0, lineHeight: 1.7 }}>
               By using LeadScan (the &quot;Service&quot;), you agree to these terms. Please read them carefully. If you do not agree, do not use the Service.
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function TermsPage() {
             </P>
             <P>
               We do not sell your data. For full details on what we collect and how we use it, see our{" "}
-              <Link href="/privacy" style={{ color: "#a78bfa", textDecoration: "none" }}>Privacy Policy</Link>.
+              <Link href="/privacy" style={{ color: "#93c5fd", textDecoration: "none" }}>Privacy Policy</Link>.
             </P>
           </Section>
 
@@ -113,7 +113,7 @@ export default function TermsPage() {
           <Section title="6. Third-Party Services">
             <P>
               The Service uses third-party APIs including Groq for AI inference. Your use of AI-powered features is also subject to{" "}
-              <a href="https://groq.com/terms-of-use" target="_blank" rel="noopener noreferrer" style={{ color: "#a78bfa", textDecoration: "none" }}>
+              <a href="https://groq.com/terms-of-use" target="_blank" rel="noopener noreferrer" style={{ color: "#93c5fd", textDecoration: "none" }}>
                 Groq&apos;s Terms of Use
               </a>.
               We are not responsible for the availability, accuracy, or conduct of any third-party service.
@@ -162,7 +162,7 @@ export default function TermsPage() {
           <Section title="12. Contact">
             <P>
               Questions about these Terms? Reach out at{" "}
-              <a href="mailto:legal@leadscan.app" style={{ color: "#a78bfa", textDecoration: "none" }}>legal@leadscan.app</a>.
+              <a href="mailto:legal@leadscan.app" style={{ color: "#93c5fd", textDecoration: "none" }}>legal@leadscan.app</a>.
             </P>
           </Section>
 

@@ -68,7 +68,7 @@ export default function BatchTab() {
           <p style={{ fontWeight: 700, fontSize: 14, margin: "0 0 6px" }}>Batch Scanner</p>
           <p style={{ fontSize: 13, color: "#71717a", margin: "0 0 16px" }}>Paste up to 20 domains — one per line or comma-separated. We'll scan and rank them by conviction score.</p>
           <textarea value={text} onChange={e => setText(e.target.value)} placeholder={"stripe.com\nnotion.so\nlinear.app\nvercel.com"} rows={7} style={{ ...inputStyle, resize: "vertical", fontFamily: "monospace", lineHeight: 1.7 }} />
-          <button onClick={run} disabled={!text.trim()} style={{ marginTop: 12, width: "100%", padding: "11px 20px", borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: "pointer", background: "linear-gradient(135deg,rgba(124,58,237,0.2),rgba(167,139,250,0.2))", border: "1px solid rgba(124,58,237,0.3)", color: "#e4e4e7", opacity: text.trim() ? 1 : 0.5 }}>
+          <button onClick={run} disabled={!text.trim()} style={{ marginTop: 12, width: "100%", padding: "11px 20px", borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: "pointer", background: "linear-gradient(135deg,rgba(59,130,246,0.2),rgba(147,197,253,0.2))", border: "1px solid rgba(59,130,246,0.3)", color: "#e4e4e7", opacity: text.trim() ? 1 : 0.5 }}>
             Scan all →
           </button>
         </Card>
@@ -92,7 +92,7 @@ export default function BatchTab() {
         </div>
         {running && (
           <div style={{ height: 6, background: "rgba(255,255,255,0.06)", borderRadius: 99, overflow: "hidden", marginBottom: 16 }}>
-            <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg,#22d3ee,#a78bfa)", borderRadius: 99, transition: "width 0.6s ease" }} />
+            <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg,#22d3ee,#93c5fd)", borderRadius: 99, transition: "width 0.6s ease" }} />
           </div>
         )}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

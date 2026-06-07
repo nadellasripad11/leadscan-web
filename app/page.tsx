@@ -6,7 +6,7 @@ import ScrollAnimator from "@/components/ScrollAnimator";
 /* ─── Radar logo mark ─── */
 function LogoMark({ size = 24 }: { size?: number }) {
   return (
-    <div style={{ width: size, height: size, borderRadius: Math.round(size * 0.28), background: "linear-gradient(135deg,#5b21b6,#7c3aed 55%,#a78bfa)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+    <div style={{ width: size, height: size, borderRadius: Math.round(size * 0.28), background: "linear-gradient(135deg,#1d4ed8,#3b82f6 55%,#93c5fd)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
       <svg width={Math.round(size * 0.58)} height={Math.round(size * 0.58)} viewBox="0 0 20 20" fill="none">
         <circle cx="4" cy="16" r="2.3" fill="white"/>
         <path d="M4 11 A5 5 0 0 1 9 16"         stroke="white" strokeWidth="2.1" strokeLinecap="round"/>
@@ -36,7 +36,7 @@ export default function LandingPage() {
 
             <h1 className="anim-fade-up" style={{ fontSize: "clamp(40px,6vw,72px)", fontWeight: 900, lineHeight: 1.02, letterSpacing: "-0.04em", margin: "0 0 20px", color: "#fafafa", animationDelay: "0.06s" }}>
               Company intelligence<br />
-              <span style={{ color: "#7c3aed" }}>for sales teams.</span>
+              <span style={{ color: "#3b82f6" }}>for sales teams.</span>
             </h1>
 
             <p className="anim-fade-up" style={{ fontSize: 17, color: "#71717a", lineHeight: 1.75, margin: "0 0 40px", maxWidth: 520, animationDelay: "0.12s" }}>
@@ -66,7 +66,7 @@ export default function LandingPage() {
 
         {/* ─── What you get ─── */}
         <section style={{ padding: "80px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#7c3aed", textTransform: "uppercase", margin: "0 0 12px" }}>What you get</p>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase", margin: "0 0 12px" }}>What you get</p>
           <h2 style={{ fontSize: "clamp(26px,3.5vw,42px)", fontWeight: 800, letterSpacing: "-0.03em", margin: "0 0 56px", lineHeight: 1.1, color: "#fafafa" }}>
             One URL. A complete picture.
           </h2>
@@ -81,7 +81,7 @@ export default function LandingPage() {
               <p style={{ fontSize: 13, color: "#52525b", margin: "0 0 20px", lineHeight: 1.7 }}>40+ technologies fingerprinted directly from HTML, scripts, and headers. No paid data sources.</p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {["React","Next.js","TypeScript","AWS","Stripe","PostHog","HubSpot","Vercel"].map(t => (
-                  <span key={t} style={{ fontSize: 12, padding: "3px 10px", borderRadius: 6, background: "rgba(124,58,237,0.08)", color: "#a78bfa", border: "1px solid rgba(124,58,237,0.15)", fontWeight: 500 }}>{t}</span>
+                  <span key={t} style={{ fontSize: 12, padding: "3px 10px", borderRadius: 6, background: "rgba(59,130,246,0.08)", color: "#93c5fd", border: "1px solid rgba(59,130,246,0.15)", fontWeight: 500 }}>{t}</span>
                 ))}
               </div>
             </div>
@@ -148,7 +148,7 @@ export default function LandingPage() {
         <section style={{ padding: "80px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }} className="grid-cli">
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#7c3aed", textTransform: "uppercase", margin: "0 0 12px" }}>How it works</p>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase", margin: "0 0 12px" }}>How it works</p>
               <h2 style={{ fontSize: "clamp(24px,3.2vw,38px)", fontWeight: 800, letterSpacing: "-0.03em", margin: "0 0 40px", lineHeight: 1.1, color: "#fafafa" }}>
                 Paste a domain.<br />Get a full report.
               </h2>
@@ -177,7 +177,7 @@ export default function LandingPage() {
               </div>
               <div style={{ padding: "20px 22px", fontFamily: "'SF Mono','Fira Code',monospace" }}>
                 {[
-                  { prompt: true,  color: "#a78bfa", text: "npx leadscan analyze stripe.com" },
+                  { prompt: true,  color: "#93c5fd", text: "npx leadscan analyze stripe.com" },
                   { prompt: false, color: "#3f3f46", text: "" },
                   { prompt: false, color: "#22c55e", text: "✓  stripe.com — Conviction: 78/100" },
                   { prompt: false, color: "#71717a", text: "   Tech:      React, Next.js, AWS, Stripe" },
@@ -185,7 +185,7 @@ export default function LandingPage() {
                   { prompt: false, color: "#71717a", text: "   Employees: 8,000+   Founded: 2010" },
                   { prompt: false, color: "#71717a", text: "   Signals:   ✓ Hiring  ✓ Pricing  ✓ API" },
                   { prompt: false, color: "#3f3f46", text: "" },
-                  { prompt: false, color: "#7c3aed", text: "   leadscan outreach stripe.com →" },
+                  { prompt: false, color: "#3b82f6", text: "   leadscan outreach stripe.com →" },
                 ].map((line, i) => (
                   <div key={i} style={{ fontSize: 12, lineHeight: 1.9, color: line.color, display: "flex" }}>
                     {line.prompt && <span style={{ color: "#22c55e", marginRight: 9, flexShrink: 0 }}>$</span>}
@@ -195,7 +195,7 @@ export default function LandingPage() {
                 ))}
                 <div style={{ display: "flex", alignItems: "center", marginTop: 4 }}>
                   <span style={{ color: "#22c55e", marginRight: 9 }}>$</span>
-                  <span style={{ display: "inline-block", width: 7, height: 14, background: "#7c3aed", borderRadius: 1, opacity: 0.5, animation: "pulseDot 1.1s ease-in-out infinite" }} />
+                  <span style={{ display: "inline-block", width: 7, height: 14, background: "#3b82f6", borderRadius: 1, opacity: 0.5, animation: "pulseDot 1.1s ease-in-out infinite" }} />
                 </div>
               </div>
             </div>
@@ -209,7 +209,7 @@ export default function LandingPage() {
             <p style={{ fontSize: 13, color: "#52525b", margin: 0 }}>Pipe into scripts, CRMs, or sales workflows.</p>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-            <code style={{ fontSize: 13, color: "#a78bfa", background: "rgba(124,58,237,0.08)", border: "1px solid rgba(124,58,237,0.15)", borderRadius: 8, padding: "8px 16px", fontFamily: "monospace" }}>
+            <code style={{ fontSize: 13, color: "#93c5fd", background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.15)", borderRadius: 8, padding: "8px 16px", fontFamily: "monospace" }}>
               npx leadscan analyze stripe.com
             </code>
             <a href="https://npmjs.com/package/leadscan" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "#71717a", textDecoration: "none", fontWeight: 500 }}>npm ↗</a>
@@ -223,7 +223,7 @@ export default function LandingPage() {
             Start scanning your<br />leads for free.
           </h2>
           <p style={{ fontSize: 16, color: "#52525b", margin: "0 0 36px", lineHeight: 1.7 }}>No account. No credit card. Just a domain.</p>
-          <Link href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 28px", borderRadius: 10, background: "#7c3aed", color: "#fff", fontSize: 14, fontWeight: 600, textDecoration: "none", boxShadow: "0 0 0 1px rgba(124,58,237,0.5) inset" }}>
+          <Link href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 28px", borderRadius: 10, background: "#3b82f6", color: "#fff", fontSize: 14, fontWeight: 600, textDecoration: "none", boxShadow: "0 0 0 1px rgba(59,130,246,0.5) inset" }}>
             Open the scanner →
           </Link>
         </section>

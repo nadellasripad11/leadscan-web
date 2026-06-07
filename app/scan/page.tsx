@@ -16,7 +16,7 @@ function TabBtn({ active, onClick, children }: { active: boolean; onClick: () =>
     <button
       onClick={onClick}
       className="tab-btn"
-      style={{ padding: "9px 22px", borderRadius: 99, fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.18s", background: active ? "rgba(124,58,237,0.1)" : "transparent", border: `1px solid ${active ? "rgba(124,58,237,0.35)" : "rgba(255,255,255,0.07)"}`, color: active ? "#a78bfa" : "#71717a", display: "flex", alignItems: "center", justifyContent: "center" }}
+      style={{ padding: "9px 22px", borderRadius: 99, fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.18s", background: active ? "rgba(59,130,246,0.1)" : "transparent", border: `1px solid ${active ? "rgba(59,130,246,0.35)" : "rgba(255,255,255,0.07)"}`, color: active ? "#93c5fd" : "#71717a", display: "flex", alignItems: "center", justifyContent: "center" }}
     >
       {children}
     </button>
@@ -127,7 +127,7 @@ export default function ScanPage() {
                   <button
                     onClick={() => analyze()}
                     disabled={loading || !query.trim()}
-                    style={{ padding: "0 20px", margin: 6, borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: loading ? "wait" : "pointer", background: loading ? "rgba(255,255,255,0.04)" : "#7c3aed", border: "none", color: loading ? "#71717a" : "#fff", opacity: !query.trim() && !loading ? 0.45 : 1, transition: "opacity 0.2s", flexShrink: 0, whiteSpace: "nowrap", boxShadow: query.trim() && !loading ? "0 0 14px rgba(124,58,237,0.3)" : "none" }}
+                    style={{ padding: "0 20px", margin: 6, borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: loading ? "wait" : "pointer", background: loading ? "rgba(255,255,255,0.04)" : "#3b82f6", border: "none", color: loading ? "#71717a" : "#fff", opacity: !query.trim() && !loading ? 0.45 : 1, transition: "opacity 0.2s", flexShrink: 0, whiteSpace: "nowrap", boxShadow: query.trim() && !loading ? "0 0 14px rgba(59,130,246,0.3)" : "none" }}
                   >
                     {loading
                       ? <span style={{ display: "flex", alignItems: "center", gap: 8 }}><span className="anim-spin" style={{ display: "inline-block", width: 13, height: 13, border: "2px solid rgba(255,255,255,0.15)", borderTopColor: "#a1a1aa", borderRadius: "50%" }} />Scanning</span>
@@ -167,8 +167,8 @@ export default function ScanPage() {
                   <div className="grid-2col" style={{ gap: 14, marginBottom: 14 }}>
                     {[
                       { icon: "⚡", color: "#fbbf24", title: "Instant results", desc: "Full company report in under 5 seconds." },
-                      { icon: "🔍", color: "#7c3aed", title: "Tech detection", desc: "40+ technologies detected from HTML. No API needed." },
-                      { icon: "📊", color: "#a78bfa", title: "Conviction score", desc: "0–100 score from 4 weighted signals." },
+                      { icon: "🔍", color: "#3b82f6", title: "Tech detection", desc: "40+ technologies detected from HTML. No API needed." },
+                      { icon: "📊", color: "#93c5fd", title: "Conviction score", desc: "0–100 score from 4 weighted signals." },
                       { icon: "✉",  color: "#22c55e", title: "AI outreach", desc: "Personalized cold email, LinkedIn & call opener." },
                     ].map(({ icon, color, title, desc }) => (
                       <div key={title} className="feature-card">
@@ -180,7 +180,7 @@ export default function ScanPage() {
                   </div>
                   <div style={{ padding: "16px 18px", background: "#111113", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14 }}>
                     <p style={{ fontSize: 11, color: "#52525b", margin: "0 0 8px", fontWeight: 600, letterSpacing: "0.08em" }}>ALSO AVAILABLE AS CLI</p>
-                    <code style={{ fontSize: 13, color: "#7c3aed" }}>npx leadscan analyze stripe.com</code>
+                    <code style={{ fontSize: 13, color: "#3b82f6" }}>npx leadscan analyze stripe.com</code>
                     <span style={{ fontSize: 12, color: "#27272a", marginLeft: 14 }}>
                       · <a href="/docs#cli" style={{ color: "#52525b", textDecoration: "none" }}>docs</a>
                       {" · "}

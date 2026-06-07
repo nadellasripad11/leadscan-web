@@ -80,7 +80,7 @@ export default async function CompanyPage({
         ) : (
           <>
             {/* Company hero */}
-            <div className="anim-fade-up" style={{ background: "linear-gradient(135deg,rgba(124,58,237,0.04),rgba(167,139,250,0.07))", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: "28px 30px", marginBottom: 16 }}>
+            <div className="anim-fade-up" style={{ background: "linear-gradient(135deg,rgba(59,130,246,0.04),rgba(147,197,253,0.07))", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: "28px 30px", marginBottom: 16 }}>
               <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
                 <ScoreRing score={report.convictionScore} />
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -119,7 +119,7 @@ export default async function CompanyPage({
             <Report report={report} hideHeader />
 
             <div style={{ marginTop: 36, textAlign: "center" }}>
-              <a href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 24px", borderRadius: 99, background: "rgba(124,58,237,0.08)", border: "1px solid rgba(124,58,237,0.22)", color: "#7c3aed", fontSize: 13, textDecoration: "none", fontWeight: 600 }}>
+              <a href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 24px", borderRadius: 99, background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.22)", color: "#3b82f6", fontSize: 13, textDecoration: "none", fontWeight: 600 }}>
                 Scan another company →
               </a>
             </div>

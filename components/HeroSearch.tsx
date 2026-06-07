@@ -26,16 +26,16 @@ export default function HeroSearch() {
           margin: "0 auto 14px",
           display: "flex",
           background: "#18181b",
-          border: `1px solid ${focused ? "rgba(124,58,237,0.45)" : "rgba(255,255,255,0.09)"}`,
+          border: `1px solid ${focused ? "rgba(59,130,246,0.45)" : "rgba(255,255,255,0.09)"}`,
           borderRadius: 16,
           overflow: "hidden",
           boxShadow: focused
-            ? "0 0 0 3px rgba(124,58,237,0.12), 0 20px 60px rgba(0,0,0,0.5)"
+            ? "0 0 0 3px rgba(59,130,246,0.12), 0 20px 60px rgba(0,0,0,0.5)"
             : "0 20px 60px rgba(0,0,0,0.35)",
           transition: "border-color 0.18s, box-shadow 0.18s",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", paddingLeft: 18, color: focused ? "#a78bfa" : "#52525b", transition: "color 0.18s", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", paddingLeft: 18, color: focused ? "#93c5fd" : "#52525b", transition: "color 0.18s", flexShrink: 0 }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
@@ -64,19 +64,19 @@ export default function HeroSearch() {
             fontSize: 13,
             fontWeight: 600,
             cursor: loading ? "wait" : "pointer",
-            background: loading ? "rgba(255,255,255,0.04)" : "#7c3aed",
+            background: loading ? "rgba(255,255,255,0.04)" : "#3b82f6",
             border: "none",
             color: loading ? "#71717a" : "#fff",
             opacity: !domain.trim() && !loading ? 0.45 : 1,
             transition: "opacity 0.18s, background 0.18s, box-shadow 0.18s",
             flexShrink: 0,
             whiteSpace: "nowrap",
-            boxShadow: domain.trim() && !loading ? "0 0 14px rgba(124,58,237,0.3)" : "none",
+            boxShadow: domain.trim() && !loading ? "0 0 14px rgba(59,130,246,0.3)" : "none",
           }}
         >
           {loading
             ? <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
-                <span className="anim-spin" style={{ display: "inline-block", width: 12, height: 12, border: "2px solid rgba(255,255,255,0.12)", borderTopColor: "#a78bfa", borderRadius: "50%" }} />
+                <span className="anim-spin" style={{ display: "inline-block", width: 12, height: 12, border: "2px solid rgba(255,255,255,0.12)", borderTopColor: "#93c5fd", borderRadius: "50%" }} />
                 Scanning
               </span>
             : "Scan →"
@@ -98,7 +98,7 @@ export default function HeroSearch() {
               borderRadius: 99, padding: "3px 13px",
               cursor: "pointer", transition: "color 0.15s, border-color 0.15s, background 0.15s",
             }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = "#a78bfa"; el.style.borderColor = "rgba(124,58,237,0.3)"; el.style.background = "rgba(124,58,237,0.06)"; }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = "#93c5fd"; el.style.borderColor = "rgba(59,130,246,0.3)"; el.style.background = "rgba(59,130,246,0.06)"; }}
             onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = "#71717a"; el.style.borderColor = "rgba(255,255,255,0.07)"; el.style.background = "rgba(255,255,255,0.03)"; }}
           >
             {ex}

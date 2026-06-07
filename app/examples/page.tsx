@@ -25,14 +25,14 @@ const companies: Company[] = [
     tech: ["React", "Next.js", "AWS", "Go"],
     signals: [{ label: "Hiring", on: true }, { label: "API docs", on: true }, { label: "Blog", on: true }, { label: "Pricing", on: true }],
     summary: "Global payments infrastructure for the internet. Powers millions of businesses.",
-    tag: "Fintech", tagColor: "#7c3aed",
+    tag: "Fintech", tagColor: "#3b82f6",
   },
   {
     domain: "linear.app", name: "Linear", score: 84, size: "50–200 employees",
     tech: ["React", "TypeScript", "Electron", "GraphQL"],
     signals: [{ label: "Hiring", on: true }, { label: "Changelog", on: true }, { label: "API docs", on: true }, { label: "Blog", on: true }],
     summary: "The issue tracker built for high-performance teams. Remarkably fast.",
-    tag: "Dev Tools", tagColor: "#a78bfa",
+    tag: "Dev Tools", tagColor: "#93c5fd",
   },
   {
     domain: "vercel.com", name: "Vercel", score: 86, size: "200–500 employees",
@@ -60,14 +60,14 @@ const companies: Company[] = [
     tech: ["React", "Node.js", "PostgreSQL", "TypeScript"],
     signals: [{ label: "Hiring", on: true }, { label: "Blog", on: true }, { label: "API docs", on: true }, { label: "Pricing", on: true }],
     summary: "Build internal tools remarkably fast. Drag-and-drop UI on top of any data.",
-    tag: "Dev Tools", tagColor: "#a78bfa",
+    tag: "Dev Tools", tagColor: "#93c5fd",
   },
   {
     domain: "resend.com", name: "Resend", score: 76, size: "10–50 employees",
     tech: ["React", "Next.js", "TypeScript", "Node.js"],
     signals: [{ label: "Blog", on: true }, { label: "API docs", on: true }, { label: "Changelog", on: true }, { label: "Hiring", on: true }],
     summary: "Email API built for developers. Send transactional email with React components.",
-    tag: "Dev Tools", tagColor: "#a78bfa",
+    tag: "Dev Tools", tagColor: "#93c5fd",
   },
   {
     domain: "planetscale.com", name: "PlanetScale", score: 79, size: "50–200 employees",
@@ -88,7 +88,7 @@ const companies: Company[] = [
     tech: ["React", "Next.js", "Node.js", "TypeScript"],
     signals: [{ label: "Hiring", on: true }, { label: "Blog", on: true }, { label: "API docs", on: true }, { label: "Changelog", on: true }],
     summary: "Authentication and user management for modern web apps.",
-    tag: "Dev Tools", tagColor: "#a78bfa",
+    tag: "Dev Tools", tagColor: "#93c5fd",
   },
   {
     domain: "loom.com", name: "Loom", score: 65, size: "200–500 employees",
@@ -152,7 +152,7 @@ function CompanyCard({ c }: { c: Company }) {
         {/* Tech */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 12 }}>
           {c.tech.map(t => (
-            <span key={t} style={{ fontSize: 11, fontWeight: 500, color: "#7c3aed", background: "rgba(124,58,237,0.07)", border: "1px solid rgba(124,58,237,0.15)", padding: "2px 8px", borderRadius: 99 }}>{t}</span>
+            <span key={t} style={{ fontSize: 11, fontWeight: 500, color: "#3b82f6", background: "rgba(59,130,246,0.07)", border: "1px solid rgba(59,130,246,0.15)", padding: "2px 8px", borderRadius: 99 }}>{t}</span>
           ))}
         </div>
 
@@ -182,7 +182,7 @@ export default function ExamplesPage() {
 
           {/* Header */}
           <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#7c3aed", textTransform: "uppercase", margin: "0 0 14px" }}>Examples</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#3b82f6", textTransform: "uppercase", margin: "0 0 14px" }}>Examples</p>
             <h1 style={{ fontSize: "clamp(34px,5vw,58px)", fontWeight: 900, letterSpacing: "-0.035em", margin: "0 0 16px", lineHeight: 1.08 }}>
               See LeadScan in action.
             </h1>
@@ -193,7 +193,7 @@ export default function ExamplesPage() {
             {/* Tag filters — decorative, shows the variety */}
             <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
               {tags.map((t, i) => (
-                <span key={t} style={{ fontSize: 12, fontWeight: 600, padding: "5px 14px", borderRadius: 99, background: i === 0 ? "rgba(124,58,237,0.1)" : "rgba(255,255,255,0.04)", border: `1px solid ${i === 0 ? "rgba(124,58,237,0.35)" : "rgba(255,255,255,0.07)"}`, color: i === 0 ? "#7c3aed" : "#71717a" }}>
+                <span key={t} style={{ fontSize: 12, fontWeight: 600, padding: "5px 14px", borderRadius: 99, background: i === 0 ? "rgba(59,130,246,0.1)" : "rgba(255,255,255,0.04)", border: `1px solid ${i === 0 ? "rgba(59,130,246,0.35)" : "rgba(255,255,255,0.07)"}`, color: i === 0 ? "#3b82f6" : "#71717a" }}>
                   {t}
                 </span>
               ))}
@@ -209,7 +209,7 @@ export default function ExamplesPage() {
           <div style={{ marginTop: 64, textAlign: "center", padding: "48px 32px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 20 }}>
             <p style={{ fontSize: 20, fontWeight: 800, margin: "0 0 10px", letterSpacing: "-0.02em" }}>Scan any company in seconds.</p>
             <p style={{ fontSize: 14, color: "#71717a", margin: "0 0 24px" }}>Not just the ones listed here. Any domain, instantly.</p>
-            <Link href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 28px", borderRadius: 12, background: "linear-gradient(135deg,#7c3aed,#a78bfa)", color: "#fff", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>
+            <Link href="/scan" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 28px", borderRadius: 12, background: "linear-gradient(135deg,#3b82f6,#93c5fd)", color: "#fff", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>
               Open Scanner →
             </Link>
           </div>

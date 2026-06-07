@@ -54,7 +54,7 @@ export default function PrivacyPage() {
 
           {/* Header */}
           <div style={{ marginBottom: 52 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#7c3aed", textTransform: "uppercase", margin: "0 0 14px" }}>Legal</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#3b82f6", textTransform: "uppercase", margin: "0 0 14px" }}>Legal</p>
             <h1 style={{ fontSize: "clamp(30px,5vw,48px)", fontWeight: 900, letterSpacing: "-0.035em", margin: "0 0 16px", lineHeight: 1.05 }}>
               Privacy Policy
             </h1>
@@ -145,7 +145,7 @@ export default function PrivacyPage() {
             ]} />
             <P>
               Because we collect minimal data and don&apos;t require accounts, in most cases we have nothing to delete. To submit a request or ask any questions, email us at{" "}
-              <a href="mailto:privacy@leadscan.app" style={{ color: "#a78bfa", textDecoration: "none" }}>privacy@leadscan.app</a>.
+              <a href="mailto:privacy@leadscan.app" style={{ color: "#93c5fd", textDecoration: "none" }}>privacy@leadscan.app</a>.
             </P>
           </Section>
 
@@ -172,7 +172,7 @@ export default function PrivacyPage() {
               Questions or concerns about this Privacy Policy?
             </P>
             <P>
-              Email: <a href="mailto:privacy@leadscan.app" style={{ color: "#a78bfa", textDecoration: "none" }}>privacy@leadscan.app</a>
+              Email: <a href="mailto:privacy@leadscan.app" style={{ color: "#93c5fd", textDecoration: "none" }}>privacy@leadscan.app</a>
             </P>
           </Section>
 

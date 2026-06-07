@@ -96,7 +96,7 @@ export default function CompareTab() {
           <span style={{ color: "#71717a", fontWeight: 700, flexShrink: 0 }}>vs</span>
           <DomainInput value={domainB} onChange={setDomainB} placeholder="paddle.com" disabled={loading} />
         </div>
-        <button onClick={compare} disabled={loading || !domainA.trim() || !domainB.trim()} style={{ marginTop: 12, width: "100%", padding: "11px 20px", borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: "pointer", background: "linear-gradient(135deg,rgba(124,58,237,0.2),rgba(167,139,250,0.2))", border: "1px solid rgba(124,58,237,0.3)", color: "#e4e4e7", opacity: (!domainA.trim() || !domainB.trim() || loading) ? 0.5 : 1 }}>
+        <button onClick={compare} disabled={loading || !domainA.trim() || !domainB.trim()} style={{ marginTop: 12, width: "100%", padding: "11px 20px", borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: "pointer", background: "linear-gradient(135deg,rgba(59,130,246,0.2),rgba(147,197,253,0.2))", border: "1px solid rgba(59,130,246,0.3)", color: "#e4e4e7", opacity: (!domainA.trim() || !domainB.trim() || loading) ? 0.5 : 1 }}>
           {loading ? <><span className="spin" style={{ width: 12, height: 12, border: "2px solid rgba(255,255,255,0.15)", borderTopColor: "#22d3ee", borderRadius: 99, display: "inline-block", marginRight: 8 }} />Comparing…</> : "Compare →"}
         </button>
         {error && <p style={{ color: "#f87171", fontSize: 13, margin: "12px 0 0", textAlign: "center" }}>{error}</p>}

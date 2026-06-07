@@ -12,7 +12,7 @@ function fmt(n: number): string {
 }
 
 const SOCIAL_META: Record<string, { label: string; color: string; bg: string; border: string }> = {
-  linkedin:  { label: "LinkedIn",  color: "#a78bfa", bg: "rgba(167,139,250,0.08)", border: "rgba(167,139,250,0.22)" },
+  linkedin:  { label: "LinkedIn",  color: "#93c5fd", bg: "rgba(147,197,253,0.08)", border: "rgba(147,197,253,0.22)" },
   twitter:   { label: "Twitter/X", color: "#a1a1aa", bg: "rgba(148,163,184,0.08)", border: "rgba(148,163,184,0.18)" },
   github:    { label: "GitHub",    color: "#a1a1aa", bg: "rgba(148,163,184,0.08)", border: "rgba(148,163,184,0.18)" },
   crunchbase:{ label: "Crunchbase",color: "#fb923c", bg: "rgba(251,146,60,0.08)",  border: "rgba(251,146,60,0.22)"  },
@@ -62,7 +62,7 @@ function StockCard({ stock }: { stock: StockData }) {
             </span>
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#7c3aed", background: "rgba(124,58,237,0.08)", border: "1px solid rgba(124,58,237,0.2)", padding: "2px 10px", borderRadius: 99 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#3b82f6", background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.2)", padding: "2px 10px", borderRadius: 99 }}>
               {stock.ticker}
             </span>
             {stock.exchange && (
@@ -243,7 +243,7 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
     { label: "Hiring",      value: report.signals.isHiring ? "Yes" : "None detected", color: report.signals.isHiring ? "#22c55e" : "#71717a" },
     { label: "Pricing Page", value: report.signals.hasPricing ? "Yes" : "Not detected", color: report.signals.hasPricing ? "#22c55e" : "#71717a" },
     { label: "API / Docs",  value: report.signals.hasAPIDoc ? "Yes" : "Not detected", color: report.signals.hasAPIDoc ? "#22c55e" : "#71717a" },
-    { label: "Funded",      value: report.signals.hasInvestors ? "Investor-backed" : "—", color: report.signals.hasInvestors ? "#a78bfa" : "#71717a" },
+    { label: "Funded",      value: report.signals.hasInvestors ? "Investor-backed" : "—", color: report.signals.hasInvestors ? "#93c5fd" : "#71717a" },
   ];
 
   const allSocials = Object.entries(report.socialLinks).filter(([, v]) => !!v) as [string, string][];
@@ -388,13 +388,13 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
       </Card>
 
       {/* ── AI Outreach ── */}
-      <Card delay={0.3} style={{ border: "1px solid rgba(124,58,237,0.14)" }}>
+      <Card delay={0.3} style={{ border: "1px solid rgba(59,130,246,0.14)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: showForm ? 20 : 0 }}>
           <div>
             <p style={{ fontWeight: 700, fontSize: 14, margin: "0 0 3px" }}>Generate Outreach</p>
             <p style={{ fontSize: 12, color: "#71717a", margin: 0 }}>AI cold email, LinkedIn message & call opener</p>
           </div>
-          <button onClick={() => setShowForm(p => !p)} style={{ padding: "8px 18px", borderRadius: 99, fontSize: 13, fontWeight: 600, cursor: "pointer", background: showForm ? "rgba(255,255,255,0.05)" : "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.3)", color: "#7c3aed" }}>
+          <button onClick={() => setShowForm(p => !p)} style={{ padding: "8px 18px", borderRadius: 99, fontSize: 13, fontWeight: 600, cursor: "pointer", background: showForm ? "rgba(255,255,255,0.05)" : "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.3)", color: "#3b82f6" }}>
             {showForm ? "Cancel" : "Generate ↗"}
           </button>
         </div>
@@ -402,7 +402,7 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
           <div className="anim-fade-up" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <input value={role} onChange={e => setRole(e.target.value)} placeholder="Role you're targeting (e.g. Head of Engineering)" style={inputStyle} />
             <input value={product} onChange={e => setProduct(e.target.value)} placeholder="What you're selling (e.g. observability tool)" style={inputStyle} onKeyDown={e => e.key === "Enter" && generate()} />
-            <button onClick={generate} disabled={loading || !role.trim() || !product.trim()} style={{ padding: "10px 20px", borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: "pointer", background: "linear-gradient(135deg,rgba(124,58,237,0.2),rgba(167,139,250,0.2))", border: "1px solid rgba(124,58,237,0.3)", color: "#e4e4e7", opacity: (!role.trim() || !product.trim()) ? 0.5 : 1 }}>
+            <button onClick={generate} disabled={loading || !role.trim() || !product.trim()} style={{ padding: "10px 20px", borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: "pointer", background: "linear-gradient(135deg,rgba(59,130,246,0.2),rgba(147,197,253,0.2))", border: "1px solid rgba(59,130,246,0.3)", color: "#e4e4e7", opacity: (!role.trim() || !product.trim()) ? 0.5 : 1 }}>
               {loading ? "Generating…" : "Write my outreach →"}
             </button>
           </div>

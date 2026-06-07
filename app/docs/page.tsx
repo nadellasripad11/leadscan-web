@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 };
 
 const techList = [
-  { cat: "Frontend", color: "#7c3aed", items: ["React", "Vue.js", "Angular", "Svelte", "Next.js", "Nuxt.js", "Remix", "Astro", "HTMX", "Alpine.js", "jQuery"] },
-  { cat: "Backend", color: "#a78bfa", items: ["Node.js", "Django", "Laravel", "Rails", "FastAPI", "Spring", "ASP.NET", "Phoenix", "Express"] },
+  { cat: "Frontend", color: "#3b82f6", items: ["React", "Vue.js", "Angular", "Svelte", "Next.js", "Nuxt.js", "Remix", "Astro", "HTMX", "Alpine.js", "jQuery"] },
+  { cat: "Backend", color: "#93c5fd", items: ["Node.js", "Django", "Laravel", "Rails", "FastAPI", "Spring", "ASP.NET", "Phoenix", "Express"] },
   { cat: "Infrastructure", color: "#22c55e", items: ["AWS", "Cloudflare", "Vercel", "Netlify", "GCP", "Azure", "Fly.io", "Railway", "Heroku"] },
   { cat: "Analytics", color: "#fbbf24", items: ["Segment", "Amplitude", "Mixpanel", "Heap", "PostHog", "Plausible", "Google Analytics", "Hotjar"] },
   { cat: "Marketing", color: "#f472b6", items: ["HubSpot", "Intercom", "Drift", "Marketo", "Salesforce", "Zendesk", "Crisp"] },
@@ -46,7 +46,7 @@ function Lead({ children }: { children: React.ReactNode }) {
 
 function Code({ children }: { children: React.ReactNode }) {
   return (
-    <code style={{ fontFamily: "'SF Mono','Fira Code',monospace", fontSize: 13, background: "rgba(124,58,237,0.08)", color: "#7c3aed", padding: "2px 7px", borderRadius: 5 }}>
+    <code style={{ fontFamily: "'SF Mono','Fira Code',monospace", fontSize: 13, background: "rgba(59,130,246,0.08)", color: "#3b82f6", padding: "2px 7px", borderRadius: 5 }}>
       {children}
     </code>
   );
@@ -79,10 +79,10 @@ export default function DocsPage() {
               ))}
             </nav>
 
-            <div style={{ marginTop: 40, padding: "18px 16px", background: "rgba(124,58,237,0.05)", border: "1px solid rgba(124,58,237,0.15)", borderRadius: 12 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, color: "#7c3aed", margin: "0 0 6px" }}>Quick start</p>
+            <div style={{ marginTop: 40, padding: "18px 16px", background: "rgba(59,130,246,0.05)", border: "1px solid rgba(59,130,246,0.15)", borderRadius: 12 }}>
+              <p style={{ fontSize: 12, fontWeight: 700, color: "#3b82f6", margin: "0 0 6px" }}>Quick start</p>
               <p style={{ fontSize: 12, color: "#71717a", margin: "0 0 12px", lineHeight: 1.6 }}>No account needed. Just paste a domain.</p>
-              <Link href="/scan" style={{ fontSize: 12, fontWeight: 700, color: "#7c3aed", textDecoration: "none" }}>Open Scanner →</Link>
+              <Link href="/scan" style={{ fontSize: 12, fontWeight: 700, color: "#3b82f6", textDecoration: "none" }}>Open Scanner →</Link>
             </div>
           </aside>
 
@@ -91,7 +91,7 @@ export default function DocsPage() {
 
             {/* Overview */}
             <Section id="overview">
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#7c3aed", textTransform: "uppercase", margin: "0 0 12px" }}>Documentation</p>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#3b82f6", textTransform: "uppercase", margin: "0 0 12px" }}>Documentation</p>
               <h1 style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 900, letterSpacing: "-0.03em", margin: "0 0 16px", lineHeight: 1.1 }}>How LeadScan works</h1>
               <Lead>
                 LeadScan fetches any company&apos;s public website, parses the HTML and HTTP headers, fingerprints the technology stack, reads growth signals, and produces a structured intelligence report — all in under 5 seconds. No API key, no account, no rate limits.
@@ -104,7 +104,7 @@ export default function DocsPage() {
                   ["3.", "Read page links → detect growth signals", "#71717a"],
                   ["4.", "Score across 4 dimensions → 0–100 conviction", "#71717a"],
                   ["5.", "Run Llama 3.3 AI summary + outreach (optional)", "#71717a"],
-                  ["→", "Return structured IntelReport JSON", "#7c3aed"],
+                  ["→", "Return structured IntelReport JSON", "#3b82f6"],
                 ].map(([n, t, color]) => (
                   <div key={String(n)} style={{ display: "flex", gap: 12, lineHeight: 1.9 }}>
                     <span style={{ color: "#27272a", flexShrink: 0 }}>{n}</span>
@@ -124,8 +124,8 @@ export default function DocsPage() {
               </Lead>
               <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 40 }}>
                 {[
-                  { label: "Tech Modernity", pct: 25, color: "#7c3aed", desc: "How modern and well-maintained their stack is. Points for React, Next.js, TypeScript, cloud-native infra. Deductions for jQuery, Flash-era tech, or missing HTTPS." },
-                  { label: "Growth Signals", pct: 35, color: "#a78bfa", desc: "The heaviest weight. Hiring, changelog, blog, investors, and recent job posts all indicate active growth. A company scaling fast is more receptive to new tools." },
+                  { label: "Tech Modernity", pct: 25, color: "#3b82f6", desc: "How modern and well-maintained their stack is. Points for React, Next.js, TypeScript, cloud-native infra. Deductions for jQuery, Flash-era tech, or missing HTTPS." },
+                  { label: "Growth Signals", pct: 35, color: "#93c5fd", desc: "The heaviest weight. Hiring, changelog, blog, investors, and recent job posts all indicate active growth. A company scaling fast is more receptive to new tools." },
                   { label: "Market Presence", pct: 20, color: "#22c55e", desc: "Presence of a pricing page, API docs, and developer portal indicates a product-led, commercially mature company." },
                   { label: "Contactability", pct: 20, color: "#fbbf24", desc: "Can you actually reach them? Presence of business emails, LinkedIn, Twitter, and GitHub links on their public site." },
                 ].map(({ label, pct, color, desc }) => (
@@ -197,7 +197,7 @@ export default function DocsPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
                 {cliCommands.map(({ cmd, desc }) => (
                   <div key={cmd} style={{ background: "#040914", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, overflow: "hidden" }}>
-                    <div style={{ padding: "14px 18px", borderBottom: "1px solid rgba(255,255,255,0.06)", fontFamily: "monospace", fontSize: 13, color: "#7c3aed", display: "flex", gap: 10 }}>
+                    <div style={{ padding: "14px 18px", borderBottom: "1px solid rgba(255,255,255,0.06)", fontFamily: "monospace", fontSize: 13, color: "#3b82f6", display: "flex", gap: 10 }}>
                       <span style={{ color: "#22c55e" }}>$</span> {cmd}
                     </div>
                     <div style={{ padding: "10px 18px" }}>

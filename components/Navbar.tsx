@@ -43,9 +43,9 @@ export default function Navbar({ active }: { active?: Page }) {
           <Link href="/" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none", flexShrink: 0, display: "flex", alignItems: "center", gap: 9 }}>
             <div style={{
               width: 32, height: 32, borderRadius: 9,
-              background: "linear-gradient(135deg, #5b21b6 0%, #7c3aed 55%, #a78bfa 100%)",
+              background: "linear-gradient(135deg, #1d4ed8 0%, #3b82f6 55%, #93c5fd 100%)",
               display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-              boxShadow: "0 2px 10px rgba(124,58,237,0.4), 0 0 0 1px rgba(167,139,250,0.15) inset",
+              boxShadow: "0 2px 10px rgba(59,130,246,0.4), 0 0 0 1px rgba(147,197,253,0.15) inset",
             }}>
               {/* Radar signal mark — arcs emanating from bottom-left dot */}
               <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
@@ -91,11 +91,11 @@ export default function Navbar({ active }: { active?: Page }) {
               fontSize: 13,
               fontWeight: 600,
               textDecoration: "none",
-              background: active === "scan" ? "rgba(124,58,237,0.1)" : "#7c3aed",
-              color: active === "scan" ? "#a78bfa" : "#fff",
-              border: active === "scan" ? "1px solid rgba(124,58,237,0.3)" : "1px solid rgba(124,58,237,0.6)",
+              background: active === "scan" ? "rgba(59,130,246,0.1)" : "#3b82f6",
+              color: active === "scan" ? "#93c5fd" : "#fff",
+              border: active === "scan" ? "1px solid rgba(59,130,246,0.3)" : "1px solid rgba(59,130,246,0.6)",
               flexShrink: 0,
-              boxShadow: active === "scan" ? "none" : "0 0 16px rgba(124,58,237,0.25)",
+              boxShadow: active === "scan" ? "none" : "0 0 16px rgba(59,130,246,0.25)",
             }}
           >
             {active === "scan" ? "Scanner" : "Open Scanner →"}
