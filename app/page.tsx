@@ -24,15 +24,35 @@ export default function LandingPage() {
         position: "relative",
         display: "flex",
         flexDirection: "column",
-        background: [
-          "radial-gradient(ellipse 140% 100% at 68% 32%, #0c1c3d 0%, rgba(4,10,28,0.88) 42%, transparent 68%)",
-          "radial-gradient(ellipse 80% 110% at 8% 85%, rgba(6,13,38,0.45) 0%, transparent 58%)",
-          "#000",
-        ].join(","),
+        background: "#000",
+        overflow: "hidden",
       }}>
+
+        {/* Background image — darkened, matches Socle silk/fluid aesthetic */}
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "url('/background.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center 40%",
+          filter: "brightness(0.22) saturate(0.65)",
+          zIndex: 0,
+        }} />
+        {/* Dark gradient overlay — keeps edges pure black, text readable */}
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          background: [
+            "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(0,0,0,0.55) 70%, #000 100%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 25%, transparent 70%, rgba(0,0,0,0.6) 100%)",
+          ].join(","),
+          zIndex: 1,
+        }} />
 
         {/* Top bar */}
         <div style={{
+          position: "relative",
+          zIndex: 2,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -68,7 +88,7 @@ export default function LandingPage() {
         </div>
 
         {/* Middle: hero text + right nav */}
-        <div style={{ flex: 1, position: "relative", minHeight: 400 }}>
+        <div style={{ flex: 1, position: "relative", minHeight: 400, zIndex: 2 }}>
 
           {/* Headline — lower left (matches Socle layout) */}
           <div style={{
@@ -146,6 +166,8 @@ export default function LandingPage() {
 
         {/* Bottom bar: Terms · Privacy */}
         <div style={{
+          position: "relative",
+          zIndex: 2,
           display: "flex",
           justifyContent: "flex-end",
           padding: "0 40px 28px",
