@@ -41,12 +41,21 @@ export default function Navbar({ active }: { active?: Page }) {
 
           {/* Logo */}
           <Link href="/" onClick={() => setMenuOpen(false)} style={{ textDecoration: "none", flexShrink: 0, display: "flex", alignItems: "center", gap: 9 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg, #7c3aed, #a78bfa)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            <div style={{
+              width: 32, height: 32, borderRadius: 9,
+              background: "linear-gradient(135deg, #5b21b6 0%, #7c3aed 55%, #a78bfa 100%)",
+              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+              boxShadow: "0 2px 10px rgba(124,58,237,0.4), 0 0 0 1px rgba(167,139,250,0.15) inset",
+            }}>
+              {/* Radar signal mark — arcs emanating from bottom-left dot */}
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                <circle cx="4" cy="16" r="2.3" fill="white"/>
+                <path d="M4 11 A5 5 0 0 1 9 16"          stroke="white" strokeWidth="2.1" strokeLinecap="round" fill="none"/>
+                <path d="M4 6.5 A9.5 9.5 0 0 1 13.5 16"  stroke="white" strokeWidth="2.1" strokeLinecap="round" fill="none" opacity="0.6"/>
+                <path d="M4 2 A14 14 0 0 1 18 16"         stroke="white" strokeWidth="2.1" strokeLinecap="round" fill="none" opacity="0.3"/>
               </svg>
             </div>
-            <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: "-0.025em", color: "#fafafa" }}>
+            <span style={{ fontSize: 17, fontWeight: 700, letterSpacing: "-0.03em", color: "#fafafa" }}>
               LeadScan
             </span>
           </Link>
