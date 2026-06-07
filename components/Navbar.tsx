@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-type Page = "scan" | "examples" | "docs";
+type Page = "scan" | "how-it-works" | "examples" | "docs";
 
 export default function Navbar({ active }: { active?: Page }) {
   const [scrolled, setScrolled] = useState(false);
@@ -28,9 +28,10 @@ export default function Navbar({ active }: { active?: Page }) {
   }, [menuOpen]);
 
   const navLinks = [
-    { label: "Examples", href: "/examples", page: "examples" },
-    { label: "Docs",     href: "/docs",     page: "docs"     },
-    { label: "GitHub",   href: "https://github.com/nadellasripad11/leadscan", external: true },
+    { label: "How it works", href: "/how-it-works", page: "how-it-works" },
+    { label: "Examples",     href: "/examples",     page: "examples"     },
+    { label: "Docs",         href: "/docs",         page: "docs"         },
+    { label: "GitHub",       href: "https://github.com/nadellasripad11/leadscan", external: true },
   ];
 
   return (
