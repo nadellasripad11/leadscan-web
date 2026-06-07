@@ -2,6 +2,70 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import type { CompanyData, CompanyProfile, TechStack, GrowthSignals, SocialLinks, StockData } from "@/lib/types";
 
+// Realistic Chrome browser headers — avoids basic bot detection
+const BROWSER_HEADERS = {
+  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+  "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+  "Accept-Language": "en-US,en;q=0.9",
+  "Accept-Encoding": "gzip, deflate, br",
+  "Cache-Control": "no-cache",
+  "Pragma": "no-cache",
+  "Sec-Fetch-Dest": "document",
+  "Sec-Fetch-Mode": "navigate",
+  "Sec-Fetch-Site": "none",
+  "Sec-Fetch-User": "?1",
+  "Upgrade-Insecure-Requests": "1",
+};
+
+// Detect Cloudflare challenges, 403s, and empty/useless bot-block pages
+function isBlockedPage(html: string, status: number): boolean {
+  if (status === 403 || status === 429 || status === 503) return true;
+  const lower = html.toLowerCase();
+  if (html.length < 1200 && (lower.includes("access denied") || lower.includes("403 forbidden"))) return true;
+  if (lower.includes("cf-browser-verification")) return true;
+  if (lower.includes("cloudflare ray id")) return true;
+  if (lower.includes("checking your browser before accessing")) return true;
+  if (lower.includes("enable javascript and cookies to continue") && html.length < 8000) return true;
+  if (lower.includes("just a moment") && lower.includes("cloudflare") && html.length < 8000) return true;
+  return false;
+}
+
+// Try several URL variants — bare domain, www prefix, and common paths
+async function fetchBestPage(domain: string): Promise<{ html: string; resolvedUrl: string }> {
+  const candidates = [
+    `https://${domain}`,
+    `https://www.${domain}`,
+    `http://${domain}`,
+    `http://www.${domain}`,
+  ];
+
+  // If domain already starts with www., skip adding it again
+  const urls = domain.startsWith("www.")
+    ? [`https://${domain}`, `http://${domain}`]
+    : candidates;
+
+  for (const url of urls) {
+    try {
+      const res = await axios.get(url, {
+        timeout: 15000,
+        headers: BROWSER_HEADERS,
+        maxRedirects: 10,
+        // Accept any status — we'll inspect the body ourselves
+        validateStatus: (s) => s < 600,
+      });
+      const body = String(res.data || "");
+      if (!isBlockedPage(body, res.status) && body.length > 500) {
+        return { html: body, resolvedUrl: url };
+      }
+    } catch {
+      // Try next candidate
+    }
+  }
+
+  // All attempts blocked or failed — return empty so we still get Wikipedia/stock data
+  return { html: "", resolvedUrl: `https://${domain}` };
+}
+
 const TECH_FINGERPRINTS: Record<keyof TechStack, Record<string, string[]>> = {
   frontend: {
     "React": ["react", "reactdom", "_next", "__react"],
@@ -351,20 +415,15 @@ function extractEmails(text: string): string[] {
 // ─── Main scraper ─────────────────────────────────────────────────────────────
 
 export async function scrapeCompany(domain: string): Promise<CompanyData> {
-  const url = domain.startsWith("http") ? domain : `https://${domain}`;
-  const normalizedDomain = domain.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0];
+  // Normalize: strip protocol, www, trailing slashes and paths
+  const normalizedDomain = domain
+    .replace(/^https?:\/\//, "")
+    .replace(/^www\./, "")
+    .split("/")[0]
+    .split("?")[0]
+    .toLowerCase();
 
-  const response = await axios.get(url, {
-    timeout: 10000,
-    headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; leadscan/1.0; +https://github.com/nadellasripad11/leadscan)",
-      "Accept": "text/html,application/xhtml+xml",
-      "Accept-Language": "en-US,en;q=0.9",
-    },
-    maxRedirects: 5,
-  });
-
-  const html: string = response.data;
+  const { html, resolvedUrl: url } = await fetchBestPage(normalizedDomain);
   const $ = cheerio.load(html);
 
   // Metadata
@@ -414,7 +473,24 @@ export async function scrapeCompany(domain: string): Promise<CompanyData> {
   }
 
   // ── Wikipedia enrichment + stock data in parallel ──
-  const companyName = profile.displayName || title.split(/[|–\-]/)[0].trim() || normalizedDomain;
+  // Map well-known domains whose homepage title doesn't match their company name
+  const DOMAIN_TO_COMPANY: Record<string, string> = {
+    "chatgpt.com": "OpenAI",
+    "claude.ai": "Anthropic",
+    "gemini.google.com": "Google DeepMind",
+    "bard.google.com": "Google",
+    "copilot.microsoft.com": "Microsoft",
+    "notion.so": "Notion",
+    "figma.com": "Figma",
+    "linear.app": "Linear",
+    "vercel.com": "Vercel",
+    "x.com": "X Corp",
+  };
+  const companyName =
+    DOMAIN_TO_COMPANY[normalizedDomain] ||
+    profile.displayName ||
+    title.split(/[|–\-]/)[0].trim() ||
+    normalizedDomain;
   const [wikiProfile, stockData] = await Promise.allSettled([
     fetchWikipediaProfile(companyName),
     fetchStockData(companyName),
