@@ -13,10 +13,18 @@ export const viewport = {
 export const metadata: Metadata = {
   title: "LeadScan — Company Intelligence in Seconds",
   description: "AI-powered company intelligence. Tech stack, growth signals, conviction score, and personalized outreach in seconds. Free, no account required.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: {
     title: "LeadScan — Company Intelligence in Seconds",
     description: "Scan any company in 5 seconds. Tech stack, growth signals, AI outreach. Free, no account needed.",
     siteName: "LeadScan",
+    images: [{ url: "/favicon.svg", width: 32, height: 32 }],
   },
   twitter: { card: "summary_large_image" },
 };
