@@ -14,7 +14,8 @@ function TabBtn({ active, onClick, children }: { active: boolean; onClick: () =>
   return (
     <button
       onClick={onClick}
-      style={{ padding: "9px 22px", borderRadius: 99, fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.18s", background: active ? "rgba(124,58,237,0.1)" : "transparent", border: `1px solid ${active ? "rgba(124,58,237,0.35)" : "rgba(255,255,255,0.07)"}`, color: active ? "#7c3aed" : "#71717a" }}
+      className="tab-btn"
+      style={{ padding: "9px 22px", borderRadius: 99, fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.18s", background: active ? "rgba(124,58,237,0.1)" : "transparent", border: `1px solid ${active ? "rgba(124,58,237,0.35)" : "rgba(255,255,255,0.07)"}`, color: active ? "#a78bfa" : "#71717a", display: "flex", alignItems: "center", justifyContent: "center" }}
     >
       {children}
     </button>
@@ -64,7 +65,7 @@ export default function ScanPage() {
       <main style={{ minHeight: "calc(100vh - 62px)" }}>
 
         {/* Search header */}
-        <div className="dot-grid" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: report ? "36px 24px 28px" : "60px 24px 50px", transition: "padding 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
+        <div className="dot-grid" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: report ? "28px 16px 20px" : "48px 16px 36px", transition: "padding 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
           <div style={{ maxWidth: 720, margin: "0 auto" }}>
 
             {!report && tab === "analyze" && (
@@ -90,7 +91,7 @@ export default function ScanPage() {
             )}
 
             {/* Tabs */}
-            <div style={{ display: "flex", gap: 8, marginBottom: 20, justifyContent: "center" }}>
+            <div className="tabs-row" style={{ display: "flex", gap: 8, marginBottom: 20, justifyContent: "center" }}>
               <TabBtn active={tab === "analyze"} onClick={() => switchTab("analyze")}>Analyze</TabBtn>
               <TabBtn active={tab === "batch"}   onClick={() => switchTab("batch")}>Batch</TabBtn>
               <TabBtn active={tab === "compare"} onClick={() => switchTab("compare")}>Compare</TabBtn>
@@ -98,25 +99,27 @@ export default function ScanPage() {
 
             {tab === "analyze" && (
               <div>
-                <div style={{ display: "flex", background: "#080f1f", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 14, overflow: "hidden", boxShadow: "0 16px 60px rgba(0,0,0,0.45)" }}>
-                  <span style={{ display: "flex", alignItems: "center", paddingLeft: 20, color: "#52525b", fontSize: 16, flexShrink: 0 }}>⌕</span>
+                <div style={{ display: "flex", background: "#18181b", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 14, overflow: "hidden", boxShadow: "0 16px 60px rgba(0,0,0,0.45)" }}>
+                  <span style={{ display: "flex", alignItems: "center", paddingLeft: 16, color: "#52525b", fontSize: 16, flexShrink: 0 }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                  </span>
                   <input
                     ref={inputRef}
                     value={query}
                     onChange={e => setQuery(e.target.value)}
                     onKeyDown={e => e.key === "Enter" && analyze()}
-                    placeholder="Enter any company domain, e.g. stripe.com"
+                    placeholder="stripe.com"
                     autoFocus
-                    style={{ flex: 1, padding: "18px 16px", fontSize: 15, background: "transparent", border: "none", outline: "none", color: "#f1f5f9", fontWeight: 500 }}
+                    style={{ flex: 1, padding: "17px 12px", fontSize: 15, background: "transparent", border: "none", outline: "none", color: "#f1f5f9", fontWeight: 500, minWidth: 0 }}
                   />
                   <button
                     onClick={() => analyze()}
                     disabled={loading || !query.trim()}
-                    style={{ padding: "0 26px", margin: 6, borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: loading ? "wait" : "pointer", background: loading ? "rgba(255,255,255,0.04)" : "linear-gradient(135deg,#7c3aed,#a78bfa)", border: "none", color: loading ? "#71717a" : "#fff", opacity: !query.trim() && !loading ? 0.45 : 1, transition: "opacity 0.2s", flexShrink: 0 }}
+                    style={{ padding: "0 20px", margin: 6, borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: loading ? "wait" : "pointer", background: loading ? "rgba(255,255,255,0.04)" : "#7c3aed", border: "none", color: loading ? "#71717a" : "#fff", opacity: !query.trim() && !loading ? 0.45 : 1, transition: "opacity 0.2s", flexShrink: 0, whiteSpace: "nowrap", boxShadow: query.trim() && !loading ? "0 0 14px rgba(124,58,237,0.3)" : "none" }}
                   >
                     {loading
                       ? <span style={{ display: "flex", alignItems: "center", gap: 8 }}><span className="anim-spin" style={{ display: "inline-block", width: 13, height: 13, border: "2px solid rgba(255,255,255,0.15)", borderTopColor: "#a1a1aa", borderRadius: "50%" }} />Scanning</span>
-                      : "Analyze →"}
+                      : "Scan →"}
                   </button>
                 </div>
 
@@ -142,14 +145,14 @@ export default function ScanPage() {
         </div>
 
         {/* Content */}
-        <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 24px 80px" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", padding: "24px 16px 100px" }}>
           {tab === "analyze" && (
             <>
               {loading && <ReportSkeleton />}
               {report && !loading && <Report report={report} />}
               {!report && !loading && (
                 <div className="anim-fade-up" style={{ animationDelay: "0.25s", marginTop: 40 }}>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+                  <div className="grid-2col" style={{ gap: 14, marginBottom: 14 }}>
                     {[
                       { icon: "⚡", color: "#fbbf24", title: "Instant results", desc: "Full company report in under 5 seconds." },
                       { icon: "🔍", color: "#7c3aed", title: "Tech detection", desc: "40+ technologies detected from HTML. No API needed." },
@@ -163,7 +166,7 @@ export default function ScanPage() {
                       </div>
                     ))}
                   </div>
-                  <div style={{ padding: "18px 22px", background: "#080f1f", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14 }}>
+                  <div style={{ padding: "16px 18px", background: "#111113", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14 }}>
                     <p style={{ fontSize: 11, color: "#52525b", margin: "0 0 8px", fontWeight: 600, letterSpacing: "0.08em" }}>ALSO AVAILABLE AS CLI</p>
                     <code style={{ fontSize: 13, color: "#7c3aed" }}>npx leadscan analyze stripe.com</code>
                     <span style={{ fontSize: 12, color: "#27272a", marginLeft: 14 }}>

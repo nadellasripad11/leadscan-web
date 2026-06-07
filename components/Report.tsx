@@ -25,7 +25,7 @@ const SOCIAL_META: Record<string, { label: string; color: string; bg: string; bo
 function InfoPill({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10, padding: "10px 14px" }}>
-      <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: "#475569", textTransform: "uppercase", margin: "0 0 4px" }}>{label}</p>
+      <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: "#52525b", textTransform: "uppercase", margin: "0 0 4px" }}>{label}</p>
       <p style={{ fontSize: 13, fontWeight: 600, color: "#e4e4e7", margin: 0 }}>{value}</p>
     </div>
   );
@@ -33,10 +33,10 @@ function InfoPill({ label, value }: { label: string; value: string }) {
 
 function DataRow({ fields }: { fields: { label: string; value: string; color?: string; mono?: boolean }[] }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 12 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: 10 }}>
       {fields.map(({ label, value, color, mono }) => (
         <div key={label} style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, padding: "11px 14px" }}>
-          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.09em", color: "#475569", textTransform: "uppercase", margin: "0 0 5px" }}>{label}</p>
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.09em", color: "#52525b", textTransform: "uppercase", margin: "0 0 5px" }}>{label}</p>
           <p style={{ fontSize: 13, fontWeight: 600, color: color ?? "#e4e4e7", margin: 0, fontFamily: mono ? "'SF Mono','Fira Code',monospace" : undefined }}>{value}</p>
         </div>
       ))}
@@ -65,7 +65,7 @@ function StockCard({ stock }: { stock: StockData }) {
               {stock.ticker}
             </span>
             {stock.exchange && (
-              <span style={{ fontSize: 12, color: "#475569", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", padding: "2px 10px", borderRadius: 99 }}>
+              <span style={{ fontSize: 12, color: "#52525b", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", padding: "2px 10px", borderRadius: 99 }}>
                 {stock.exchange}
               </span>
             )}
@@ -74,13 +74,13 @@ function StockCard({ stock }: { stock: StockData }) {
         <div style={{ display: "flex", gap: 12 }}>
           {stock.marketCap != null && (
             <div style={{ textAlign: "right" }}>
-              <p style={{ fontSize: 10, color: "#475569", margin: "0 0 3px", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase" }}>Market Cap</p>
+              <p style={{ fontSize: 10, color: "#52525b", margin: "0 0 3px", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase" }}>Market Cap</p>
               <p style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#e4e4e7" }}>{fmt(stock.marketCap)}</p>
             </div>
           )}
           {stock.revenue != null && (
             <div style={{ textAlign: "right" }}>
-              <p style={{ fontSize: 10, color: "#475569", margin: "0 0 3px", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase" }}>Revenue</p>
+              <p style={{ fontSize: 10, color: "#52525b", margin: "0 0 3px", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase" }}>Revenue</p>
               <p style={{ fontSize: 16, fontWeight: 700, margin: 0, color: "#e4e4e7" }}>{fmt(stock.revenue)}</p>
             </div>
           )}
@@ -103,8 +103,8 @@ function OutreachModal({ outreach, onClose }: { outreach: OutreachResult; onClos
     { key: "call",     title: "Call Opener",        content: outreach.callOpener },
   ];
   return (
-    <div className="anim-fade-in" onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
-      <div className="anim-fade-up" onClick={e => e.stopPropagation()} style={{ background: "#080f1f", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 22, padding: 32, maxWidth: 620, width: "100%", maxHeight: "88vh", overflowY: "auto" }}>
+    <div className="anim-fade-in" onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)", display: "flex", alignItems: "flex-end", justifyContent: "center", padding: "0" }}>
+      <div className="anim-fade-up outreach-modal-inner" onClick={e => e.stopPropagation()} style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "22px 22px 0 0", padding: 28, maxWidth: 620, width: "100%", maxHeight: "92vh", overflowY: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
           <p style={{ fontWeight: 700, fontSize: 16, margin: 0 }}>Outreach for {outreach.domain}</p>
           <button onClick={onClose} style={{ color: "#71717a", background: "none", border: "none", cursor: "pointer", fontSize: 20 }}>✕</button>
@@ -220,7 +220,7 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
     return `${sym}${p.stock.price.toLocaleString()} (${p.stock.ticker})`;
   }
   function stockColor(): string {
-    if (!p.stock) return "#475569";
+    if (!p.stock) return "#52525b";
     return p.stock.changePercent >= 0 ? "#22c55e" : "#f87171";
   }
 
@@ -258,21 +258,23 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
       {/* ── Score overview ── */}
       {!hideHeader && (
         <Card delay={0}>
-          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
-            <ScoreRing score={report.convictionScore} />
-            <div style={{ flex: 1 }}>
+          <div className="score-overview">
+            <div className="score-ring-wrap">
+              <ScoreRing score={report.convictionScore} />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
-                <h2 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>{report.domain}</h2>
+                <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, wordBreak: "break-all" }}>{report.domain}</h2>
                 {report.signals.estimatedSize !== "unknown" && (
-                  <span style={{ fontSize: 12, color: "#71717a", background: "rgba(255,255,255,0.05)", padding: "2px 8px", borderRadius: 99 }}>{report.signals.estimatedSize}</span>
+                  <span style={{ fontSize: 12, color: "#71717a", background: "rgba(255,255,255,0.05)", padding: "2px 8px", borderRadius: 99, flexShrink: 0 }}>{report.signals.estimatedSize}</span>
                 )}
-                <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
-                  <ShareButton domain={report.domain} />
-                  <ExportButton report={report} />
-                </div>
+              </div>
+              <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+                <ShareButton domain={report.domain} />
+                <ExportButton report={report} />
               </div>
               {report.summary && (
-                <p style={{ fontSize: 13, color: "#a1a1aa", lineHeight: 1.6, margin: "6px 0 16px" }}>
+                <p style={{ fontSize: 13, color: "#a1a1aa", lineHeight: 1.6, margin: "0 0 14px" }}>
                   {report.summary.slice(0, 200)}{report.summary.length > 200 ? "…" : ""}
                 </p>
               )}
@@ -298,7 +300,7 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
         {/* Locations */}
         {p.locations && p.locations.length > 0 && (
           <div style={{ marginTop: 16 }}>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.09em", color: "#475569", textTransform: "uppercase", margin: "0 0 8px" }}>Office Locations</p>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.09em", color: "#52525b", textTransform: "uppercase", margin: "0 0 8px" }}>Office Locations</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
               {p.locations.map(loc => (
                 <span key={loc} style={{ fontSize: 12, color: "#a1a1aa", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", padding: "3px 12px", borderRadius: 99 }}>
@@ -318,7 +320,7 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
       </Card>
 
       {/* ── Tech stack + Signals ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div className="grid-2col">
         {allTech.length > 0 && (
           <Card delay={0.1}>
             <CardTitle>Tech Stack</CardTitle>
@@ -366,7 +368,7 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
             })}
           </div>
         ) : (
-          <p style={{ fontSize: 13, color: "#475569", margin: 0 }}>No email addresses or social profiles detected on this page.</p>
+          <p style={{ fontSize: 13, color: "#52525b", margin: 0 }}>No email addresses or social profiles detected on this page.</p>
         )}
       </Card>
 

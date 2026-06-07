@@ -12,8 +12,8 @@ export function ScoreBar({ label, value, delay = 0 }: { label: string; value: nu
   useEffect(() => { const t = setTimeout(() => setWidth(value), 100 + delay); return () => clearTimeout(t); }, [value, delay]);
   const color = scoreColor(value);
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 13 }}>
-      <span style={{ color: "#71717a", width: 140, flexShrink: 0 }}>{label}</span>
+    <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13 }}>
+      <span style={{ color: "#71717a", width: 120, flexShrink: 0, fontSize: 12 }}>{label}</span>
       <div style={{ flex: 1, height: 5, background: "rgba(255,255,255,0.06)", borderRadius: 99, overflow: "hidden" }}>
         <div style={{ height: "100%", width: `${width}%`, background: color, borderRadius: 99, transition: "width 0.9s cubic-bezier(0.16,1,0.3,1)", opacity: 0.9 }} />
       </div>

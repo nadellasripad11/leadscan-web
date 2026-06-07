@@ -275,3 +275,159 @@ input:focus-visible, button:focus-visible {
   padding: 2px 6px;
   color: var(--brand-light);
 }
+
+/* ─── Responsive layout helpers ─── */
+
+/* Desktop defaults (applied inline too, but CSS classes allow media query overrides) */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  padding: 120px 24px 0;
+  text-align: center;
+}
+.grid-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.grid-stats > .stat-item {
+  text-align: center;
+  padding: 28px 16px;
+}
+.grid-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.grid-cli {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.score-overview {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* ─── Hamburger nav ─── */
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: var(--muted);
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+}
+.nav-hamburger:hover { color: var(--text-2); background: rgba(255,255,255,0.05); }
+.nav-links-group { display: flex; align-items: center; gap: 30px; }
+.nav-cta-btn { display: block; }
+.nav-mobile-menu {
+  display: none;
+  position: fixed;
+  top: 62px; left: 0; right: 0; bottom: 0;
+  background: rgba(9,9,11,0.98);
+  flex-direction: column;
+  padding: 20px 24px 40px;
+  gap: 4px;
+  z-index: 48;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  overflow-y: auto;
+}
+.nav-mobile-menu.open { display: flex; }
+.nav-mobile-link {
+  display: block;
+  padding: 14px 4px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-2);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: color 0.15s;
+}
+.nav-mobile-link:hover { color: var(--text); }
+.nav-mobile-cta {
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  padding: 15px 24px;
+  border-radius: 12px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 0 20px rgba(124,58,237,0.25);
+}
+
+/* ─── Mobile breakpoint ─── */
+@media (max-width: 640px) {
+  .hero-section { padding: 60px 20px 0; }
+
+  .grid-stats { grid-template-columns: repeat(2, 1fr); }
+  .grid-stats > .stat-item { padding: 22px 12px; }
+  .grid-stats > .stat-item:nth-child(1),
+  .grid-stats > .stat-item:nth-child(3) {
+    border-right: 1px solid rgba(255,255,255,0.05) !important;
+  }
+  .grid-stats > .stat-item:nth-child(2),
+  .grid-stats > .stat-item:nth-child(4) { border-right: none !important; }
+  .grid-stats > .stat-item:nth-child(1),
+  .grid-stats > .stat-item:nth-child(2) {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .grid-features { grid-template-columns: 1fr; }
+  .grid-2col     { grid-template-columns: 1fr; }
+  .grid-cli      { grid-template-columns: 1fr; gap: 28px; }
+
+  .score-overview { flex-direction: column; align-items: stretch; }
+  .score-ring-wrap { display: flex; justify-content: center; }
+
+  .mockup-hide-mobile { display: none !important; }
+
+  .nav-hamburger   { display: flex; }
+  .nav-links-group { display: none; }
+  .nav-cta-btn     { display: none; }
+
+  .footer-inner { flex-direction: column; text-align: center; align-items: center; }
+
+  /* Scan page */
+  .scan-header { padding: 36px 16px 24px; }
+  .scan-content { padding: 20px 16px 80px; }
+
+  /* Outreach modal */
+  .outreach-modal-inner {
+    padding: 24px 20px !important;
+    border-radius: 16px !important;
+    max-height: 92vh !important;
+  }
+
+  /* Feature card padding on mobile */
+  .feature-card { padding: 20px; }
+  .step-card { padding: 20px 22px; }
+
+  /* Wider touch targets */
+  .tab-btn { padding: 10px 18px !important; flex: 1; justify-content: center; }
+  .tabs-row { gap: 6px !important; }
+}

@@ -184,7 +184,7 @@ export default function LandingPage() {
       <main>
 
         {/* ─── Hero ─── */}
-        <section style={{ position: "relative", overflow: "hidden", padding: "120px 24px 0", textAlign: "center" }}>
+        <section className="hero-section">
           <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px)", backgroundSize: "28px 28px", pointerEvents: "none" }} />
           {/* subtle orb */}
           <div className="orb" style={{ width: 900, height: 700, top: -400, left: "50%", transform: "translateX(-50%)", background: "radial-gradient(ellipse, rgba(124,58,237,0.1) 0%, transparent 65%)" }} />
@@ -208,21 +208,21 @@ export default function LandingPage() {
             <HeroSearch />
           </div>
 
-          <div style={{ maxWidth: 800, margin: "0 auto" }} className="anim-fade-up" data-reveal-scale>
+          <div className="mockup-hide-mobile anim-fade-up" style={{ maxWidth: 800, margin: "0 auto" }} data-reveal-scale>
             <ProductMockup />
           </div>
         </section>
 
         {/* ─── Stats ─── */}
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", marginTop: 80 }}>
-          <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", marginTop: 60 }}>
+          <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 16px" }} className="grid-stats">
             {[
               { n: "40+",  label: "Technologies detected" },
               { n: "4",    label: "Weighted score signals" },
               { n: "< 5s", label: "Average scan time" },
               { n: "Free", label: "No account required" },
             ].map(({ n, label }, i) => (
-              <div key={n} data-reveal data-delay={String(i+1)} style={{ textAlign: "center", padding: "28px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
+              <div key={n} className="stat-item" data-reveal data-delay={String(i+1)} style={{ borderRight: i === 1 || i === 3 ? "none" : "1px solid rgba(255,255,255,0.05)" }}>
                 <p style={{ fontSize: 30, fontWeight: 900, letterSpacing: "-0.03em", margin: "0 0 5px", color: "#a78bfa" }}>{n}</p>
                 <p style={{ fontSize: 12, color: "#52525b", margin: 0, fontWeight: 500 }}>{label}</p>
               </div>
@@ -248,14 +248,14 @@ export default function LandingPage() {
         </div>
 
         {/* ─── Features ─── */}
-        <section style={{ padding: "110px 24px" }}>
+        <section style={{ padding: "80px 20px" }}>
           <div style={{ maxWidth: 1060, margin: "0 auto" }}>
-            <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <div style={{ textAlign: "center", marginBottom: 52 }}>
               <div data-reveal><Label>Features</Label></div>
               <H2><span data-reveal data-delay="1">Everything you need to<br />qualify leads faster.</span></H2>
               <p data-reveal data-delay="2" style={{ fontSize: 16, color: "#71717a", maxWidth: 420, margin: "0 auto", lineHeight: 1.7 }}>One URL is all you need. LeadScan does the rest.</p>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 14 }}>
+            <div className="grid-features">
               {features.map(({ Icon, title, desc }, i) => (
                 <div key={title} className="feature-card" data-reveal data-delay={String((i % 3) + 1)}>
                   <div style={{ width: 42, height: 42, borderRadius: 11, background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.18)", display: "flex", alignItems: "center", justifyContent: "center", color: "#a78bfa", marginBottom: 18 }}>
@@ -270,7 +270,7 @@ export default function LandingPage() {
         </section>
 
         {/* ─── How it works ─── */}
-        <section style={{ background: "rgba(255,255,255,0.012)", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", padding: "110px 24px" }}>
+        <section style={{ background: "rgba(255,255,255,0.012)", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", padding: "80px 20px" }}>
           <div style={{ maxWidth: 780, margin: "0 auto" }}>
             <div style={{ textAlign: "center", marginBottom: 60 }}>
               <div data-reveal><Label>How it works</Label></div>
@@ -293,8 +293,8 @@ export default function LandingPage() {
         </section>
 
         {/* ─── CLI ─── */}
-        <section style={{ padding: "110px 24px" }}>
-          <div style={{ maxWidth: 1020, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+        <section style={{ padding: "80px 20px" }}>
+          <div style={{ maxWidth: 1020, margin: "0 auto" }} className="grid-cli">
             <div data-reveal>
               <Label color="#a78bfa">CLI tool</Label>
               <H2>Power users get a terminal too.</H2>
@@ -334,7 +334,7 @@ export default function LandingPage() {
         </section>
 
         {/* ─── CTA ─── */}
-        <section style={{ position: "relative", overflow: "hidden", padding: "130px 24px", textAlign: "center" }}>
+        <section style={{ position: "relative", overflow: "hidden", padding: "80px 20px", textAlign: "center" }}>
           <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)", backgroundSize: "28px 28px", pointerEvents: "none" }} />
           <div className="orb" style={{ width: 700, height: 500, top: "50%", left: "50%", transform: "translate(-50%,-50%)", background: "radial-gradient(ellipse, rgba(124,58,237,0.09) 0%, transparent 65%)" }} />
           <div style={{ maxWidth: 560, margin: "0 auto", position: "relative" }}>
@@ -356,8 +356,8 @@ export default function LandingPage() {
         </section>
 
         {/* ─── Footer ─── */}
-        <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "32px 28px" }}>
-          <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+        <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "28px 20px" }}>
+          <div className="footer-inner">
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div style={{ width: 24, height: 24, borderRadius: 6, background: "linear-gradient(135deg,#7c3aed,#a78bfa)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
