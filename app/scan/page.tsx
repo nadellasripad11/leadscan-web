@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { track } from "@vercel/analytics";
 import type { IntelReport } from "@/lib/types";
 import Navbar from "@/components/Navbar";
 import Report from "@/components/Report";
@@ -35,6 +36,7 @@ export default function ScanPage() {
     if (!raw) return;
     const clean = raw.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0];
     setLoading(true); setError(""); setReport(null);
+    const t0 = Date.now();
     try {
       const res = await fetch("/api/analyze", {
         method: "POST",
@@ -45,8 +47,17 @@ export default function ScanPage() {
       if (data.error) throw new Error(data.error);
       setReport(data);
       window.history.pushState({}, "", `/r/${clean}`);
+      track("scan_completed", {
+        domain: clean,
+        score: data.convictionScore,
+        industry: data.industry ?? "unknown",
+        ai_enabled: data.aiEnabled,
+        duration_ms: Date.now() - t0,
+      });
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Something went wrong");
+      const msg = e instanceof Error ? e.message : "Something went wrong";
+      setError(msg);
+      track("scan_failed", { domain: clean, error: msg });
     } finally {
       setLoading(false);
     }
@@ -55,6 +66,7 @@ export default function ScanPage() {
   function switchTab(t: Tab) {
     setTab(t);
     if (t !== "analyze") { setReport(null); setError(""); }
+    track("tab_switch", { tab: t });
   }
 
   const examples = ["stripe.com", "linear.app", "vercel.com", "notion.so"];
@@ -127,7 +139,7 @@ export default function ScanPage() {
                   <div style={{ display: "flex", gap: 8, marginTop: 12, justifyContent: "center", flexWrap: "wrap" }}>
                     <span style={{ fontSize: 12, color: "#52525b" }}>Try:</span>
                     {examples.map(ex => (
-                      <button key={ex} onClick={() => { setQuery(ex); analyze(ex); }} style={{ fontSize: 12, color: "#71717a", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 99, padding: "3px 12px", cursor: "pointer" }}>
+                      <button key={ex} onClick={() => { setQuery(ex); analyze(ex); track("example_clicked", { domain: ex }); }} style={{ fontSize: 12, color: "#71717a", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 99, padding: "3px 12px", cursor: "pointer" }}>
                         {ex}
                       </button>
                     ))}

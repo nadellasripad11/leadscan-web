@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { track } from "@vercel/analytics";
 import type { IntelReport, OutreachResult, StockData } from "@/lib/types";
 import { ScoreRing, ScoreBar, TechBadge, Signal, Card, CardTitle, inputStyle } from "./ui";
 
@@ -129,6 +130,7 @@ function OutreachModal({ outreach, onClose }: { outreach: OutreachResult; onClos
 
 function ExportButton({ report }: { report: IntelReport }) {
   function exportCSV() {
+    track("csv_exported", { domain: report.domain, score: report.convictionScore });
     const allTech = Object.values(report.techStack).flat().join("; ");
     const p = report.profile;
     const rows = [
@@ -165,6 +167,7 @@ function ShareButton({ domain }: { domain: string }) {
     navigator.clipboard.writeText(`${window.location.origin}/r/${domain}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    track("report_shared", { domain });
   }
   return (
     <button onClick={share} style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 99, fontSize: 12, fontWeight: 600, cursor: "pointer", background: copied ? "rgba(34,197,94,0.1)" : "rgba(255,255,255,0.05)", border: `1px solid ${copied ? "rgba(34,197,94,0.3)" : "rgba(255,255,255,0.1)"}`, color: copied ? "#22c55e" : "#a1a1aa", transition: "all 0.2s" }}>
@@ -248,13 +251,18 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
   async function generate() {
     if (!role.trim() || !product.trim()) return;
     setLoading(true);
+    track("outreach_started", { domain: report.domain, role, product });
     try {
       const res = await fetch("/api/outreach", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ domain: report.domain, role, product }),
       });
-      setOutreach(await res.json());
+      const data = await res.json();
+      setOutreach(data);
+      track("outreach_completed", { domain: report.domain, role, product, ai_enabled: report.aiEnabled });
+    } catch {
+      track("outreach_failed", { domain: report.domain });
     } finally { setLoading(false); }
   }
 
