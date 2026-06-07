@@ -365,13 +365,16 @@ export default function LandingPage() {
               <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.02em", color: "#fafafa" }}>LeadScan</span>
             </div>
 
-            <div style={{ display: "flex", gap: 26, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 22, flexWrap: "wrap" }}>
               {[
-                { label: "Scanner",  href: "/scan" },
-                { label: "Examples", href: "/examples" },
-                { label: "Docs",     href: "/docs" },
-                { label: "GitHub",   href: "https://github.com/nadellasripad11/leadscan" },
-                { label: "npm",      href: "https://npmjs.com/package/leadscan" },
+                { label: "Scanner",     href: "/scan" },
+                { label: "How it works",href: "/how-it-works" },
+                { label: "Examples",    href: "/examples" },
+                { label: "Docs",        href: "/docs" },
+                { label: "GitHub",      href: "https://github.com/nadellasripad11/leadscan" },
+                { label: "npm",         href: "https://npmjs.com/package/leadscan" },
+                { label: "Privacy",     href: "/privacy" },
+                { label: "Terms",       href: "/terms" },
               ].map(({ label, href }) => (
                 <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="footer-link">
                   {label}
