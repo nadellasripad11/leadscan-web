@@ -20,6 +20,8 @@ export interface CompanyProfile {
   address?: string;            // Full street address from schema.org
   employeeCount?: string;      // "2,400" or "201–500"
   founded?: string;            // "2010"
+  founders?: string;           // "Larry Ellison, Bob Miner, Ed Oates"
+  industry?: string;           // "Enterprise Software"
   stock?: StockData;
 }
 

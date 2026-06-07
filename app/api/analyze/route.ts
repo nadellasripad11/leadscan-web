@@ -16,7 +16,8 @@ export async function POST(req: NextRequest) {
   try {
     const data = await scrapeCompany(clean);
     let aiSummary;
-    if (ai && process.env.GROQ_API_KEY) {
+    // Run AI analysis when key is available — `ai` flag still respected for CLI opt-out
+    if ((ai !== false) && process.env.GROQ_API_KEY) {
       try { aiSummary = await analyzeCompany(data); } catch {}
     }
     const report = buildIntelReport(data, aiSummary);

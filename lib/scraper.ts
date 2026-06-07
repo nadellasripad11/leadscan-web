@@ -251,18 +251,35 @@ function extractEmployeeCount(text: string): string | undefined {
 
 // ─── Wikipedia profile enrichment ────────────────────────────────────────────
 
+function cleanWikiField(raw: string): string {
+  return raw
+    .replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, "$1")   // [[Link|text]] → text
+    .replace(/\{\{[^}]*\}\}/g, "")                        // remove {{templates}}
+    .replace(/<[^>]+>/g, "")                              // strip HTML tags
+    .replace(/[']{2,3}/g, "")                             // strip wiki bold/italic
+    .replace(/<!--[^>]*-->/g, "")                         // HTML comments
+    .replace(/\*\s*/g, "")                                // list bullets
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 async function fetchWikipediaProfile(companyName: string): Promise<Partial<CompanyProfile>> {
   try {
     const searchRes = await axios.get(
-      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(companyName + " company")}&srlimit=1&format=json`,
-      { timeout: 4000, headers: { "User-Agent": "LeadScan/1.0" } },
+      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(companyName + " company")}&srlimit=3&format=json`,
+      { timeout: 5000, headers: { "User-Agent": "LeadScan/1.0 (https://leadscan.app)" } },
     );
-    const pageTitle: string | undefined = searchRes.data.query?.search?.[0]?.title;
-    if (!pageTitle) return {};
+    const results: Array<{ title: string }> = searchRes.data.query?.search ?? [];
+    if (!results.length) return {};
+
+    // Pick the most relevant title — prefer exact match
+    const pageTitle =
+      results.find(r => r.title.toLowerCase() === companyName.toLowerCase())?.title ??
+      results[0].title;
 
     const contentRes = await axios.get(
       `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(pageTitle)}&prop=revisions&rvslots=main&rvprop=content&format=json`,
-      { timeout: 4000, headers: { "User-Agent": "LeadScan/1.0" } },
+      { timeout: 5000, headers: { "User-Agent": "LeadScan/1.0" } },
     );
     const pages = contentRes.data.query?.pages ?? {};
     const page = Object.values(pages)[0] as Record<string, unknown> | undefined;
@@ -273,29 +290,46 @@ async function fetchWikipediaProfile(companyName: string): Promise<Partial<Compa
 
     const profile: Partial<CompanyProfile> = {};
 
-    const foundedM = wikitext.match(/\|\s*(?:foundation|founded)\s*=[^|]*?(\d{4})/i);
+    // Founded year
+    const foundedM = wikitext.match(/\|\s*(?:foundation|founded|formation)\s*=[^|]*?(\d{4})/i);
     if (foundedM) profile.founded = foundedM[1];
 
-    const hqM = wikitext.match(/\|\s*(?:headquarters|location)\s*=([^\n|]{3,120})/i);
+    // Headquarters / location
+    const hqM = wikitext.match(/\|\s*(?:headquarters|location|hq_location_city|hq_location)\s*=([^\n|]{3,150})/i);
     if (hqM) {
-      const hq = hqM[1]
-        .replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, "$1")
-        .replace(/\{\{[^}]+\}\}/g, "")
-        .replace(/<[^>]+>/g, "")
-        .replace(/[']{2,3}/g, "")
-        .trim().split(/\n/)[0].trim();
-      if (hq.length > 2) profile.headquarters = hq;
+      const hq = cleanWikiField(hqM[1]).split("\n")[0].trim();
+      if (hq.length > 2 && hq.length < 80) profile.headquarters = hq;
     }
 
-    const empM = wikitext.match(/\|\s*(?:num_employees|employees|num_staff)\s*=([^\n|]{1,80})/i);
+    // Employee count
+    const empM = wikitext.match(/\|\s*(?:num_employees|employees|num_staff|staff)\s*=([^\n|]{1,100})/i);
     if (empM) {
-      const raw = empM[1]
-        .replace(/\{\{[^}]+\}\}/g, "")
-        .replace(/<!--[^>]*-->/g, "")
-        .replace(/\[\[[^\]]*\]\]/g, "")
-        .replace(/[^\d,+\-–]/g, "")
+      const raw = cleanWikiField(empM[1])
+        .replace(/[^\d,+\-–k]/gi, "")
         .trim();
-      if (raw && raw !== "0") profile.employeeCount = raw;
+      if (raw && raw !== "0" && raw.length > 0) {
+        // Convert "164000" → "164,000"
+        const n = parseInt(raw.replace(/,/g, ""), 10);
+        profile.employeeCount = isNaN(n) ? raw : n.toLocaleString();
+      }
+    }
+
+    // Founders — extract multiple names
+    const foundersM = wikitext.match(/\|\s*(?:founders?|key_people_names)\s*=([^\n]{3,300})/i);
+    if (foundersM) {
+      const names = cleanWikiField(foundersM[1])
+        .split(/[,;*\n]+/)
+        .map(s => s.trim())
+        .filter(s => s.length > 2 && s.length < 50 && /[A-Z]/.test(s))
+        .slice(0, 5);
+      if (names.length) profile.founders = names.join(", ");
+    }
+
+    // Industry from infobox
+    const industryM = wikitext.match(/\|\s*industry\s*=([^\n|]{3,120})/i);
+    if (industryM) {
+      const ind = cleanWikiField(industryM[1]).split(",")[0].trim();
+      if (ind.length > 2 && ind.length < 60) profile.industry = ind;
     }
 
     return profile;
@@ -306,33 +340,82 @@ async function fetchWikipediaProfile(companyName: string): Promise<Partial<Compa
 
 // ─── Yahoo Finance stock data ─────────────────────────────────────────────────
 
-async function fetchStockData(companyName: string): Promise<StockData | undefined> {
-  const YF_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-    "Accept": "application/json",
-  };
-  try {
-    const q = encodeURIComponent(companyName.replace(/[,.'"-]/g, "").trim());
-    const searchRes = await axios.get(
-      `https://query2.finance.yahoo.com/v1/finance/search?q=${q}&quotesCount=5&newsCount=0`,
-      { timeout: 5000, headers: YF_HEADERS },
-    );
-    const quotes: Array<{ symbol: string; quoteType: string; exchange?: string }> =
-      searchRes.data.quotes ?? [];
-    const equity = quotes.find(q => q.quoteType === "EQUITY");
-    if (!equity) return undefined;
+// Direct domain → ticker map — avoids unreliable search for well-known companies
+const KNOWN_TICKERS: Record<string, string> = {
+  "oracle.com": "ORCL",
+  "apple.com": "AAPL",
+  "microsoft.com": "MSFT",
+  "google.com": "GOOGL",
+  "alphabet.com": "GOOGL",
+  "amazon.com": "AMZN",
+  "meta.com": "META",
+  "facebook.com": "META",
+  "salesforce.com": "CRM",
+  "adobe.com": "ADBE",
+  "ibm.com": "IBM",
+  "netflix.com": "NFLX",
+  "tesla.com": "TSLA",
+  "nvidia.com": "NVDA",
+  "intel.com": "INTC",
+  "cisco.com": "CSCO",
+  "qualcomm.com": "QCOM",
+  "amd.com": "AMD",
+  "shopify.com": "SHOP",
+  "spotify.com": "SPOT",
+  "snap.com": "SNAP",
+  "twitter.com": "X",
+  "x.com": "X",
+  "uber.com": "UBER",
+  "lyft.com": "LYFT",
+  "airbnb.com": "ABNB",
+  "coinbase.com": "COIN",
+  "paypal.com": "PYPL",
+  "stripe.com": "STRP",
+  "square.com": "SQ",
+  "block.xyz": "SQ",
+  "zoom.us": "ZM",
+  "slack.com": "WORK",
+  "twilio.com": "TWLO",
+  "mongodb.com": "MDB",
+  "snowflake.com": "SNOW",
+  "databricks.com": "DBRX",
+  "servicenow.com": "NOW",
+  "workday.com": "WDAY",
+  "zendesk.com": "ZEN",
+  "hubspot.com": "HUBS",
+  "cloudflare.com": "NET",
+  "fastly.com": "FSLY",
+  "datadog.com": "DDOG",
+  "splunk.com": "SPLK",
+  "crowdstrike.com": "CRWD",
+  "okta.com": "OKTA",
+  "pagerduty.com": "PD",
+  "elastic.co": "ESTC",
+  "atlassian.com": "TEAM",
+  "github.com": "MSFT",
+  "sap.com": "SAP",
+  "veeva.com": "VEEV",
+};
 
-    const summaryRes = await axios.get(
-      `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${equity.symbol}?modules=price,financialData`,
-      { timeout: 5000, headers: YF_HEADERS },
+const YF_HEADERS = {
+  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+  "Accept": "application/json, text/plain, */*",
+  "Accept-Language": "en-US,en;q=0.9",
+  "Referer": "https://finance.yahoo.com/",
+};
+
+async function fetchTickerData(ticker: string): Promise<StockData | undefined> {
+  try {
+    const res = await axios.get(
+      `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}?modules=price,financialData`,
+      { timeout: 6000, headers: YF_HEADERS },
     );
-    const result = summaryRes.data.quoteSummary?.result?.[0];
+    const result = res.data.quoteSummary?.result?.[0];
     const price = result?.price;
     const fin = result?.financialData;
     if (!price?.regularMarketPrice?.raw) return undefined;
-
     return {
-      ticker: equity.symbol,
+      ticker,
       exchange: price.exchangeName,
       price: Math.round(price.regularMarketPrice.raw * 100) / 100,
       currency: price.currency ?? "USD",
@@ -340,6 +423,30 @@ async function fetchStockData(companyName: string): Promise<StockData | undefine
       marketCap: price.marketCap?.raw ? Math.round(price.marketCap.raw / 1e6) : undefined,
       revenue: fin?.totalRevenue?.raw ? Math.round(fin.totalRevenue.raw / 1e6) : undefined,
     };
+  } catch {
+    return undefined;
+  }
+}
+
+async function fetchStockData(domain: string, companyName: string): Promise<StockData | undefined> {
+  // 1. Try direct known ticker first — fast and reliable
+  const knownTicker = KNOWN_TICKERS[domain];
+  if (knownTicker) {
+    const data = await fetchTickerData(knownTicker);
+    if (data) return data;
+  }
+
+  // 2. Fall back to search by company name
+  try {
+    const q = encodeURIComponent(companyName.replace(/[,.'"-]/g, "").trim());
+    const searchRes = await axios.get(
+      `https://query1.finance.yahoo.com/v1/finance/search?q=${q}&quotesCount=5&newsCount=0`,
+      { timeout: 6000, headers: YF_HEADERS },
+    );
+    const quotes: Array<{ symbol: string; quoteType: string }> = searchRes.data.quotes ?? [];
+    const equity = quotes.find(q => q.quoteType === "EQUITY");
+    if (!equity) return undefined;
+    return await fetchTickerData(equity.symbol);
   } catch {
     return undefined;
   }
@@ -473,11 +580,10 @@ export async function scrapeCompany(domain: string): Promise<CompanyData> {
   }
 
   // ── Wikipedia enrichment + stock data in parallel ──
-  // Map well-known domains whose homepage title doesn't match their company name
   const DOMAIN_TO_COMPANY: Record<string, string> = {
     "chatgpt.com": "OpenAI",
     "claude.ai": "Anthropic",
-    "gemini.google.com": "Google DeepMind",
+    "gemini.google.com": "Google",
     "bard.google.com": "Google",
     "copilot.microsoft.com": "Microsoft",
     "notion.so": "Notion",
@@ -485,6 +591,34 @@ export async function scrapeCompany(domain: string): Promise<CompanyData> {
     "linear.app": "Linear",
     "vercel.com": "Vercel",
     "x.com": "X Corp",
+    "oracle.com": "Oracle Corporation",
+    "salesforce.com": "Salesforce",
+    "servicenow.com": "ServiceNow",
+    "workday.com": "Workday",
+    "sap.com": "SAP",
+    "ibm.com": "IBM",
+    "cisco.com": "Cisco Systems",
+    "intel.com": "Intel",
+    "nvidia.com": "Nvidia",
+    "amd.com": "AMD",
+    "shopify.com": "Shopify",
+    "spotify.com": "Spotify",
+    "airbnb.com": "Airbnb",
+    "uber.com": "Uber",
+    "coinbase.com": "Coinbase",
+    "stripe.com": "Stripe",
+    "atlassian.com": "Atlassian",
+    "mongodb.com": "MongoDB",
+    "snowflake.com": "Snowflake",
+    "databricks.com": "Databricks",
+    "cloudflare.com": "Cloudflare",
+    "datadog.com": "Datadog",
+    "crowdstrike.com": "CrowdStrike",
+    "okta.com": "Okta",
+    "hubspot.com": "HubSpot",
+    "zendesk.com": "Zendesk",
+    "twilio.com": "Twilio",
+    "zoom.us": "Zoom Video Communications",
   };
   const companyName =
     DOMAIN_TO_COMPANY[normalizedDomain] ||
@@ -493,7 +627,7 @@ export async function scrapeCompany(domain: string): Promise<CompanyData> {
     normalizedDomain;
   const [wikiProfile, stockData] = await Promise.allSettled([
     fetchWikipediaProfile(companyName),
-    fetchStockData(companyName),
+    fetchStockData(normalizedDomain, companyName),
   ]);
 
   if (wikiProfile.status === "fulfilled") {
@@ -501,6 +635,8 @@ export async function scrapeCompany(domain: string): Promise<CompanyData> {
     if (!profile.headquarters  && w.headquarters)  profile.headquarters  = w.headquarters;
     if (!profile.employeeCount && w.employeeCount) profile.employeeCount = w.employeeCount;
     if (!profile.founded       && w.founded)       profile.founded       = w.founded;
+    if (!profile.founders      && w.founders)      profile.founders      = w.founders;
+    if (!profile.industry      && w.industry)      profile.industry      = w.industry;
   }
   if (stockData.status === "fulfilled" && stockData.value) {
     profile.stock = stockData.value;

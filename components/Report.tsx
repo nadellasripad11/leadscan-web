@@ -226,15 +226,21 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
 
   const infoRow1 = [
     { label: "Domain",       value: report.domain, mono: true },
-    { label: "Industry",     value: report.industry !== "Unknown" && report.industry ? report.industry : "—" },
+    { label: "Industry",     value: report.industry && report.industry !== "Unknown" ? report.industry : (p.industry ?? "—") },
     { label: "Company Size", value: sizeLabel() },
     { label: "Headquarters", value: p.headquarters ?? "—" },
   ];
   const infoRow2 = [
     { label: "Founded",     value: p.founded ?? "—" },
+    { label: "Founders",    value: p.founders ?? "—" },
     { label: "Revenue",     value: revenueLabel() },
     { label: "Stock Price", value: stockLabel(), color: stockColor() },
+  ];
+  const infoRow3 = [
     { label: "Hiring",      value: report.signals.isHiring ? "Yes — actively hiring" : "No open roles detected", color: report.signals.isHiring ? "#22c55e" : "#71717a" },
+    { label: "Pricing Page", value: report.signals.hasPricing ? "Yes" : "Not detected", color: report.signals.hasPricing ? "#22c55e" : "#71717a" },
+    { label: "API / Docs",  value: report.signals.hasAPIDoc ? "Yes" : "Not detected", color: report.signals.hasAPIDoc ? "#22c55e" : "#71717a" },
+    { label: "Funded",      value: report.signals.hasInvestors ? "Yes — investor-backed" : "—", color: report.signals.hasInvestors ? "#a78bfa" : "#71717a" },
   ];
 
   const allSocials = Object.entries(report.socialLinks).filter(([, v]) => !!v) as [string, string][];
@@ -292,9 +298,10 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
       {/* ── Company Intelligence (always shown) ── */}
       <Card delay={0.05}>
         <CardTitle>Company Intelligence</CardTitle>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <DataRow fields={infoRow1} />
           <DataRow fields={infoRow2} />
+          <DataRow fields={infoRow3} />
         </div>
 
         {/* Locations */}
