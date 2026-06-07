@@ -45,7 +45,7 @@ export default function Navbar({ active }: { active?: Page }) {
               width: 32, height: 32, borderRadius: 9,
               background: "linear-gradient(135deg, #1d4ed8 0%, #3b82f6 55%, #93c5fd 100%)",
               display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-              boxShadow: "0 2px 10px rgba(59,130,246,0.4), 0 0 0 1px rgba(147,197,253,0.15) inset",
+              boxShadow: "none",
             }}>
               {/* Radar signal mark — arcs emanating from bottom-left dot */}
               <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
@@ -95,7 +95,7 @@ export default function Navbar({ active }: { active?: Page }) {
               color: active === "scan" ? "#93c5fd" : "#fff",
               border: active === "scan" ? "1px solid rgba(59,130,246,0.3)" : "1px solid rgba(59,130,246,0.6)",
               flexShrink: 0,
-              boxShadow: active === "scan" ? "none" : "0 0 16px rgba(59,130,246,0.25)",
+              
             }}
           >
             {active === "scan" ? "Scanner" : "Open Scanner →"}
