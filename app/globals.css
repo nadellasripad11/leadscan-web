@@ -62,14 +62,9 @@ body {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-@keyframes floatOrb {
-  0%, 100% { transform: translate(0px,   0px)  scale(1);    }
-  33%       { transform: translate(40px, -30px) scale(1.05); }
-  66%       { transform: translate(-20px, 20px) scale(0.96); }
-}
 @keyframes float {
-  0%, 100% { transform: perspective(1400px) rotateX(4deg) translateY(0px); }
-  50%       { transform: perspective(1400px) rotateX(4deg) translateY(-8px); }
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
 }
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -159,48 +154,38 @@ body {
 .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 .nav-link.active { color: var(--text); font-weight: 600; }
 
-/* ─── Floating orbs ─── */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  animation: floatOrb 18s ease-in-out infinite;
-  pointer-events: none;
-  will-change: transform;
-}
+/* ─── (orb class removed — replaced with static radial gradients) ─── */
 
 /* ─── Feature cards ─── */
 .feature-card {
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 26px;
-  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  border-radius: 14px;
+  padding: 24px;
+  transition: border-color 0.2s, background 0.2s;
   cursor: default;
   overflow: hidden;
 }
 .feature-card:hover {
-  border-color: rgba(255,255,255,0.12);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.11);
+  background: #1c1c1f;
 }
 
 /* ─── Step cards ─── */
 .step-card {
   display: flex;
-  gap: 22px;
+  gap: 20px;
   align-items: flex-start;
-  padding: 26px 30px;
+  padding: 22px 26px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  transition: border-color 0.22s, box-shadow 0.22s, transform 0.22s;
+  border-radius: 12px;
+  transition: border-color 0.2s, background 0.2s;
 }
 .step-card:hover {
-  border-color: rgba(255,255,255,0.11);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.3);
-  transform: translateX(3px);
+  border-color: rgba(255,255,255,0.1);
+  background: #1c1c1f;
 }
 
 /* ─── Primary button ─── */
@@ -241,9 +226,7 @@ body {
 .marquee-track:hover { animation-play-state: paused; }
 
 /* ─── Product mockup ─── */
-.mockup-wrapper {
-  animation: float 8s ease-in-out infinite;
-}
+/* (float animation removed — mockup is now static) */
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 4px; }
