@@ -30,40 +30,34 @@ function isBlockedPage(html: string, status: number): boolean {
   return false;
 }
 
-// Try several URL variants — bare domain, www prefix, and common paths
+// Try URL variants in parallel — first non-blocked result wins
 async function fetchBestPage(domain: string): Promise<{ html: string; resolvedUrl: string }> {
-  const candidates = [
-    `https://${domain}`,
-    `https://www.${domain}`,
-    `http://${domain}`,
-    `http://www.${domain}`,
-  ];
-
-  // If domain already starts with www., skip adding it again
   const urls = domain.startsWith("www.")
     ? [`https://${domain}`, `http://${domain}`]
-    : candidates;
+    : [`https://${domain}`, `https://www.${domain}`];
 
-  for (const url of urls) {
-    try {
-      const res = await axios.get(url, {
-        timeout: 15000,
-        headers: BROWSER_HEADERS,
-        maxRedirects: 10,
-        // Accept any status — we'll inspect the body ourselves
-        validateStatus: (s) => s < 600,
-      });
+  const attempts = urls.map(url =>
+    axios.get(url, {
+      timeout: 8000,          // 8s per URL (parallel, so total wall time ≤ 8s)
+      headers: BROWSER_HEADERS,
+      maxRedirects: 10,
+      validateStatus: (s) => s < 600,
+    }).then(res => {
       const body = String(res.data || "");
-      if (!isBlockedPage(body, res.status) && body.length > 500) {
-        return { html: body, resolvedUrl: url };
+      if (isBlockedPage(body, res.status) || body.length <= 500) {
+        throw new Error("blocked_or_empty");
       }
-    } catch {
-      // Try next candidate
-    }
-  }
+      return { html: body, resolvedUrl: url };
+    })
+  );
 
-  // All attempts blocked or failed — return empty so we still get Wikipedia/stock data
-  return { html: "", resolvedUrl: `https://${domain}` };
+  try {
+    // Resolves as soon as any URL succeeds; throws AggregateError if all fail
+    return await Promise.any(attempts);
+  } catch {
+    // All attempts blocked or failed — still return empty so Wikipedia/stock data runs
+    return { html: "", resolvedUrl: `https://${domain}` };
+  }
 }
 
 const TECH_FINGERPRINTS: Record<keyof TechStack, Record<string, string[]>> = {
@@ -405,6 +399,33 @@ const YF_HEADERS = {
 };
 
 async function fetchTickerData(ticker: string): Promise<StockData | undefined> {
+  // ── Attempt 1: v8 chart endpoint (no crumb required, works from server IPs) ──
+  try {
+    const res = await axios.get(
+      `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d&includePrePost=false`,
+      {
+        timeout: 6000,
+        headers: {
+          ...YF_HEADERS,
+          "Accept": "application/json, */*",
+          "Origin": "https://finance.yahoo.com",
+        },
+      },
+    );
+    const meta = res.data?.chart?.result?.[0]?.meta;
+    if (meta?.regularMarketPrice) {
+      return {
+        ticker,
+        exchange: meta.fullExchangeName ?? meta.exchangeName,
+        price: Math.round(meta.regularMarketPrice * 100) / 100,
+        currency: meta.currency ?? "USD",
+        changePercent: Math.round((meta.regularMarketChangePercent ?? 0) * 10000) / 100,
+        marketCap: meta.marketCap ? Math.round(meta.marketCap / 1e6) : undefined,
+      };
+    }
+  } catch { /* fall through to v10 */ }
+
+  // ── Attempt 2: v10 quoteSummary (also returns revenue) ──
   try {
     const res = await axios.get(
       `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}?modules=price,financialData`,
@@ -565,6 +586,10 @@ export async function scrapeCompany(domain: string): Promise<CompanyData> {
   $("script, style, nav, footer, header").remove();
   const bodyText = $("body").text().replace(/\s+/g, " ").trim().slice(0, 5000);
 
+  // ── Detect tech + signals early (may be patched after Wikipedia enrichment) ──
+  const techStack = detectTechStack(html, scripts);
+  const signals = detectGrowthSignals(html, $, links);
+
   // ── Enrich profile from text if JSON-LD was sparse ──
   const profile: CompanyProfile = { ...jsonLdProfile };
 
@@ -642,14 +667,31 @@ export async function scrapeCompany(domain: string): Promise<CompanyData> {
     profile.stock = stockData.value;
   }
 
+  // ── Post-enrichment: patch signals with data we now have from Wikipedia ──
+  // Employee count lets us fix estimatedSize when the HTML was blocked/empty
+  if (signals.estimatedSize === "unknown" && profile.employeeCount) {
+    const n = parseInt(profile.employeeCount.replace(/[^0-9]/g, ""), 10);
+    if (!isNaN(n)) {
+      if      (n < 10)    signals.estimatedSize = "solo";
+      else if (n < 50)    signals.estimatedSize = "small";
+      else if (n < 500)   signals.estimatedSize = "mid";
+      else if (n < 5_000) signals.estimatedSize = "large";
+      else                signals.estimatedSize = "enterprise";
+    }
+  }
+  // Large companies are almost always actively hiring — mark them as such
+  if (!signals.isHiring && (signals.estimatedSize === "large" || signals.estimatedSize === "enterprise")) {
+    signals.isHiring = true;
+  }
+
   return {
     domain: normalizedDomain,
     url,
     title,
     description,
     bodyText,
-    techStack: detectTechStack(html, scripts),
-    signals: detectGrowthSignals(html, $, links),
+    techStack,
+    signals,
     metaTags,
     links: [...new Set(links)].slice(0, 50),
     emails: extractEmails(html),
