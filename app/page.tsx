@@ -1,100 +1,209 @@
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 import HeroSearch from "@/components/HeroSearch";
-import ScrollAnimator from "@/components/ScrollAnimator";
+
+const NAV = [
+  { label: "Features",     href: "#features" },
+  { label: "How it works", href: "#how-it-works" },
+  { label: "CLI",          href: "/docs#cli" },
+  { label: "Docs",         href: "/docs" },
+];
 
 export default function LandingPage() {
   const features = [
-    {
-      n: "01",
-      title: "Tech stack detection",
-      desc: "40+ technologies fingerprinted directly from HTML, scripts, and response headers. No paid data sources.",
-    },
-    {
-      n: "02",
-      title: "Growth signals",
-      desc: "Hiring activity, pricing page presence, API documentation, and funding data — pulled live from the domain.",
-    },
-    {
-      n: "03",
-      title: "Conviction score",
-      desc: "0–100 score weighted across tech modernity, growth signals, market presence, and contactability.",
-    },
-    {
-      n: "04",
-      title: "AI outreach",
-      desc: "Personalized cold email, LinkedIn message, and call opener written specifically for that company.",
-    },
+    { n: "01", title: "Tech stack detection",  desc: "40+ technologies fingerprinted directly from HTML, scripts, and response headers. No paid data sources." },
+    { n: "02", title: "Growth signals",         desc: "Hiring activity, pricing page presence, API documentation, and funding data — pulled live from the domain." },
+    { n: "03", title: "Conviction score",        desc: "0–100 score weighted across tech modernity, growth signals, market presence, and contactability." },
+    { n: "04", title: "AI outreach",             desc: "Personalized cold email, LinkedIn message, and call opener written specifically for that company." },
   ];
 
   return (
     <>
-      <Navbar />
-      <ScrollAnimator />
+      {/* ─── Full-viewport hero ─── */}
+      <section style={{
+        minHeight: "100svh",
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        background: [
+          "radial-gradient(ellipse 140% 100% at 68% 32%, #0c1c3d 0%, rgba(4,10,28,0.88) 42%, transparent 68%)",
+          "radial-gradient(ellipse 80% 110% at 8% 85%, rgba(6,13,38,0.45) 0%, transparent 58%)",
+          "#000",
+        ].join(","),
+      }}>
 
-      <main style={{ maxWidth: 1080, margin: "0 auto", padding: "0 32px" }}>
-
-        {/* Hero */}
-        <section style={{ padding: "110px 0 90px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-          <h1 style={{
-            fontSize: "clamp(48px,7.5vw,96px)",
-            fontWeight: 900,
-            lineHeight: 0.95,
-            letterSpacing: "-0.05em",
-            margin: "0 0 32px",
-            color: "#fafafa",
+        {/* Top bar */}
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "32px 40px 0",
+          flexShrink: 0,
+        }}>
+          <span style={{
+            fontSize: 12,
+            fontWeight: 600,
+            letterSpacing: "0.12em",
+            color: "rgba(255,255,255,0.3)",
+            textTransform: "uppercase",
           }}>
-            Company<br />
-            intelligence<br />
-            <em style={{ fontStyle: "italic", color: "#71717a" }}>in seconds.</em>
-          </h1>
+            LeadScan
+          </span>
 
+          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+            <Link href="/docs" style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", textDecoration: "none", letterSpacing: "0.02em" }}>
+              Docs
+            </Link>
+            <Link href="/scan" style={{
+              fontSize: 13,
+              color: "#fff",
+              border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: 99,
+              padding: "8px 22px",
+              textDecoration: "none",
+              letterSpacing: "0.02em",
+            }}>
+              Scan →
+            </Link>
+          </div>
+        </div>
+
+        {/* Middle: hero text + right nav */}
+        <div style={{ flex: 1, position: "relative", minHeight: 400 }}>
+
+          {/* Headline — lower left (matches Socle layout) */}
+          <div style={{
+            position: "absolute",
+            bottom: 80,
+            left: "max(40px, 5vw)",
+            maxWidth: "min(860px, 80vw)",
+          }}>
+            <h1 style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(52px, 9vw, 118px)",
+              fontWeight: 400,
+              lineHeight: 0.92,
+              letterSpacing: "-0.02em",
+              margin: "0 0 28px",
+              color: "#fff",
+            }}>
+              Company<br />
+              intelligence,<br />
+              <em style={{ fontStyle: "italic" }}>instant.</em>
+            </h1>
+
+            <p style={{
+              fontSize: 14,
+              color: "rgba(255,255,255,0.32)",
+              margin: 0,
+              lineHeight: 1.7,
+              letterSpacing: "0.03em",
+              maxWidth: 360,
+            }}>
+              Tech stack · Growth signals · Conviction score · AI outreach.
+            </p>
+          </div>
+
+          {/* Right-side vertical nav — desktop only */}
+          <nav className="hero-right-nav" style={{
+            position: "absolute",
+            right: 40,
+            top: "50%",
+            transform: "translateY(-50%)",
+            display: "flex",
+            flexDirection: "column",
+            gap: 22,
+            alignItems: "flex-end",
+          }}>
+            {NAV.map(({ label, href }, i) => (
+              <Link
+                key={label}
+                href={href}
+                style={{
+                  fontSize: 12,
+                  color: i === 0 ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.28)",
+                  textDecoration: "none",
+                  letterSpacing: "0.06em",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                }}
+              >
+                {label}
+                {i === 0 && (
+                  <span style={{
+                    width: 4,
+                    height: 4,
+                    borderRadius: "50%",
+                    background: "rgba(255,255,255,0.65)",
+                    flexShrink: 0,
+                  }} />
+                )}
+              </Link>
+            ))}
+          </nav>
+
+        </div>
+
+        {/* Bottom bar: Terms · Privacy */}
+        <div style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: "0 40px 28px",
+          flexShrink: 0,
+        }}>
+          <div style={{ display: "flex", gap: 24 }}>
+            <Link href="/terms"   style={{ fontSize: 11, color: "rgba(255,255,255,0.18)", textDecoration: "none", letterSpacing: "0.06em" }}>Terms</Link>
+            <Link href="/privacy" style={{ fontSize: 11, color: "rgba(255,255,255,0.18)", textDecoration: "none", letterSpacing: "0.06em" }}>Privacy</Link>
+          </div>
+        </div>
+
+      </section>
+
+      {/* ─── Below fold ─── */}
+      <main style={{ background: "#000" }}>
+
+        {/* Scan input */}
+        <section style={{
+          maxWidth: 1080,
+          margin: "0 auto",
+          padding: "96px 40px",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+        }}>
           <p style={{
-            fontSize: 18,
-            color: "#52525b",
-            lineHeight: 1.7,
-            margin: "0 0 52px",
-            maxWidth: 420,
+            fontSize: 11,
+            fontWeight: 600,
+            letterSpacing: "0.12em",
+            color: "rgba(255,255,255,0.2)",
+            textTransform: "uppercase",
+            margin: "0 0 28px",
           }}>
-            Scan any domain. Get tech stack, growth signals, conviction score, and AI outreach — free, no account needed.
+            Try it now
           </p>
-
           <HeroSearch />
-
-          <p style={{ marginTop: 20, fontSize: 13, color: "#3f3f46" }}>
-            Try:&nbsp;
-            <a href="/r/stripe.com" style={{ color: "#52525b", textDecoration: "none" }}>stripe.com</a>
-            {" · "}
-            <a href="/r/linear.app" style={{ color: "#52525b", textDecoration: "none" }}>linear.app</a>
-            {" · "}
-            <a href="/r/vercel.com" style={{ color: "#52525b", textDecoration: "none" }}>vercel.com</a>
+          <p style={{ marginTop: 16, fontSize: 12, color: "rgba(255,255,255,0.18)", letterSpacing: "0.04em" }}>
+            Free · No account · Results in under 5 seconds
           </p>
-        </section>
-
-        {/* Numbers */}
-        <section style={{ padding: "56px 0", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", gap: 64, flexWrap: "wrap" }}>
-          {[
-            { n: "40+",   label: "technologies detected" },
-            { n: "<5s",   label: "average scan time" },
-            { n: "0–100", label: "conviction score" },
-            { n: "Free",  label: "no account required" },
-          ].map(({ n, label }) => (
-            <div key={n}>
-              <p style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.04em", margin: "0 0 4px", color: "#fafafa" }}>{n}</p>
-              <p style={{ fontSize: 13, color: "#3f3f46", margin: 0 }}>{label}</p>
-            </div>
-          ))}
         </section>
 
         {/* Features */}
-        <section style={{ padding: "96px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <section
+          id="features"
+          style={{
+            maxWidth: 1080,
+            margin: "0 auto",
+            padding: "96px 40px",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
+          }}
+        >
           <h2 style={{
-            fontSize: "clamp(28px,4vw,48px)",
-            fontWeight: 800,
-            letterSpacing: "-0.04em",
-            margin: "0 0 72px",
-            lineHeight: 1.05,
-            color: "#fafafa",
+            fontFamily: "var(--font-serif)",
+            fontSize: "clamp(32px, 4.5vw, 60px)",
+            fontWeight: 400,
+            letterSpacing: "-0.025em",
+            margin: "0 0 80px",
+            lineHeight: 0.95,
+            color: "#fff",
+            fontStyle: "italic",
           }}>
             One URL.<br />A full picture.
           </h2>
@@ -105,45 +214,96 @@ export default function LandingPage() {
                 key={n}
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "64px 1fr 1fr",
+                  gridTemplateColumns: "56px 1fr 1fr",
                   gap: "0 48px",
                   alignItems: "start",
                   padding: "36px 0",
                   borderTop: i === 0 ? "1px solid rgba(255,255,255,0.06)" : "none",
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
                 }}
+                className="feature-row"
               >
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#3f3f46", fontFamily: "monospace", paddingTop: 3 }}>{n}</span>
-                <p style={{ fontSize: 16, fontWeight: 700, color: "#e4e4e7", margin: 0, letterSpacing: "-0.02em" }}>{title}</p>
-                <p style={{ fontSize: 14, color: "#52525b", margin: 0, lineHeight: 1.75 }}>{desc}</p>
+                <span style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: "rgba(255,255,255,0.2)",
+                  fontFamily: "monospace",
+                  paddingTop: 2,
+                  letterSpacing: "0.04em",
+                }}>
+                  {n}
+                </span>
+                <p style={{
+                  fontSize: 15,
+                  fontWeight: 600,
+                  color: "rgba(255,255,255,0.85)",
+                  margin: 0,
+                  letterSpacing: "-0.01em",
+                }}>
+                  {title}
+                </p>
+                <p style={{
+                  fontSize: 13,
+                  color: "rgba(255,255,255,0.3)",
+                  margin: 0,
+                  lineHeight: 1.8,
+                  letterSpacing: "0.01em",
+                }}>
+                  {desc}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
         {/* How it works */}
-        <section style={{ padding: "96px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 96px", alignItems: "start" }} className="grid-cli">
-
+        <section
+          id="how-it-works"
+          style={{
+            maxWidth: 1080,
+            margin: "0 auto",
+            padding: "96px 40px",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
+          }}
+        >
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "0 96px",
+            alignItems: "start",
+          }}
+            className="grid-cli"
+          >
             <div>
-              <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", color: "#3f3f46", textTransform: "uppercase", margin: "0 0 20px" }}>How it works</p>
+              <p style={{
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: "0.12em",
+                color: "rgba(255,255,255,0.2)",
+                textTransform: "uppercase",
+                margin: "0 0 20px",
+              }}>
+                How it works
+              </p>
               <h2 style={{
-                fontSize: "clamp(26px,3.5vw,42px)",
-                fontWeight: 800,
-                letterSpacing: "-0.04em",
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(28px, 3.5vw, 48px)",
+                fontWeight: 400,
+                letterSpacing: "-0.025em",
                 margin: 0,
-                lineHeight: 1.1,
-                color: "#fafafa",
+                lineHeight: 1.05,
+                color: "#fff",
+                fontStyle: "italic",
               }}>
                 Paste a domain.<br />Get a full report.
               </h2>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", paddingTop: 4 }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               {[
-                { n: "01", title: "Enter any domain", desc: "No account, no API key, no setup. Type stripe.com and press enter." },
-                { n: "02", title: "Real-time scan",   desc: "Tech fingerprinting, signal detection, company enrichment, AI analysis — all in parallel." },
-                { n: "03", title: "Get your report",  desc: "Score, tech stack, signals, company profile, and AI-written outreach — ready in under 5 seconds." },
+                { n: "01", title: "Enter any domain",  desc: "No account, no API key, no setup. Type stripe.com and press enter." },
+                { n: "02", title: "Real-time scan",    desc: "Tech fingerprinting, signal detection, company enrichment, AI analysis — all in parallel." },
+                { n: "03", title: "Get your report",   desc: "Score, tech stack, signals, profile, and AI-written outreach — ready in under 5 seconds." },
               ].map(({ n, title, desc }, i, arr) => (
                 <div
                   key={n}
@@ -155,74 +315,115 @@ export default function LandingPage() {
                     borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
                   }}
                 >
-                  <span style={{ fontSize: 11, fontWeight: 700, color: "#3f3f46", fontFamily: "monospace", flexShrink: 0, marginTop: 3 }}>{n}</span>
+                  <span style={{
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: "rgba(255,255,255,0.2)",
+                    fontFamily: "monospace",
+                    flexShrink: 0,
+                    marginTop: 2,
+                    letterSpacing: "0.04em",
+                  }}>
+                    {n}
+                  </span>
                   <div>
-                    <p style={{ fontSize: 14, fontWeight: 700, margin: "0 0 6px", color: "#e4e4e7", letterSpacing: "-0.01em" }}>{title}</p>
-                    <p style={{ fontSize: 13, color: "#52525b", margin: 0, lineHeight: 1.7 }}>{desc}</p>
+                    <p style={{ fontSize: 14, fontWeight: 600, margin: "0 0 6px", color: "rgba(255,255,255,0.75)", letterSpacing: "-0.01em" }}>{title}</p>
+                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", margin: 0, lineHeight: 1.75, letterSpacing: "0.01em" }}>{desc}</p>
                   </div>
                 </div>
               ))}
             </div>
-
           </div>
         </section>
 
-        {/* CLI strip */}
-        <section style={{ padding: "44px 0", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+        {/* CLI */}
+        <section style={{
+          maxWidth: 1080,
+          margin: "0 auto",
+          padding: "44px 40px",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 24,
+          flexWrap: "wrap",
+        }}>
           <div>
-            <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", color: "#3f3f46", textTransform: "uppercase", margin: "0 0 8px" }}>Also a CLI</p>
-            <code style={{ fontSize: 14, color: "#3b82f6", fontFamily: "'SF Mono','Fira Code',monospace" }}>
+            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", margin: "0 0 10px" }}>Also a CLI</p>
+            <code style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", fontFamily: "'SF Mono','Fira Code',monospace", letterSpacing: "0.02em" }}>
               npx leadscan analyze stripe.com
             </code>
           </div>
           <div style={{ display: "flex", gap: 28 }}>
-            <a href="https://npmjs.com/package/leadscan" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "#3f3f46", textDecoration: "none" }}>npm ↗</a>
-            <a href="https://github.com/nadellasripad11/leadscan" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "#3f3f46", textDecoration: "none" }}>GitHub ↗</a>
-            <a href="/docs" style={{ fontSize: 13, color: "#3f3f46", textDecoration: "none" }}>Docs ↗</a>
+            {[
+              { label: "npm",    href: "https://npmjs.com/package/leadscan" },
+              { label: "GitHub", href: "https://github.com/nadellasripad11/leadscan" },
+              { label: "Docs",   href: "/docs" },
+            ].map(({ label, href }) => (
+              <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
+                style={{ fontSize: 13, color: "rgba(255,255,255,0.25)", textDecoration: "none", letterSpacing: "0.04em" }}>
+                {label} ↗
+              </a>
+            ))}
           </div>
         </section>
 
         {/* CTA */}
-        <section style={{ padding: "120px 0 100px" }}>
+        <section style={{ maxWidth: 1080, margin: "0 auto", padding: "120px 40px 100px" }}>
           <h2 style={{
-            fontSize: "clamp(36px,5.5vw,72px)",
-            fontWeight: 900,
-            letterSpacing: "-0.05em",
+            fontFamily: "var(--font-serif)",
+            fontSize: "clamp(40px, 6vw, 80px)",
+            fontWeight: 400,
+            letterSpacing: "-0.03em",
             margin: "0 0 20px",
-            lineHeight: 0.97,
-            color: "#fafafa",
+            lineHeight: 0.95,
+            color: "#fff",
           }}>
             Start scanning<br />
-            <em style={{ fontStyle: "italic", color: "#71717a" }}>for free.</em>
+            <em style={{ fontStyle: "italic", color: "rgba(255,255,255,0.4)" }}>for free.</em>
           </h2>
-          <p style={{ fontSize: 15, color: "#3f3f46", margin: "0 0 40px" }}>No account. No credit card. Just a domain.</p>
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.2)", margin: "0 0 44px", letterSpacing: "0.04em" }}>
+            No account. No credit card. Just a domain.
+          </p>
           <Link
             href="/scan"
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 8,
-              padding: "13px 28px",
-              borderRadius: 8,
-              background: "#3b82f6",
+              padding: "12px 28px",
+              borderRadius: 99,
+              border: "1px solid rgba(255,255,255,0.2)",
               color: "#fff",
-              fontSize: 14,
-              fontWeight: 600,
+              fontSize: 13,
+              fontWeight: 500,
               textDecoration: "none",
-              letterSpacing: "-0.01em",
+              letterSpacing: "0.04em",
             }}
           >
-            Open the scanner →
+            Open scanner →
           </Link>
         </section>
 
       </main>
 
       {/* Footer */}
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "32px" }}>
-        <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-          <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: "-0.02em", color: "#fafafa" }}>LeadScan</span>
-          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+      <footer style={{
+        background: "#000",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        padding: "28px 40px",
+      }}>
+        <div style={{
+          maxWidth: 1080,
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 16,
+        }}>
+          <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>LeadScan</span>
+          <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
             {[
               { label: "Scanner",  href: "/scan" },
               { label: "Docs",     href: "/docs" },
@@ -236,13 +437,13 @@ export default function LandingPage() {
                 href={href}
                 target={href.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                style={{ fontSize: 13, color: "#3f3f46", textDecoration: "none" }}
+                style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", textDecoration: "none", letterSpacing: "0.04em" }}
               >
                 {label}
               </a>
             ))}
           </div>
-          <p style={{ fontSize: 12, color: "#27272a", margin: 0 }}>© 2025 Sripad Nadella</p>
+          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.1)", margin: 0, letterSpacing: "0.04em" }}>© 2025 Sripad Nadella</p>
         </div>
       </footer>
     </>
