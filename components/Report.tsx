@@ -33,11 +33,11 @@ function InfoPill({ label, value }: { label: string; value: string }) {
 
 function DataRow({ fields }: { fields: { label: string; value: string; color?: string; mono?: boolean }[] }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: 10 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(130px, 100%), 1fr))", gap: 10 }}>
       {fields.map(({ label, value, color, mono }) => (
-        <div key={label} style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, padding: "11px 14px" }}>
-          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.09em", color: "#52525b", textTransform: "uppercase", margin: "0 0 5px" }}>{label}</p>
-          <p style={{ fontSize: 13, fontWeight: 600, color: color ?? "#e4e4e7", margin: 0, fontFamily: mono ? "'SF Mono','Fira Code',monospace" : undefined }}>{value}</p>
+        <div key={label} style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, padding: "11px 14px", overflow: "hidden", minWidth: 0 }}>
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.09em", color: "#52525b", textTransform: "uppercase", margin: "0 0 5px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{label}</p>
+          <p style={{ fontSize: 13, fontWeight: 600, color: color ?? "#e4e4e7", margin: 0, fontFamily: mono ? "'SF Mono','Fira Code',monospace" : undefined, overflowWrap: "break-word", wordBreak: "break-word" }}>{value}</p>
         </div>
       ))}
     </div>
@@ -237,10 +237,10 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
     { label: "Stock Price", value: stockLabel(), color: stockColor() },
   ];
   const infoRow3 = [
-    { label: "Hiring",      value: report.signals.isHiring ? "Yes — actively hiring" : "No open roles detected", color: report.signals.isHiring ? "#22c55e" : "#71717a" },
+    { label: "Hiring",      value: report.signals.isHiring ? "Yes" : "None detected", color: report.signals.isHiring ? "#22c55e" : "#71717a" },
     { label: "Pricing Page", value: report.signals.hasPricing ? "Yes" : "Not detected", color: report.signals.hasPricing ? "#22c55e" : "#71717a" },
     { label: "API / Docs",  value: report.signals.hasAPIDoc ? "Yes" : "Not detected", color: report.signals.hasAPIDoc ? "#22c55e" : "#71717a" },
-    { label: "Funded",      value: report.signals.hasInvestors ? "Yes — investor-backed" : "—", color: report.signals.hasInvestors ? "#a78bfa" : "#71717a" },
+    { label: "Funded",      value: report.signals.hasInvestors ? "Investor-backed" : "—", color: report.signals.hasInvestors ? "#a78bfa" : "#71717a" },
   ];
 
   const allSocials = Object.entries(report.socialLinks).filter(([, v]) => !!v) as [string, string][];

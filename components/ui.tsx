@@ -12,12 +12,12 @@ export function ScoreBar({ label, value, delay = 0 }: { label: string; value: nu
   useEffect(() => { const t = setTimeout(() => setWidth(value), 100 + delay); return () => clearTimeout(t); }, [value, delay]);
   const color = scoreColor(value);
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13 }}>
-      <span style={{ color: "#71717a", width: 120, flexShrink: 0, fontSize: 12 }}>{label}</span>
-      <div style={{ flex: 1, height: 5, background: "rgba(255,255,255,0.06)", borderRadius: 99, overflow: "hidden" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, minWidth: 0 }}>
+      <span style={{ color: "#71717a", minWidth: 90, width: 110, flexShrink: 1, fontSize: 12, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{label}</span>
+      <div style={{ flex: 1, minWidth: 20, height: 5, background: "rgba(255,255,255,0.06)", borderRadius: 99, overflow: "hidden" }}>
         <div style={{ height: "100%", width: `${width}%`, background: color, borderRadius: 99, transition: "width 0.9s cubic-bezier(0.16,1,0.3,1)", opacity: 0.9 }} />
       </div>
-      <span style={{ color, fontWeight: 700, width: 28, textAlign: "right" }}>{value}</span>
+      <span style={{ color, fontWeight: 700, width: 26, textAlign: "right", flexShrink: 0, fontSize: 12 }}>{value}</span>
     </div>
   );
 }
@@ -82,6 +82,8 @@ export function Card({ children, style = {}, delay = 0 }: { children: React.Reac
       border: "1px solid rgba(255,255,255,0.07)",
       borderRadius: 16,
       padding: 24,
+      minWidth: 0,
+      overflow: "hidden",
       animationDelay: `${delay}s`,
       ...style,
     }}>
