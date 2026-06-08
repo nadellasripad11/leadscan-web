@@ -1,8 +1,28 @@
+<div align="center">
+
 # LeadScan
 
-Turn any domain into company intelligence in 5 seconds. Tech stack, growth signals, conviction score, and AI-written outreach — free, no account required.
+**Company intelligence in seconds — free, no account required.**
 
-**Live site:** [leadscan.app](https://leadscan-web.vercel.app)
+[![Live Site](https://img.shields.io/badge/🌐_Try_it_live-leadscan--web.vercel.app-7c3aed?style=for-the-badge)](https://leadscan-web.vercel.app)
+&nbsp;
+[![npm](https://img.shields.io/npm/v/leadscan?style=for-the-badge&color=3b82f6&label=npm)](https://www.npmjs.com/package/leadscan)
+&nbsp;
+[![License: MIT](https://img.shields.io/badge/license-MIT-22c55e?style=for-the-badge)](LICENSE)
+
+</div>
+
+---
+
+## 🌐 Website — the fastest way to start
+
+**→ [leadscan-web.vercel.app/scan](https://leadscan-web.vercel.app/scan)**
+
+Open it, paste a domain, press enter. Full report in under 5 seconds. Nothing to install.
+
+![LeadScan screenshot](https://raw.githubusercontent.com/nadellasripad11/leadscan-web/main/public/og.svg)
+
+> **Try it now:** [stripe.com](https://leadscan-web.vercel.app/r/stripe.com) · [linear.app](https://leadscan-web.vercel.app/r/linear.app) · [vercel.com](https://leadscan-web.vercel.app/r/vercel.com) · [notion.so](https://leadscan-web.vercel.app/r/notion.so)
 
 ---
 
@@ -19,87 +39,14 @@ Turn any domain into company intelligence in 5 seconds. Tech stack, growth signa
 
 ---
 
-## Using the website
+## CLI — for scripts and automation
 
-### 1. Open the scanner
-
-Go to **[leadscan.app/scan](https://leadscan-web.vercel.app/scan)** — no login, no account needed.
-
-### 2. Enter a domain
-
-Type or paste any company domain into the search bar. LeadScan handles the rest — strips `https://`, `www.`, and trailing slashes automatically.
-
-```
-stripe.com
-https://www.notion.so/
-linear.app
-```
-
-### 3. Read the report
-
-Your full report appears in ~5 seconds:
-
-- **Conviction Score** — the overall 0–100 lead quality number
-- **Score Breakdown** — tech modernity, growth signals, market presence, contactability
-- **Company Intelligence** — HQ, employees, founded, revenue, stock price, hiring status
-- **Tech Stack** — everything detected from the frontend, backend, analytics, payments, and infra
-- **Growth Signals** — hiring, blog, pricing page, API docs, changelog, investor backing
-- **Contacts & Social** — emails found on the site, LinkedIn, Twitter, GitHub, Crunchbase
-
-### 4. Generate AI outreach
-
-Scroll to the **Generate Outreach** card at the bottom of the report. Enter:
-
-- **Role you're targeting** — e.g. "Head of Engineering", "VP of Sales"
-- **What you're selling** — e.g. "observability tool", "recruitment software"
-
-LeadScan writes three pieces of outreach specific to that company:
-- A cold email with subject line
-- A LinkedIn connection message (under 280 chars)
-- A 15-second phone call opener
-
-### 5. Export or share
-
-- **Export CSV** — downloads a spreadsheet with every field from the report
-- **Share** — copies a permanent link like `leadscan.app/r/stripe.com`
-
-### Batch mode
-
-Paste up to 20 domains at once into the **Batch** tab. All are scanned and ranked by conviction score — useful for prioritizing a prospecting list.
-
-### Compare mode
-
-Use the **Compare** tab to do a head-to-head analysis of two companies across every scoring dimension.
-
----
-
-## Using the CLI
-
-The `leadscan` CLI is published on npm. Run it instantly with `npx`, or install globally.
-
-### Quick start
+If you prefer the terminal or want to pipe results into a CRM/script:
 
 ```bash
 npx leadscan analyze stripe.com
 ```
 
-### Install globally
-
-```bash
-npm install -g leadscan
-# then use without npx:
-leadscan analyze stripe.com
-```
-
-### Commands
-
-#### `analyze` — full company report
-
-```bash
-npx leadscan analyze stripe.com
-```
-
-Output:
 ```
 ✓  stripe.com — Conviction: 78/100
 
@@ -108,11 +55,16 @@ Output:
    Employees: 8,000+              Size: enterprise
    Signals:   ✓ Hiring  ✓ Blog  ✓ Pricing  ✓ API Docs
    Email:     support@stripe.com
-   LinkedIn:  linkedin.com/company/stripe
-   Twitter:   twitter.com/stripe
 ```
 
-#### `outreach` — AI-generated sales copy
+### Install globally
+
+```bash
+npm install -g leadscan
+leadscan analyze stripe.com
+```
+
+### Generate AI outreach
 
 ```bash
 npx leadscan outreach stripe.com \
@@ -120,164 +72,72 @@ npx leadscan outreach stripe.com \
   --product "observability tool"
 ```
 
-Generates a cold email, LinkedIn message, and call opener tailored to that company.
+> Requires `GROQ_API_KEY`. Get one free at [console.groq.com](https://console.groq.com).
 
-> Requires `GROQ_API_KEY` environment variable. Get one free at [console.groq.com](https://console.groq.com).
-
-```bash
-GROQ_API_KEY=gsk_... npx leadscan outreach stripe.com \
-  --role "Head of Engineering" \
-  --product "observability tool"
-```
-
-#### `batch` — scan multiple domains
-
-Create a text file with one domain per line:
-
-```
-# domains.txt
-stripe.com
-linear.app
-vercel.com
-notion.so
-figma.com
-```
-
-Then run:
+### Batch scan
 
 ```bash
 npx leadscan batch domains.txt
 ```
-
-Results are printed ranked by conviction score:
 
 ```
   1.  stripe.com      78/100  ████████░░
   2.  vercel.com      74/100  ███████░░░
   3.  linear.app      71/100  ███████░░░
   4.  notion.so       65/100  ██████░░░░
-  5.  figma.com       60/100  ██████░░░░
 ```
 
-#### JSON output
-
-Add `--json` to any command to get machine-readable output:
+### JSON output
 
 ```bash
-# Print JSON to stdout
-npx leadscan analyze stripe.com --json
-
-# Save to file
-npx leadscan analyze stripe.com --json > stripe.json
-
-# Pipe into jq
 npx leadscan analyze stripe.com --json | jq '.convictionScore'
 # → 78
-
-# Extract tech stack
-npx leadscan analyze stripe.com --json | jq '.techStack.frontend'
-# → ["React", "Next.js"]
 ```
+
+---
+
+## Web features
+
+The website has a few extras over the CLI:
+
+- **Batch tab** — paste up to 20 domains, all ranked by conviction score
+- **Compare tab** — head-to-head analysis of two companies
+- **AI Outreach modal** — generate cold email, LinkedIn note, and call opener in one click
+- **Shareable links** — every scan gets a permanent URL like `/r/stripe.com`
+- **CSV export** — download the full report as a spreadsheet
 
 ---
 
 ## API
 
-The web app exposes two JSON endpoints. No auth required.
+No auth. Hit the endpoints directly if you want to build on top of LeadScan.
 
 ### `POST /api/analyze`
 
-Scrape and score a company domain.
-
-**Request:**
-```json
-{
-  "domain": "stripe.com",
-  "ai": true
-}
+```bash
+curl -X POST https://leadscan-web.vercel.app/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"domain": "stripe.com"}'
 ```
-
-`ai: true` enables the AI summary (requires `GROQ_API_KEY` on the server).
 
 **Response:**
 ```json
 {
   "domain": "stripe.com",
   "convictionScore": 78,
-  "summary": "Stripe builds financial infrastructure for the internet...",
-  "industry": "FinTech",
-  "scoreBreakdown": {
-    "techModernity": 85,
-    "growthSignals": 80,
-    "marketPresence": 72,
-    "contactability": 60
-  },
-  "techStack": {
-    "frontend": ["React", "Next.js"],
-    "backend": [],
-    "analytics": ["Amplitude"],
-    "infrastructure": ["AWS", "Cloudflare"],
-    "payments": ["Stripe"],
-    "other": []
-  },
-  "signals": {
-    "isHiring": true,
-    "hasPricing": true,
-    "hasAPIDoc": true,
-    "hasBlog": true,
-    "hasChangelog": false,
-    "hasInvestors": false,
-    "estimatedSize": "enterprise"
-  },
-  "emails": ["support@stripe.com"],
-  "socialLinks": {
-    "linkedin": "https://linkedin.com/company/stripe",
-    "twitter": "https://twitter.com/stripe",
-    "github": "https://github.com/stripe"
-  },
-  "profile": {
-    "headquarters": "San Francisco, CA",
-    "employeeCount": "8,000+",
-    "founded": "2010"
-  }
+  "techStack": { "frontend": ["React", "Next.js"], "infrastructure": ["AWS"] },
+  "signals": { "isHiring": true, "hasPricing": true, "hasAPIDoc": true },
+  "profile": { "headquarters": "San Francisco, CA", "employeeCount": "8,000+" }
 }
 ```
 
 ### `POST /api/outreach`
 
-Generate AI outreach for a company.
-
-**Request:**
-```json
-{
-  "domain": "stripe.com",
-  "role": "Head of Engineering",
-  "product": "observability tool"
-}
+```bash
+curl -X POST https://leadscan-web.vercel.app/api/outreach \
+  -H "Content-Type: application/json" \
+  -d '{"domain": "stripe.com", "role": "Head of Engineering", "product": "observability tool"}'
 ```
-
-**Response:**
-```json
-{
-  "domain": "stripe.com",
-  "role": "Head of Engineering",
-  "product": "observability tool",
-  "email": {
-    "subject": "Quick question about Stripe's infrastructure",
-    "body": "..."
-  },
-  "linkedin": "Hi — I came across Stripe's engineering blog...",
-  "callOpener": "Hi, I'm calling because Stripe is scaling fast..."
-}
-```
-
----
-
-## Environment variables
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GROQ_API_KEY` | Optional | Enables AI summaries and outreach generation. Get one free at [console.groq.com](https://console.groq.com). Without it, the scanner still works — AI features return template-based output. |
 
 ---
 
@@ -287,17 +147,21 @@ Generate AI outreach for a company.
 git clone https://github.com/nadellasripad11/leadscan-web
 cd leadscan-web
 npm install
-
-# Optional: add your Groq key for AI features
 echo "GROQ_API_KEY=gsk_..." > .env.local
-
 npm run dev
-# → http://localhost:3000
 ```
 
-Deploy to Vercel in one click:
+One-click Vercel deploy:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/nadellasripad11/leadscan-web)
+
+---
+
+## Environment variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GROQ_API_KEY` | Optional | AI summaries and outreach. Free at [console.groq.com](https://console.groq.com). Without it, AI features use templates. |
 
 ---
 
@@ -310,4 +174,10 @@ Deploy to Vercel in one click:
 
 ---
 
+<div align="center">
+
 Built by [Sripad Nadella](https://github.com/nadellasripad11)
+
+**If LeadScan saves you time, a ⭐ on this repo means a lot.**
+
+</div>
