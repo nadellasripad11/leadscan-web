@@ -139,10 +139,13 @@ export default function LandingPage() {
                 key={label}
                 href={href}
                 style={{
-                  fontSize: 12,
-                  color: i === 0 ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.28)",
+                  fontFamily: "var(--font-serif)",
+                  fontSize: 15,
+                  fontStyle: "italic",
+                  fontWeight: 400,
+                  color: i === 0 ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.3)",
                   textDecoration: "none",
-                  letterSpacing: "0.06em",
+                  letterSpacing: "0.01em",
                   display: "flex",
                   alignItems: "center",
                   gap: 10,
