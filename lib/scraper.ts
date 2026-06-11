@@ -363,15 +363,69 @@ function extractPhones(html: string): string[] {
 // ─── Wikipedia profile enrichment ────────────────────────────────────────────
 
 function cleanWikiField(raw: string): string {
-  return raw
-    .replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, "$1")
-    .replace(/\{\{[^}]*\}\}/g, "")
-    .replace(/<[^>]+>/g, "")
-    .replace(/[']{2,3}/g, "")
-    .replace(/<!--[^>]*-->/g, "")
-    .replace(/\*\s*/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+  let s = raw;
+
+  // Expand list templates before stripping
+  // {{Unbulleted list|a|b|c}} / {{ubl|a|b|c}} → "a, b, c"
+  s = s.replace(/\{\{(?:[Uu]nbulleted\s*[Ll]ist|[Uu]bl)((?:\|[^|}]+)+)\}\}/g,
+    (_, items: string) => items.split("|").map((i) => i.trim()).filter(Boolean).join(", "));
+  // {{hlist|a|b|c}} → "a, b, c"
+  s = s.replace(/\{\{[Hh]list((?:\|[^|}]+)+)\}\}/g,
+    (_, items: string) => items.split("|").map((i) => i.trim()).filter(Boolean).join(", "));
+  // {{nowrap|text}} → text
+  s = s.replace(/\{\{[Nn]owrap\|([^}|]+)\}\}/g, "$1");
+  // {{lang|code|text}} → text
+  s = s.replace(/\{\{[Ll]ang[|-][^|]+\|([^}]+)\}\}/g, "$1");
+  // {{as of|year|...}} → year
+  s = s.replace(/\{\{[Aa]s[_ ]of\|(\d{4})[^}]*\}\}/g, "as of $1");
+  // {{plainlist|* a\n* b}} → "a, b"
+  s = s.replace(/\{\{[Pp]lainlist\s*\|([^}]*)\}\}/g,
+    (_, content: string) => content.split(/[\n*]+/).map((i) => i.trim()).filter(Boolean).join(", "));
+
+  // Strip remaining {{templates}} iteratively (handles nested)
+  let prev = "";
+  while (prev !== s) { prev = s; s = s.replace(/\{\{[^{}]*\}\}/g, ""); }
+
+  // [[Link|text]] → text, [[Link]] → Link
+  s = s.replace(/\[\[(?:[^\]|]+\|)?([^\]]+)\]\]/g, "$1");
+
+  s = s.replace(/<[^>]+>/g, "")      // HTML tags
+       .replace(/[']{2,3}/g, "")      // wiki bold/italic
+       .replace(/<!--[^>]*-->/g, "")  // HTML comments
+       .replace(/\*\s*/g, "")         // list bullets
+       .replace(/\s+/g, " ")
+       .replace(/[,;]+$/, "")
+       .trim();
+  return s;
+}
+
+// Reads a wiki infobox field value, respecting {{ }} depth so pipes inside
+// templates don't terminate the capture early (fixes {{Unbulleted list|a|b}})
+function extractWikiFieldRaw(wikitext: string, fieldNames: string[]): string {
+  for (const field of fieldNames) {
+    const re = new RegExp(`\\|\\s*${field}\\s*=\\s*`, "i");
+    const match = re.exec(wikitext);
+    if (!match) continue;
+
+    const startIdx = match.index + match[0].length;
+    let depth = 0;
+    let i = startIdx;
+
+    while (i < Math.min(startIdx + 800, wikitext.length)) {
+      if (wikitext[i] === "{" && wikitext[i + 1] === "{") { depth++; i += 2; continue; }
+      if (wikitext[i] === "}" && wikitext[i + 1] === "}") {
+        if (depth === 0) break;
+        depth--; i += 2; continue;
+      }
+      if (depth === 0 && wikitext[i] === "\n") break;
+      if (depth === 0 && wikitext[i] === "|" && i > startIdx) break;
+      i++;
+    }
+
+    const raw = wikitext.slice(startIdx, i).trim();
+    if (raw) return raw;
+  }
+  return "";
 }
 
 async function fetchWikipediaProfile(companyName: string): Promise<Partial<CompanyProfile>> {
@@ -400,36 +454,45 @@ async function fetchWikipediaProfile(companyName: string): Promise<Partial<Compa
 
     const profile: Partial<CompanyProfile> = {};
 
-    const foundedM = wikitext.match(/\|\s*(?:foundation|founded|formation)\s*=[^|]*?(\d{4})/i);
-    if (foundedM) profile.founded = foundedM[1];
+    // Founded — search for 4-digit year in the field value
+    const foundedRaw = extractWikiFieldRaw(wikitext, ["foundation", "founded", "formation", "founding_date"]);
+    const foundedYear = foundedRaw.match(/(\d{4})/);
+    if (foundedYear) profile.founded = foundedYear[1];
 
-    const hqM = wikitext.match(/\|\s*(?:headquarters|location|hq_location_city|hq_location)\s*=([^\n|]{3,150})/i);
-    if (hqM) {
-      const hq = cleanWikiField(hqM[1]).split("\n")[0].trim();
-      if (hq.length > 2 && hq.length < 80) profile.headquarters = hq;
+    // Headquarters
+    const hqRaw = extractWikiFieldRaw(wikitext, ["headquarters", "location", "hq_location_city", "hq_location", "hq_city"]);
+    if (hqRaw) {
+      const hq = cleanWikiField(hqRaw).split("\n")[0].trim();
+      if (hq.length > 2 && hq.length < 100) profile.headquarters = hq;
     }
 
-    const empM = wikitext.match(/\|\s*(?:num_employees|employees|num_staff|staff)\s*=([^\n|]{1,100})/i);
-    if (empM) {
-      const raw = cleanWikiField(empM[1]).replace(/[^\d,+\-–k]/gi, "").trim();
-      if (raw && raw !== "0") {
-        const n = parseInt(raw.replace(/,/g, ""), 10);
-        profile.employeeCount = isNaN(n) ? raw : n.toLocaleString();
+    // Employee count
+    const empRaw = extractWikiFieldRaw(wikitext, ["num_employees", "employees", "num_staff", "staff"]);
+    if (empRaw) {
+      const cleaned = cleanWikiField(empRaw);
+      const numStr = cleaned.replace(/[^\d,]/g, "");
+      if (numStr) {
+        const n = parseInt(numStr.replace(/,/g, ""), 10);
+        if (!isNaN(n) && n > 0 && n < 2_000_000) {
+          profile.employeeCount = n.toLocaleString();
+        }
       }
     }
 
-    const foundersM = wikitext.match(/\|\s*(?:founders?|key_people_names)\s*=([^\n]{3,300})/i);
-    if (foundersM) {
-      const names = cleanWikiField(foundersM[1])
-        .split(/[,;*\n]+/).map(s => s.trim())
-        .filter(s => s.length > 2 && s.length < 50 && /[A-Z]/.test(s)).slice(0, 5);
+    // Founders
+    const foundersRaw = extractWikiFieldRaw(wikitext, ["founders", "founder", "key_people_names"]);
+    if (foundersRaw) {
+      const names = cleanWikiField(foundersRaw)
+        .split(/[,;]+/).map(s => s.trim())
+        .filter(s => s.length > 2 && s.length < 60 && /[A-Z]/.test(s)).slice(0, 5);
       if (names.length) profile.founders = names.join(", ");
     }
 
-    const industryM = wikitext.match(/\|\s*industry\s*=([^\n|]{3,120})/i);
-    if (industryM) {
-      const ind = cleanWikiField(industryM[1]).split(",")[0].trim();
-      if (ind.length > 2 && ind.length < 60) profile.industry = ind;
+    // Industry
+    const industryRaw = extractWikiFieldRaw(wikitext, ["industry"]);
+    if (industryRaw) {
+      const ind = cleanWikiField(industryRaw).split(/[,;]/)[0].trim();
+      if (ind.length > 2 && ind.length < 80) profile.industry = ind;
     }
 
     return profile;

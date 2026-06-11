@@ -92,11 +92,12 @@ export function Card({ children, style = {}, delay = 0 }: { children: React.Reac
   );
 }
 
-export function CardTitle({ children }: { children: React.ReactNode }) {
+export function CardTitle({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
     <p style={{
       fontSize: 11, fontWeight: 700, letterSpacing: "0.09em",
       color: "#52525b", textTransform: "uppercase", margin: "0 0 14px",
+      ...style,
     }}>
       {children}
     </p>

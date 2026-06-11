@@ -185,6 +185,45 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
   const [loading, setLoading]   = useState(false);
   const [outreach, setOutreach] = useState<OutreachResult | null>(null);
 
+  // ── Ask AI enrichment ──────────────────────────────────────────────────────
+  const [aiLoading, setAiLoading]   = useState(false);
+  const [aiDetails, setAiDetails]   = useState<Record<string, string | null> | null>(null);
+  const [aiError, setAiError]       = useState<string | null>(null);
+
+  async function askAI() {
+    setAiLoading(true);
+    setAiError(null);
+    track("ask_ai_clicked", { domain: report.domain });
+    try {
+      const res = await fetch("/api/ai-details", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          domain: report.domain,
+          title: report.summary?.slice(0, 120),
+          description: report.summary,
+          bodyText: "",
+          profile: report.profile,
+        }),
+      });
+      if (!res.ok) throw new Error("AI request failed");
+      const data = await res.json();
+      setAiDetails(data);
+      track("ask_ai_completed", { domain: report.domain });
+    } catch {
+      setAiError("AI enrichment failed. Try again.");
+      track("ask_ai_failed", { domain: report.domain });
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
+  // Merge scraped profile with AI details — scraped data always wins
+  function mergeField(scraped: string | undefined, aiKey: string): string {
+    if (scraped && scraped !== "—") return scraped;
+    return aiDetails?.[aiKey] ?? scraped ?? "—";
+  }
+
   const allTech = Object.entries(report.techStack)
     .filter(([, v]) => v.length > 0)
     .map(([k, v]) => ({ cat: k.charAt(0).toUpperCase() + k.slice(1), items: v }));
@@ -229,21 +268,21 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
 
   const infoRow1 = [
     { label: "Domain",       value: report.domain, mono: true },
-    { label: "Industry",     value: report.industry && report.industry !== "Unknown" ? report.industry : (p.industry ?? "—") },
-    { label: "Company Size", value: sizeLabel() },
-    { label: "Headquarters", value: p.headquarters ?? "—" },
+    { label: "Industry",     value: mergeField(report.industry && report.industry !== "Unknown" ? report.industry : (p.industry ?? ""), "industry") },
+    { label: "Company Size", value: mergeField(sizeLabel() !== "—" ? sizeLabel() : undefined, "employeeCount") },
+    { label: "Headquarters", value: mergeField(p.headquarters, "headquarters") },
   ];
   const infoRow2 = [
-    { label: "Founded",     value: p.founded ?? "—" },
-    { label: "Founders",    value: p.founders ?? "—" },
-    { label: "Revenue",     value: revenueLabel() },
+    { label: "Founded",     value: mergeField(p.founded, "founded") },
+    { label: "Founders",    value: mergeField(p.founders, "founders") },
+    { label: "Revenue",     value: revenueLabel() !== "Private" ? revenueLabel() : (aiDetails?.revenueEstimate ?? "Private") },
     { label: "Stock Price", value: stockLabel(), color: stockColor() },
   ];
   const infoRow3 = [
-    { label: "Hiring",      value: report.signals.isHiring ? "Yes" : "None detected", color: report.signals.isHiring ? "#22c55e" : "#71717a" },
+    { label: "Hiring",       value: report.signals.isHiring ? "Yes" : "None detected", color: report.signals.isHiring ? "#22c55e" : "#71717a" },
     { label: "Pricing Page", value: report.signals.hasPricing ? "Yes" : "Not detected", color: report.signals.hasPricing ? "#22c55e" : "#71717a" },
-    { label: "API / Docs",  value: report.signals.hasAPIDoc ? "Yes" : "Not detected", color: report.signals.hasAPIDoc ? "#22c55e" : "#71717a" },
-    { label: "Funded",      value: report.signals.hasInvestors ? "Investor-backed" : "—", color: report.signals.hasInvestors ? "#93c5fd" : "#71717a" },
+    { label: "API / Docs",   value: report.signals.hasAPIDoc ? "Yes" : "Not detected", color: report.signals.hasAPIDoc ? "#22c55e" : "#71717a" },
+    { label: "Business Type",value: mergeField(p.businessType, "businessType"), color: undefined },
   ];
 
   const allSocials = Object.entries(report.socialLinks).filter(([, v]) => !!v) as [string, string][];
@@ -305,7 +344,45 @@ export default function Report({ report, hideHeader = false }: { report: IntelRe
 
       {/* ── Company Intelligence (always shown) ── */}
       <Card delay={0.05}>
-        <CardTitle>Company Intelligence</CardTitle>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+          <CardTitle style={{ margin: 0 }}>Company Intelligence</CardTitle>
+          <button
+            onClick={askAI}
+            disabled={aiLoading}
+            style={{
+              display: "flex", alignItems: "center", gap: 6,
+              padding: "6px 14px", borderRadius: 99, fontSize: 12, fontWeight: 600,
+              cursor: aiLoading ? "default" : "pointer",
+              background: aiDetails ? "rgba(34,197,94,0.08)" : "rgba(59,130,246,0.08)",
+              border: `1px solid ${aiDetails ? "rgba(34,197,94,0.25)" : "rgba(59,130,246,0.25)"}`,
+              color: aiDetails ? "#22c55e" : "#3b82f6",
+              opacity: aiLoading ? 0.7 : 1,
+              transition: "all 0.2s",
+            }}
+          >
+            {aiLoading ? (
+              <><span style={{ display: "inline-block", width: 10, height: 10, border: "2px solid rgba(59,130,246,0.3)", borderTopColor: "#3b82f6", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} /> Asking AI…</>
+            ) : aiDetails ? (
+              "✓ AI enriched"
+            ) : (
+              "✦ Ask AI"
+            )}
+          </button>
+        </div>
+        {aiError && (
+          <p style={{ fontSize: 11, color: "#f87171", margin: "0 0 10px" }}>{aiError}</p>
+        )}
+        {aiDetails?.description && !report.summary && (
+          <p style={{ fontSize: 13, color: "#a1a1aa", lineHeight: 1.6, margin: "0 0 12px", padding: "10px 14px", background: "rgba(59,130,246,0.04)", borderRadius: 8, borderLeft: "2px solid rgba(59,130,246,0.3)" }}>
+            {aiDetails.description}
+          </p>
+        )}
+        {aiDetails?.keyProducts && (
+          <p style={{ fontSize: 12, color: "#71717a", margin: "0 0 12px" }}>
+            <span style={{ color: "#52525b", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", fontSize: 10 }}>Key Products </span>
+            {aiDetails.keyProducts}
+          </p>
+        )}
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <DataRow fields={infoRow1} />
           <DataRow fields={infoRow2} />
