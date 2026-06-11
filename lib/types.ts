@@ -9,6 +9,7 @@ export interface CompanyData {
   metaTags: Record<string, string>;
   links: string[];
   emails: string[];
+  phones: string[];
   socialLinks: SocialLinks;
   profile: CompanyProfile;
 }
@@ -18,6 +19,9 @@ export interface CompanyProfile {
   headquarters?: string;       // "San Francisco, CA"
   locations?: string[];        // ["New York", "London", "Singapore"]
   address?: string;            // Full street address from schema.org
+  phone?: string;              // Primary phone number
+  businessHours?: string;      // "Mon–Fri 9am–6pm" or from JSON-LD
+  businessType?: string;       // "Restaurant", "LocalBusiness", "MedicalClinic", etc.
   employeeCount?: string;      // "2,400" or "201–500"
   founded?: string;            // "2010"
   founders?: string;           // "Larry Ellison, Bob Miner, Ed Oates"
@@ -64,6 +68,7 @@ export interface SocialLinks {
   facebook?: string;
   youtube?: string;
   instagram?: string;
+  tiktok?: string;
 }
 
 export interface IntelReport {
@@ -77,6 +82,7 @@ export interface IntelReport {
   signals: GrowthSignals;
   socialLinks: SocialLinks;
   emails: string[];
+  phones: string[];
   convictionScore: number;
   scoreBreakdown: ScoreBreakdown;
   aiEnabled: boolean;

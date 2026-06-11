@@ -29,6 +29,24 @@ function detectIndustry(data: CompanyData): string {
   if (text.includes("media") && (text.includes("streaming") || text.includes("content") || text.includes("video") || text.includes("entertainment"))) return "Media & Entertainment";
   if (text.includes("semiconductor") || text.includes("chip") || text.includes("processor") || text.includes("hardware")) return "Semiconductors";
   if (text.includes("telecom") || text.includes("wireless") || text.includes("5g") || text.includes("network operator")) return "Telecommunications";
+  // ── Non-tech / small business industries ──
+  if (text.includes("restaurant") || text.includes("menu") || text.includes("dining") || text.includes("cuisine") || text.includes("catering") || text.includes("bistro") || text.includes("eatery")) return "Restaurant & Food Service";
+  if ((text.includes("dental") || text.includes("dentist")) && (text.includes("clinic") || text.includes("care") || text.includes("office"))) return "Dental Practice";
+  if ((text.includes("doctor") || text.includes("physician") || text.includes("medical") || text.includes("clinic") || text.includes("patient")) && text.includes("care")) return "Healthcare";
+  if (text.includes("law firm") || text.includes("attorney") || text.includes("lawyer") || text.includes("legal services") || text.includes("counsel")) return "Legal Services";
+  if (text.includes("accounting") || text.includes("bookkeeping") || text.includes("cpa") || text.includes("tax preparation")) return "Accounting & Finance";
+  if (text.includes("plumbing") || text.includes("electrician") || text.includes("hvac") || text.includes("roofing") || text.includes("contractor") || text.includes("home repair")) return "Home Services";
+  if (text.includes("salon") || text.includes("spa") || text.includes("beauty") || text.includes("hair care") || text.includes("nail")) return "Beauty & Wellness";
+  if (text.includes("gym") || text.includes("fitness") || text.includes("personal training") || text.includes("yoga") || text.includes("pilates")) return "Fitness & Health";
+  if (text.includes("hotel") || text.includes("motel") || text.includes("inn") || text.includes("lodging") || text.includes("resort") || text.includes("bed and breakfast")) return "Hospitality";
+  if (text.includes("retail") || text.includes("boutique") || (text.includes("shop") && !text.includes("workshop") && text.includes("buy"))) return "Retail";
+  if (text.includes("auto") && (text.includes("dealer") || text.includes("repair") || text.includes("mechanic") || text.includes("body shop"))) return "Automotive";
+  if (text.includes("construction") || text.includes("general contractor") || text.includes("building contractor")) return "Construction";
+  if (text.includes("cleaning service") || text.includes("janitorial") || text.includes("maid service") || text.includes("pressure washing")) return "Cleaning Services";
+  if (text.includes("photography") || text.includes("photographer") || text.includes("wedding photo") || text.includes("portrait")) return "Photography";
+  if (text.includes("digital marketing") || text.includes("seo agency") || text.includes("marketing agency") || text.includes("ad agency") || text.includes("creative agency")) return "Marketing Agency";
+  if (text.includes("consulting") && !text.includes("software")) return "Consulting";
+  if (text.includes("non-profit") || text.includes("nonprofit") || text.includes("501(c)") || text.includes("charity") || text.includes("foundation")) return "Non-Profit";
   return "Technology";
 }
 
@@ -107,10 +125,11 @@ function scoreMarketPresence(data: CompanyData): number {
 function scoreContactability(data: CompanyData): number {
   let score = 10;
 
-  if (data.emails.length > 0) score += 40;
-  if (data.socialLinks.linkedin) score += 30;
-  if (data.signals.isHiring) score += 15; // hiring pages often have direct contacts
-  if (data.emails.some((e) => e.includes("hello") || e.includes("hi") || e.includes("contact"))) {
+  if (data.emails.length > 0) score += 35;
+  if (data.phones && data.phones.length > 0) score += 15; // phone = highly contactable
+  if (data.socialLinks.linkedin) score += 25;
+  if (data.signals.isHiring) score += 10;
+  if (data.emails.some((e) => e.includes("hello") || e.includes("hi") || e.includes("contact") || e.includes("info"))) {
     score += 5;
   }
 
@@ -152,6 +171,7 @@ export function buildIntelReport(
     signals: data.signals,
     socialLinks: data.socialLinks,
     emails: data.emails,
+    phones: data.phones ?? [],
     convictionScore: total,
     scoreBreakdown: breakdown,
     aiEnabled: !!aiSummary,
