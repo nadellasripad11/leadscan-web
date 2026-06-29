@@ -2,9 +2,11 @@
 
 # LeadScan
 
-**Company intelligence in seconds — free, no account required.**
+**the sales intel tool i built because existing ones suck**
 
-[![Live Site](https://img.shields.io/badge/🌐_Try_it_live-leadscan--web.vercel.app-7c3aed?style=for-the-badge)](https://leadscan-web.vercel.app)
+(or: how i stopped wasting 2 hours per lead on research)
+
+[![Live Site](https://img.shields.io/badge/🌐_try_it-leadscan--web.vercel.app-3b82f6?style=for-the-badge)](https://leadscan-web.vercel.app)
 &nbsp;
 [![npm](https://img.shields.io/npm/v/leadscan?style=for-the-badge&color=3b82f6&label=npm)](https://www.npmjs.com/package/leadscan)
 &nbsp;
@@ -14,170 +16,240 @@
 
 ---
 
-## 🌐 Website — the fastest way to start
+## just paste a domain. boom.
 
 **→ [leadscan-web.vercel.app/scan](https://leadscan-web.vercel.app/scan)**
 
-Open it, paste a domain, press enter. Full report in under 5 seconds. Nothing to install.
+you get: founder names. founding year. how many employees. what tech they use. if they're hiring. their emails. revenue estimates. and an AI-written cold email you can actually send (not generic template garbage).
 
-![LeadScan screenshot](https://raw.githubusercontent.com/nadellasripad11/leadscan-web/main/public/og.svg)
+3 seconds. no login. no credit card.
 
-> **Try it now:** [stripe.com](https://leadscan-web.vercel.app/r/stripe.com) · [linear.app](https://leadscan-web.vercel.app/r/linear.app) · [vercel.com](https://leadscan-web.vercel.app/r/vercel.com) · [notion.so](https://leadscan-web.vercel.app/r/notion.so)
-
----
-
-## What you get from every scan
-
-| Field | Description |
-|-------|-------------|
-| **Conviction Score** | 0–100 lead quality score across 4 weighted signals |
-| **Tech Stack** | 40+ technologies detected from public HTML & headers |
-| **Growth Signals** | Hiring, blog, pricing page, API docs, changelog, investors |
-| **Company Intelligence** | HQ, headcount, founding year, revenue, stock price |
-| **Contacts** | Emails and social links found on the public site |
-| **AI Outreach** | Cold email, LinkedIn message, and call opener — personalized per company |
+try it: [stripe.com](https://leadscan-web.vercel.app/r/stripe.com) · [linear.app](https://leadscan-web.vercel.app/r/linear.app) · [your competitor](https://leadscan-web.vercel.app/r/example.com) · [that local dentist you're targeting](https://leadscan-web.vercel.app/scan)
 
 ---
 
-## CLI — for scripts and automation
+## what actually comes back
 
-If you prefer the terminal or want to pipe results into a CRM/script:
+every scan:
+
+- **Conviction Score** — 0–100. high = "worth cold emailing". low = "ghost website". based on: do they have a tech team (modern stack)? are they growing (hiring signals)? are they real (pricing page, API docs)? can you actually contact them?
+- **Founder names & founding year** — scraped from Wikipedia if they're any size. fills in the "who started this?" question fast.
+- **Tech Stack** — React? Shopify? WordPress? 60+ tech fingerprints. tells you about their product quality + team size.
+- **Are they hiring?** — looks at their jobs page + LinkedIn. if they're hiring engineers, they're growing.
+- **Email addresses** — usually support@, hello@, or whatever's on the contact page. real emails, not newsletter signups.
+- **Headquarters** — where they actually operate.
+- **Revenue estimate** — if they're public, actual stock data. if private, AI takes a guess based on headcount + funding.
+- **AI cold email** — you type "VP of Sales" + "sales automation platform". it writes back an email that doesn't sound like a bot.
+
+---
+
+## or use the CLI if you're building something
 
 ```bash
 npx leadscan analyze stripe.com
 ```
 
 ```
-✓  stripe.com — Conviction: 78/100
+✓ stripe.com
 
-   Tech:      React, Next.js, AWS, TypeScript, Stripe
-   HQ:        San Francisco, CA    Founded: 2010
-   Employees: 8,000+              Size: enterprise
-   Signals:   ✓ Hiring  ✓ Blog  ✓ Pricing  ✓ API Docs
-   Email:     support@stripe.com
+  Conviction:  78/100
+  Founded:     2010
+  Founders:    Patrick Collison, John Collison
+  HQ:          San Francisco, CA
+  Employees:   8,000+
+  
+  Tech:        React, Next.js, AWS, TypeScript
+  Hiring:      ✓ yes
+  Pricing:     ✓ yes
+  API Docs:    ✓ yes
+  Revenue:     private (but like... $2B+)
+  
+  Emails:      support@stripe.com, hello@stripe.com
+  LinkedIn:    linkedin.com/company/stripe
 ```
 
-### Install globally
+### install it globally
 
 ```bash
 npm install -g leadscan
-leadscan analyze stripe.com
+leadscan analyze [domain]
 ```
 
-### Generate AI outreach
+### generate personalized cold emails
 
 ```bash
 npx leadscan outreach stripe.com \
   --role "Head of Engineering" \
-  --product "observability tool"
+  --product "observability platform for teams"
 ```
 
-> Requires `GROQ_API_KEY`. Get one free at [console.groq.com](https://console.groq.com).
+you get 3 versions: cold email (send to inbox), LinkedIn message (under 280 chars), call opener (what to say when they pick up).
 
-### Batch scan
+needs a free Groq API key: [console.groq.com](https://console.groq.com)
+
+### batch scan a list
 
 ```bash
-npx leadscan batch domains.txt
+npx leadscan batch urls.txt --json > results.json
 ```
 
-```
-  1.  stripe.com      78/100  ████████░░
-  2.  vercel.com      74/100  ███████░░░
-  3.  linear.app      71/100  ███████░░░
-  4.  notion.so       65/100  ██████░░░░
-```
+useful for: finding your ideal customer profile, ranking leads, bulk research.
 
-### JSON output
+### pipe to whatever
 
 ```bash
-npx leadscan analyze stripe.com --json | jq '.convictionScore'
-# → 78
+npx leadscan analyze stripe.com --json | jq '.techStack'
+# outputs: { "frontend": ["React", "Next.js"], "infrastructure": ["AWS"] }
 ```
 
 ---
 
-## Web features
+## web app has some nice extras
 
-The website has a few extras over the CLI:
-
-- **Batch tab** — paste up to 20 domains, all ranked by conviction score
-- **Compare tab** — head-to-head analysis of two companies
-- **AI Outreach modal** — generate cold email, LinkedIn note, and call opener in one click
-- **Shareable links** — every scan gets a permanent URL like `/r/stripe.com`
-- **CSV export** — download the full report as a spreadsheet
+- **Batch tab** — paste 20 domains at once. get back ranked list sorted by conviction score. useful for finding your best targets.
+- **Compare tab** — side-by-side two companies. stripe vs square? vercel vs netlify? see who's winning.
+- **Ask AI button** — missing founder names or revenue? click the button. Groq's Llama looks at everything and fills in the blanks.
+- **Shareable reports** — every scan gets a permanent URL. `/r/stripe.com` is yours forever. send it to your team.
+- **Export to CSV** — dump it all into your CRM or spreadsheet.
 
 ---
 
-## API
+## API (no auth required)
 
-No auth. Hit the endpoints directly if you want to build on top of LeadScan.
+hit these endpoints if you're building something on top:
 
-### `POST /api/analyze`
+### analyze a domain
 
 ```bash
 curl -X POST https://leadscan-web.vercel.app/api/analyze \
   -H "Content-Type: application/json" \
-  -d '{"domain": "stripe.com"}'
+  -d '{"domain": "stripe.com", "ai": true}'
 ```
 
-**Response:**
+response:
 ```json
 {
   "domain": "stripe.com",
   "convictionScore": 78,
-  "techStack": { "frontend": ["React", "Next.js"], "infrastructure": ["AWS"] },
-  "signals": { "isHiring": true, "hasPricing": true, "hasAPIDoc": true },
-  "profile": { "headquarters": "San Francisco, CA", "employeeCount": "8,000+" }
+  "summary": "Stripe is a payment infrastructure company...",
+  "industry": "FinTech",
+  "techStack": {
+    "frontend": ["React", "Next.js"],
+    "infrastructure": ["AWS", "Vercel"],
+    "payments": ["Stripe"]
+  },
+  "signals": {
+    "isHiring": true,
+    "hasPricing": true,
+    "hasAPIDoc": true,
+    "hasChangelog": true
+  },
+  "profile": {
+    "headquarters": "San Francisco, CA",
+    "founded": "2010",
+    "founders": "Patrick Collison, John Collison",
+    "employeeCount": "8,000+"
+  },
+  "emails": ["support@stripe.com", "hello@stripe.com"],
+  "phones": ["+1-415-xxx-xxxx"],
+  "socialLinks": {
+    "linkedin": "linkedin.com/company/stripe",
+    "twitter": "twitter.com/stripe",
+    "github": "github.com/stripe"
+  }
 }
 ```
 
-### `POST /api/outreach`
+### generate outreach
 
 ```bash
 curl -X POST https://leadscan-web.vercel.app/api/outreach \
   -H "Content-Type: application/json" \
-  -d '{"domain": "stripe.com", "role": "Head of Engineering", "product": "observability tool"}'
+  -d '{
+    "domain": "stripe.com",
+    "role": "VP of Engineering",
+    "product": "fraud detection platform"
+  }'
+```
+
+response:
+```json
+{
+  "domain": "stripe.com",
+  "role": "VP of Engineering",
+  "product": "fraud detection platform",
+  "email": {
+    "subject": "Fraud detection for Stripe partners",
+    "body": "..."
+  },
+  "linkedin": "Hey! Came across Stripe's fraud work...",
+  "callOpener": "Hi, this is... I noticed Stripe is..."
+}
 ```
 
 ---
 
-## Self-hosting
+## run it locally
 
 ```bash
-git clone https://github.com/nadellasripad11/leadscan-web
+git clone https://github.com/nadellasripad11/leadscan-web.git
 cd leadscan-web
 npm install
 echo "GROQ_API_KEY=gsk_..." > .env.local
 npm run dev
+# open http://localhost:3000/scan
 ```
 
-One-click Vercel deploy:
+no GROQ key? fine. basic scraping and rule-based industry detection still works.
+
+### deploy your own
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/nadellasripad11/leadscan-web)
 
----
-
-## Environment variables
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GROQ_API_KEY` | Optional | AI summaries and outreach. Free at [console.groq.com](https://console.groq.com). Without it, AI features use templates. |
+or use any Node.js host. just add GROQ_API_KEY to env vars and you're done.
 
 ---
 
-## Tech stack
+## tech i used
 
-- **Framework:** Next.js 15 (App Router)
-- **Scraping:** Cheerio + Axios
-- **AI:** Groq (Llama 3.1 8B Instant)
-- **Hosting:** Vercel
+- **Next.js 15 + TypeScript** — server components make this fast. type safety saves lives.
+- **Cheerio** — parse HTML like jQuery. dead simple, works great.
+- **Groq API** — llama 3.3 70B is insanely fast + cheap. overkill for most tasks but why not.
+- **Vercel** — because deploying is boring and should be instant. it is.
+- **Wikipedia parsing** — took way too long. wikitext templates are evil (`{{Unbulleted list|a|b}}` is hell).
+
+---
+
+## why i actually built this
+
+i spent 2 years doing B2B sales and kept noticing:
+- every "lead intelligence" tool costs $200+/month
+- you click 3 times per domain to get anything useful
+- data is outdated or wrong
+- doesn't work for small businesses (your local dentist isn't in Clearbit)
+- "AI outreach" means: "dear john at acme incorporated" template garbage
+
+so one weekend i built: fetch their homepage, scrape their tech, pull Wikipedia data, find their emails, score them, generate actual personalized outreach.
+
+3 seconds. free. works for tiny local businesses and $100B companies.
+
+---
+
+## the weird engineering
+
+- **Wikipedia wikitext** — `{{Unbulleted list|a|b|c}}` and `{{nowrap|text}}` templates breaking the parser was the worst part. depth-aware extraction ftw.
+- **Small business data** — startups leave fingerprints everywhere (api.stripe.com in your scripts, `/pricing` page, hiring signals). dentists? buried in schema.org + sub-pages.
+- **Phone number extraction** — email is easy. actual phone numbers? contact forms, microdata, sometimes random footer text. regex + microdata parsing required.
+- **AI hallucination** — Groq's good but still guesses sometimes. we score lower when AI fills in missing data so you know when to verify.
 
 ---
 
 <div align="center">
 
-Built by [Sripad Nadella](https://github.com/nadellasripad11)
+**built by [sripad](https://github.com/nadellasripad11)** · full-stack builder · [portfolio](https://sripadnadella.com)
 
-**If LeadScan saves you time, a ⭐ on this repo means a lot.**
+**if this saved you hours on research or got you a meeting → drop a ⭐**
+
+that's all i ask
 
 </div>
