@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#3b82f6" stroke-width="2"/>
+
+  <!-- Magnifying glass bowl -->
+  <circle cx="75" cy="100" r="45" fill="none" stroke="#3b82f6" stroke-width="3"/>
+
+  <!-- Magnifying glass handle -->
+  <line x1="110" y1="135" x2="150" y2="175" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Lightning bolt inside (intelligence/speed) -->
+  <path d="M 85 70 L 80 95 L 90 95 L 75 125 L 80 105 L 70 105 Z" fill="#3b82f6"/>
+</svg>
