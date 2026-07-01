@@ -1,13 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import { validateDomain, checkRateLimit } from "@/lib/validation";
 
 export const maxDuration = 30;
 
 export async function POST(req: NextRequest) {
   const { domain, title, description, bodyText, profile } = await req.json();
 
-  if (!domain) return NextResponse.json({ error: "domain required" }, { status: 400 });
-  if (!process.env.GROQ_API_KEY) return NextResponse.json({ error: "AI not configured" }, { status: 503 });
+  // ── Validation ─────────────────────────────────────────────────────────
+  const validation = validateDomain(domain);
+  if (!validation.valid) {
+    return NextResponse.json(
+      { error: validation.error || "Invalid domain" },
+      { status: 400 }
+    );
+  }
+
+  if (!process.env.GROQ_API_KEY) {
+    return NextResponse.json(
+      { error: "AI enrichment is not available. Please try again later." },
+      { status: 503 }
+    );
+  }
+
+  // ── Rate limiting ──────────────────────────────────────────────────────
+  const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+  const rateLimit = checkRateLimit(`ai:${clientIp}`, 30, 60000); // 30 AI requests per minute
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: "Rate limit exceeded. Please wait before asking AI again." },
+      { status: 429 }
+    );
+  }
 
   const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 

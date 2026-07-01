@@ -1,27 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
 import { scrapeCompany } from "@/lib/scraper";
 import { analyzeCompany, generateOutreach } from "@/lib/ai";
+import { validateDomain, checkRateLimit } from "@/lib/validation";
+import { getFromCache } from "@/lib/cache";
 
 export const maxDuration = 30;
 
 export async function POST(req: NextRequest) {
   const { domain, role, product } = await req.json();
-  if (!domain || !role || !product) {
-    return NextResponse.json({ error: "domain, role, and product required" }, { status: 400 });
+
+  // ── Validation ─────────────────────────────────────────────────────────
+  if (!role || typeof role !== "string" || role.trim().length === 0) {
+    return NextResponse.json({ error: "role is required" }, { status: 400 });
+  }
+  if (!product || typeof product !== "string" || product.trim().length === 0) {
+    return NextResponse.json({ error: "product is required" }, { status: 400 });
   }
 
-  const clean = domain.trim().replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0];
+  const validation = validateDomain(domain);
+  if (!validation.valid) {
+    return NextResponse.json(
+      { error: validation.error || "Invalid domain" },
+      { status: 400 }
+    );
+  }
+
+  const cleanDomain = validation.domain!;
+
+  // ── Rate limiting ──────────────────────────────────────────────────────
+  const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+  const rateLimit = checkRateLimit(`outreach:${clientIp}`, 10, 60000); // 10 outreach requests per minute
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: "Rate limit exceeded. Please wait before generating more outreach." },
+      { status: 429 }
+    );
+  }
 
   try {
-    const data = await scrapeCompany(clean);
+    // Try to use cached data if available, otherwise scrape
+    let data = await getFromCache(cleanDomain);
+    if (!data) {
+      const scraped = await scrapeCompany(cleanDomain);
+      data = scraped;
+    }
+
     let aiSummary;
     if (process.env.GROQ_API_KEY) {
-      try { aiSummary = await analyzeCompany(data); } catch {}
+      try {
+        aiSummary = await analyzeCompany(data);
+      } catch (err) {
+        console.error("AI analysis failed:", err);
+      }
     }
-    const result = await generateOutreach(data, role, product, aiSummary);
+
+    const result = await generateOutreach(data, role.trim(), product.trim(), aiSummary);
     return NextResponse.json(result);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : "Failed to generate outreach";
+    console.error("Outreach error:", err);
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
