@@ -2,11 +2,11 @@
 
 # LeadScan
 
-**the sales intel tool i built because existing ones suck**
+**turn any domain into company intelligence in 3 seconds**
 
-(or: how i stopped wasting 2 hours per lead on research)
+i built this because i was spending 2+ hours per lead doing research. and existing tools sucked.
 
-[![Live Site](https://img.shields.io/badge/🌐_try_it-leadscan--web.vercel.app-3b82f6?style=for-the-badge)](https://leadscan-web.vercel.app)
+[![Live Site](https://img.shields.io/badge/try_it-leadscan--web.vercel.app-3b82f6?style=for-the-badge)](https://leadscan-web.vercel.app)
 &nbsp;
 [![npm](https://img.shields.io/npm/v/leadscan?style=for-the-badge&color=3b82f6&label=npm)](https://www.npmjs.com/package/leadscan)
 &nbsp;
@@ -16,30 +16,51 @@
 
 ---
 
-## just paste a domain. boom.
+## actually useful, not bloated
 
 **→ [leadscan-web.vercel.app/scan](https://leadscan-web.vercel.app/scan)**
 
-you get: founder names. founding year. how many employees. what tech they use. if they're hiring. their emails. revenue estimates. and an AI-written cold email you can actually send (not generic template garbage).
+paste a domain. get back:
+- **founder names & year they started** (from Wikipedia if they're big enough)
+- **exact employee count** (not estimates)
+- **their full tech stack** (60+ technologies)
+- **hiring signals** (are they actually growing?)
+- **real email addresses** (support@, contact@, etc — not newsletters)
+- **headquarters location**
+- **revenue** (real data if public, smart guesses if private)
+- **personalized cold email** that doesn't sound like a template bot wrote it
 
-3 seconds. no login. no credit card.
+no login. no credit card. 3 seconds flat.
 
-try it: [stripe.com](https://leadscan-web.vercel.app/r/stripe.com) · [linear.app](https://leadscan-web.vercel.app/r/linear.app) · [your competitor](https://leadscan-web.vercel.app/r/example.com) · [that local dentist you're targeting](https://leadscan-web.vercel.app/scan)
+see it in action: [stripe.com](https://leadscan-web.vercel.app/r/stripe.com) · [linear.app](https://leadscan-web.vercel.app/r/linear.app) · [vercel.com](https://leadscan-web.vercel.app/r/vercel.com) · [your competitor](https://leadscan-web.vercel.app/scan)
 
 ---
 
-## what actually comes back
+## what you actually get
 
-every scan:
+**conviction score** (0–100)  
+is this worth cold emailing? based on: modern tech stack? hiring signals? real pricing page? API docs? actual email? the number tells you fast.
 
-- **Conviction Score** — 0–100. high = "worth cold emailing". low = "ghost website". based on: do they have a tech team (modern stack)? are they growing (hiring signals)? are they real (pricing page, API docs)? can you actually contact them?
-- **Founder names & founding year** — scraped from Wikipedia if they're any size. fills in the "who started this?" question fast.
-- **Tech Stack** — React? Shopify? WordPress? 60+ tech fingerprints. tells you about their product quality + team size.
-- **Are they hiring?** — looks at their jobs page + LinkedIn. if they're hiring engineers, they're growing.
-- **Email addresses** — usually support@, hello@, or whatever's on the contact page. real emails, not newsletter signups.
-- **Headquarters** — where they actually operate.
-- **Revenue estimate** — if they're public, actual stock data. if private, AI takes a guess based on headcount + funding.
-- **AI cold email** — you type "VP of Sales" + "sales automation platform". it writes back an email that doesn't sound like a bot.
+**founder info**  
+names, founding year, usually from Wikipedia. you know who actually runs the place.
+
+**tech stack**  
+react, stripe, aws, shopify, wordpress — 60+ technologies. tells you about product maturity and team size.
+
+**growth signals**  
+hiring engineers? have a pricing page? published API docs? changelog? we look for all of it. if they're hiring, they're growing.
+
+**contact info**  
+real emails (support@, hello@, contact@). we extract these from actual pages, not guesses. sometimes phone numbers too.
+
+**location & size**  
+headquarters, employee count, headcount range. real data.
+
+**revenue**  
+if they're public: actual stock data. if private: AI makes an educated guess based on headcount + funding rounds.
+
+**personalized cold email**  
+you say "VP of Sales at a fintech" → we write an email that references their specific tech, market, hiring situation. not "dear john" template garbage.
 
 ---
 
@@ -210,46 +231,91 @@ or use any Node.js host. just add GROQ_API_KEY to env vars and you're done.
 
 ---
 
-## tech i used
+## how i actually built it
 
-- **Next.js 15 + TypeScript** — server components make this fast. type safety saves lives.
-- **Cheerio** — parse HTML like jQuery. dead simple, works great.
-- **Groq API** — llama 3.3 70B is insanely fast + cheap. overkill for most tasks but why not.
-- **Vercel** — because deploying is boring and should be instant. it is.
-- **Wikipedia parsing** — took way too long. wikitext templates are evil (`{{Unbulleted list|a|b}}` is hell).
+**next.js 15 + typescript**  
+server components are insanely fast for scraping-heavy pages. type safety keeps the code from turning into spaghetti. runs everywhere.
 
----
+**cheerio for html parsing**  
+jquery for the backend. dead simple. i parse homepages, jobs pages, subpages in parallel. way faster than puppeteer for this use case.
 
-## why i actually built this
+**groq api (llama 3.3 70b)**  
+fast + cheap. fill in missing founder names, estimate revenue, generate cold emails. it's not perfect (still hallucinates sometimes) but the conviction score warns you when to double-check.
 
-i spent 2 years doing B2B sales and kept noticing:
-- every "lead intelligence" tool costs $200+/month
-- you click 3 times per domain to get anything useful
-- data is outdated or wrong
-- doesn't work for small businesses (your local dentist isn't in Clearbit)
-- "AI outreach" means: "dear john at acme incorporated" template garbage
+**vercel for hosting**  
+deploying should be boring. git push → live in 30 seconds. environment variables work. analytics are built-in. api routes just work.
 
-so one weekend i built: fetch their homepage, scrape their tech, pull Wikipedia data, find their emails, score them, generate actual personalized outreach.
-
-3 seconds. free. works for tiny local businesses and $100B companies.
+**wikipedia parsing (the nightmare)**  
+wikitext templates like `{{Unbulleted list|a|b|c}}` and `{{nowrap|x}}` broke my parser 3 times. ended up writing depth-aware extraction. regret nothing.
 
 ---
 
-## the weird engineering
+## why i built this
 
-- **Wikipedia wikitext** — `{{Unbulleted list|a|b|c}}` and `{{nowrap|text}}` templates breaking the parser was the worst part. depth-aware extraction ftw.
-- **Small business data** — startups leave fingerprints everywhere (api.stripe.com in your scripts, `/pricing` page, hiring signals). dentists? buried in schema.org + sub-pages.
-- **Phone number extraction** — email is easy. actual phone numbers? contact forms, microdata, sometimes random footer text. regex + microdata parsing required.
-- **AI hallucination** — Groq's good but still guesses sometimes. we score lower when AI fills in missing data so you know when to verify.
+spent 2 years doing B2B sales. here's what broke:
+
+**existing tools are trash:**
+- clearbit, hunter.io, etc. cost $200+/month and it's STILL slow
+- you click 3-4 times to get basic info
+- data is stale or just wrong
+- doesn't scale down (your local dentist isn't in their database)
+- "AI outreach" is just template madlibs with [FIRST_NAME] inserted
+
+**so i built the opposite:**
+one domain. one click. everything comes back in 3 seconds. free. works whether you're targeting stripe or some 5-person startup in your town.
+
+the scraping is dumb but it works — homepage HTML, Wikipedia, schema.org microdata, hiring signals, email extraction. then Groq's llama fills in the gaps. conviction scoring tells you if it's even worth the email.
+
+no logins. no promises. just data.
+
+---
+
+## things that almost broke me
+
+**wikipedia wikitext parsing**  
+`{{Unbulleted list|a|b|c}}` and `{{nowrap|text}}` templates. this took 3 rewrites. learned depth-aware recursive extraction. never again.
+
+**finding data for small businesses**  
+stripe.com? easy. their tech is all over their own API docs. mom-and-pop dentist? buried in schema.org microdata, subpages, footer text. had to write separate paths for "obvious" vs "hidden" data.
+
+**phone numbers**  
+emails are everywhere. actual phone numbers? contact forms, microdata schemas, sometimes just... text in a footer. regex + schema.org parsing needed.
+
+**ai getting too confident**  
+groq's llama is fast but still hallucinates sometimes. solution: lower the conviction score when AI had to guess. you see "Founder: AI guess" on the report.
+
+**rate limiting**  
+people were hammering the free API. now we cache results for 30 days and do in-memory IP rate limiting. happy path works, abuse stops.
+
+---
+
+## what's next
+
+working on:
+- better Wikipedia extraction (seriously, templates are still evil)
+- LinkedIn company data integration (hiring signals are gold)
+- person-level lookups (if you have a founder name, find their email)
+- batch analysis with CSV export (for sales teams doing 100+ at once)
+
+ideas i'm sitting on:
+- Chrome extension so you can scan right from any website
+- Slack integration for quick lookups
+- webhook notifications when companies start hiring
+
+want something? [open an issue](https://github.com/nadellasripad11/leadscan/issues) or DM me.
 
 ---
 
 <div align="center">
 
-**built by [sripad](https://github.com/nadellasripad11)** · full-stack builder · [portfolio](https://sripadnadella.com)
+**made by [sripad](https://github.com/nadellasripad11)**  
+CS student · full-stack builder · ships stuff that actually works
 
-**if this saved you hours on research or got you a meeting → drop a ⭐**
+hit me up: [twitter](https://x.com/sripadnadella) · [email](mailto:nadellasripad11@gmail.com) · [portfolio](https://sripadnadella.com)
 
-that's all i ask
+---
+
+if this saved you hours on research or helped you land a meeting → drop a ⭐  
+genuinely means something to me.
 
 </div>
