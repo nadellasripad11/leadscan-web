@@ -198,53 +198,52 @@ export default function LandingPage() {
             One URL.<br />A full picture.
           </h2>
 
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {features.map(({ n, title, desc }, i) => (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
+            {features.map(({ n, title, desc }) => (
               <div
                 key={n}
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "70px 1fr",
-                  gap: "0 48px",
-                  alignItems: "start",
-                  padding: "40px 0",
-                  borderTop: i === 0 ? "1px solid rgba(255,255,255,0.06)" : "none",
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  borderRadius: "14px",
+                  padding: "32px",
+                  backgroundColor: "rgba(0,0,0,0.35)",
+                  backdropFilter: "blur(8px)",
+                  display: "flex",
+                  flexDirection: "column",
+                  minHeight: "260px",
                 }}
                 className="feature-row"
               >
-                <div>
-                  <span style={{
-                    fontSize: 14,
-                    fontWeight: 700,
-                    color: "rgba(255,255,255,0.25)",
-                    fontFamily: "monospace",
-                    letterSpacing: "0.06em",
-                  }}>
-                    {n}
-                  </span>
-                </div>
-                <div>
-                  <p style={{
-                    fontSize: 18,
-                    fontWeight: 700,
-                    color: "#ffffff",
-                    margin: "0 0 12px",
-                    letterSpacing: "-0.01em",
-                  }}>
-                    {title}
-                  </p>
-                  <p style={{
-                    fontSize: 15,
-                    color: "rgba(255,255,255,0.5)",
-                    margin: 0,
-                    lineHeight: 1.8,
-                    letterSpacing: "0.01em",
-                    maxWidth: 500,
-                  }}>
-                    {desc}
-                  </p>
-                </div>
+                <span style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "rgba(255,255,255,0.4)",
+                  fontFamily: "monospace",
+                  letterSpacing: "0.1em",
+                  marginBottom: "16px",
+                }}>
+                  {n}
+                </span>
+                <p style={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: "#ffffff",
+                  margin: "0 0 16px",
+                  letterSpacing: "-0.01em",
+                  lineHeight: 1.3,
+                }}>
+                  {title}
+                </p>
+                <p style={{
+                  fontSize: 13,
+                  color: "rgba(255,255,255,0.65)",
+                  margin: 0,
+                  lineHeight: 1.7,
+                  letterSpacing: "0.01em",
+                  flex: 1,
+                }}>
+                  {desc}
+                </p>
               </div>
             ))}
           </div>
