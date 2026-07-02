@@ -1,7 +1,7 @@
 import Link from "next/link";
 import HeroSearch from "@/components/HeroSearch";
 import TechMarquee from "@/components/TechMarquee";
-import AnimatedBackground from "@/components/AnimatedBackground";
+import { LandingPageBackground } from "@/components/LandingPageBackground";
 
 const NAV = [
   { label: "Features",     href: "#features" },
@@ -31,7 +31,7 @@ export default function LandingPage() {
       }}>
 
         {/* Animated dot field background */}
-        <AnimatedBackground />
+        <LandingPageBackground />
         {/* Dark overlay for text readability */}
         <div style={{
           position: "absolute",
