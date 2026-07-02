@@ -213,43 +213,47 @@ export default function LandingPage() {
                 key={n}
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "56px 1fr 1fr",
+                  gridTemplateColumns: "70px 1fr",
                   gap: "0 48px",
                   alignItems: "start",
-                  padding: "36px 0",
+                  padding: "40px 0",
                   borderTop: i === 0 ? "1px solid rgba(255,255,255,0.06)" : "none",
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
                 }}
                 className="feature-row"
               >
-                <span style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: "rgba(255,255,255,0.2)",
-                  fontFamily: "monospace",
-                  paddingTop: 2,
-                  letterSpacing: "0.04em",
-                }}>
-                  {n}
-                </span>
-                <p style={{
-                  fontSize: 15,
-                  fontWeight: 600,
-                  color: "rgba(255,255,255,0.85)",
-                  margin: 0,
-                  letterSpacing: "-0.01em",
-                }}>
-                  {title}
-                </p>
-                <p style={{
-                  fontSize: 13,
-                  color: "rgba(255,255,255,0.3)",
-                  margin: 0,
-                  lineHeight: 1.8,
-                  letterSpacing: "0.01em",
-                }}>
-                  {desc}
-                </p>
+                <div>
+                  <span style={{
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: "rgba(255,255,255,0.25)",
+                    fontFamily: "monospace",
+                    letterSpacing: "0.06em",
+                  }}>
+                    {n}
+                  </span>
+                </div>
+                <div>
+                  <p style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "#ffffff",
+                    margin: "0 0 12px",
+                    letterSpacing: "-0.01em",
+                  }}>
+                    {title}
+                  </p>
+                  <p style={{
+                    fontSize: 15,
+                    color: "rgba(255,255,255,0.5)",
+                    margin: 0,
+                    lineHeight: 1.8,
+                    letterSpacing: "0.01em",
+                    maxWidth: 500,
+                  }}>
+                    {desc}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
