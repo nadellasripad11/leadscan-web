@@ -293,7 +293,7 @@ export default function LandingPage() {
               </h2>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column", backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "32px", borderRadius: "16px", backdropFilter: "blur(10px)" }}>
               {[
                 { n: "01", title: "Enter any domain",  desc: "No account, no API key, no setup. Type stripe.com and press enter." },
                 { n: "02", title: "Real-time scan",    desc: "Tech fingerprinting, signal detection, company enrichment, AI analysis — all in parallel." },
@@ -312,7 +312,7 @@ export default function LandingPage() {
                   <span style={{
                     fontSize: 11,
                     fontWeight: 600,
-                    color: "rgba(255,255,255,0.2)",
+                    color: "rgba(255,255,255,0.4)",
                     fontFamily: "monospace",
                     flexShrink: 0,
                     marginTop: 2,
@@ -321,8 +321,8 @@ export default function LandingPage() {
                     {n}
                   </span>
                   <div>
-                    <p style={{ fontSize: 14, fontWeight: 600, margin: "0 0 6px", color: "rgba(255,255,255,0.75)", letterSpacing: "-0.01em" }}>{title}</p>
-                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", margin: 0, lineHeight: 1.75, letterSpacing: "0.01em" }}>{desc}</p>
+                    <p style={{ fontSize: 14, fontWeight: 600, margin: "0 0 6px", color: "#fff", letterSpacing: "-0.01em" }}>{title}</p>
+                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", margin: 0, lineHeight: 1.75, letterSpacing: "0.01em" }}>{desc}</p>
                   </div>
                 </div>
               ))}
