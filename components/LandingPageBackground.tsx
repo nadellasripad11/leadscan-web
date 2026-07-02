@@ -10,8 +10,8 @@ export function LandingPageBackground() {
         dotSpacing={18}
         cursorRadius={360}
         bulgeStrength={22}
-        dotColor="rgba(255, 255, 255, 0.07)"
-        accentColor="rgba(255, 255, 255, 0.1)"
+        dotColor="rgba(255, 255, 255, 0.25)"
+        accentColor="rgba(255, 255, 255, 0.35)"
         showGlow={false}
         style={{ width: "100%", height: "100%" }}
       />

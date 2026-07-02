@@ -1,13 +1,30 @@
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background circle -->
-  <circle cx="100" cy="100" r="95" fill="none" stroke="#3b82f6" stroke-width="2"/>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5b9eff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+  </defs>
 
-  <!-- Magnifying glass bowl -->
-  <circle cx="75" cy="100" r="45" fill="none" stroke="#3b82f6" stroke-width="3"/>
+  <!-- Rounded square background -->
+  <rect x="10" y="10" width="180" height="180" rx="40" fill="url(#bgGrad)"/>
 
-  <!-- Magnifying glass handle -->
-  <line x1="110" y1="135" x2="150" y2="175" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+  <!-- Company building silhouette -->
+  <rect x="60" y="80" width="80" height="70" rx="4" fill="white" opacity="0.9"/>
 
-  <!-- Lightning bolt inside (intelligence/speed) -->
-  <path d="M 85 70 L 80 95 L 90 95 L 75 125 L 80 105 L 70 105 Z" fill="#3b82f6"/>
+  <!-- Windows/data points in building -->
+  <rect x="75" y="95" width="12" height="12" fill="#2563eb" opacity="0.8"/>
+  <rect x="95" y="95" width="12" height="12" fill="#2563eb" opacity="0.6"/>
+  <rect x="113" y="95" width="12" height="12" fill="#2563eb" opacity="0.8"/>
+
+  <rect x="75" y="118" width="12" height="12" fill="#2563eb" opacity="0.7"/>
+  <rect x="95" y="118" width="12" height="12" fill="#2563eb" opacity="0.9"/>
+  <rect x="113" y="118" width="12" height="12" fill="#2563eb" opacity="0.7"/>
+
+  <!-- Magnifying glass overlay (scanning) -->
+  <circle cx="145" cy="65" r="20" fill="none" stroke="white" stroke-width="3" opacity="0.8"/>
+  <line x1="160" y1="50" x2="172" y2="38" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- Checkmark inside glass (found/verified) -->
+  <path d="M 138 65 L 142 70 L 151 60" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
 </svg>
