@@ -88,83 +88,53 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Middle: hero text + right nav */}
-        <div style={{ flex: 1, position: "relative", minHeight: 400, zIndex: 2 }}>
+        {/* Middle: hero text — centered */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 2, padding: "0 40px" }}>
 
-          {/* Headline — lower left (matches Socle layout) */}
+          {/* Headline — centered */}
           <div style={{
-            position: "absolute",
-            bottom: 80,
-            left: "max(40px, 5vw)",
-            maxWidth: "min(860px, 80vw)",
+            textAlign: "center",
+            maxWidth: "min(900px, 90vw)",
           }}>
             <h1 style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(52px, 9vw, 118px)",
-              fontWeight: 400,
-              lineHeight: 0.92,
-              letterSpacing: "-0.02em",
-              margin: "0 0 28px",
+              fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              fontSize: "clamp(48px, 11vw, 120px)",
+              fontWeight: 700,
+              lineHeight: 1,
+              letterSpacing: "-0.03em",
+              margin: "0 0 16px",
               color: "#fff",
             }}>
               Company<br />
-              intelligence,<br />
-              <em style={{ fontStyle: "italic" }}>instant.</em>
+              intelligence
             </h1>
 
             <p style={{
-              fontSize: 14,
-              color: "rgba(255,255,255,0.32)",
+              fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              fontSize: "clamp(40px, 9vw, 100px)",
+              fontWeight: 400,
+              fontStyle: "italic",
+              lineHeight: 1,
+              letterSpacing: "-0.02em",
+              margin: "0 0 32px",
+              color: "rgba(255,255,255,0.5)",
+            }}>
+              in seconds.
+            </p>
+
+            <p style={{
+              fontSize: "clamp(14px, 2vw, 16px)",
+              color: "rgba(255,255,255,0.35)",
               margin: 0,
               lineHeight: 1.7,
-              letterSpacing: "0.03em",
-              maxWidth: 360,
+              letterSpacing: "0.02em",
+              maxWidth: 500,
+              marginLeft: "auto",
+              marginRight: "auto",
             }}>
-              Tech stack · Growth signals · Conviction score · AI outreach.
+              Scan any domain. Get tech stack, growth signals, conviction score, and AI outreach — free, no account needed.
             </p>
           </div>
-
-          {/* Right-side vertical nav — desktop only */}
-          <nav className="hero-right-nav" style={{
-            position: "absolute",
-            right: 40,
-            top: "50%",
-            transform: "translateY(-50%)",
-            display: "flex",
-            flexDirection: "column",
-            gap: 22,
-            alignItems: "flex-end",
-          }}>
-            {NAV.map(({ label, href }, i) => (
-              <Link
-                key={label}
-                href={href}
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: 15,
-                  fontStyle: "italic",
-                  fontWeight: 400,
-                  color: i === 0 ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.3)",
-                  textDecoration: "none",
-                  letterSpacing: "0.01em",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                }}
-              >
-                {label}
-                {i === 0 && (
-                  <span style={{
-                    width: 4,
-                    height: 4,
-                    borderRadius: "50%",
-                    background: "rgba(255,255,255,0.65)",
-                    flexShrink: 0,
-                  }} />
-                )}
-              </Link>
-            ))}
-          </nav>
 
         </div>
 
