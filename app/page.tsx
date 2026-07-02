@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HeroSearch from "@/components/HeroSearch";
+import TechMarquee from "@/components/TechMarquee";
 
 const NAV = [
   { label: "Features",     href: "#features" },
@@ -209,6 +210,9 @@ export default function LandingPage() {
             Free · No account · Results in under 5 seconds
           </p>
         </section>
+
+        {/* Tech Marquee */}
+        <TechMarquee />
 
         {/* Features */}
         <section
