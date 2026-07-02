@@ -301,24 +301,28 @@ export default function LandingPage() {
                 <div
                   key={n}
                   style={{
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    borderRadius: "12px",
-                    padding: "28px",
-                    backgroundColor: "rgba(0,0,0,0.3)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    borderRadius: "14px",
+                    padding: "24px",
+                    backgroundColor: "rgba(0,0,0,0.35)",
                     backdropFilter: "blur(8px)",
+                    display: "flex",
+                    flexDirection: "column",
+                    aspectRatio: "1",
                   }}
                 >
                   <span style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 600,
                     color: "rgba(255,255,255,0.4)",
                     fontFamily: "monospace",
-                    letterSpacing: "0.08em",
+                    letterSpacing: "0.1em",
+                    marginBottom: "12px",
                   }}>
                     {n}
                   </span>
-                  <p style={{ fontSize: 16, fontWeight: 600, margin: "14px 0 12px", color: "#fff", letterSpacing: "-0.01em" }}>{title}</p>
-                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.6, letterSpacing: "0.01em" }}>{desc}</p>
+                  <p style={{ fontSize: 15, fontWeight: 700, margin: "0 0 12px", color: "#fff", letterSpacing: "-0.01em", lineHeight: 1.3 }}>{title}</p>
+                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.6, letterSpacing: "0.01em", flex: 1 }}>{desc}</p>
                 </div>
               ))}
             </div>
