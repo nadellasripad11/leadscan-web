@@ -292,7 +292,7 @@ export default function LandingPage() {
               </h2>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, maxWidth: "800px", margin: "0 auto" }}>
               {[
                 { n: "01", title: "Enter any domain",  desc: "No account, no API key, no setup. Type stripe.com and press enter." },
                 { n: "02", title: "Real-time scan",    desc: "Tech fingerprinting, signal detection, company enrichment, AI analysis — all in parallel." },
@@ -308,6 +308,8 @@ export default function LandingPage() {
                     backdropFilter: "blur(8px)",
                     display: "flex",
                     flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
                     aspectRatio: "1",
                   }}
                 >
