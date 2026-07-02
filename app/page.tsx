@@ -115,7 +115,7 @@ export default function LandingPage() {
 
             <p style={{
               fontSize: "clamp(14px, 2vw, 16px)",
-              color: "rgba(255,255,255,0.35)",
+              color: "rgba(255,255,255,0.5)",
               margin: 0,
               lineHeight: 1.7,
               letterSpacing: "0.02em",
@@ -322,7 +322,7 @@ export default function LandingPage() {
                   </span>
                   <div>
                     <p style={{ fontSize: 14, fontWeight: 600, margin: "0 0 6px", color: "rgba(255,255,255,0.75)", letterSpacing: "-0.01em" }}>{title}</p>
-                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", margin: 0, lineHeight: 1.75, letterSpacing: "0.01em" }}>{desc}</p>
+                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", margin: 0, lineHeight: 1.75, letterSpacing: "0.01em" }}>{desc}</p>
                   </div>
                 </div>
               ))}
