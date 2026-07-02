@@ -1,6 +1,7 @@
 import Link from "next/link";
 import HeroSearch from "@/components/HeroSearch";
 import TechMarquee from "@/components/TechMarquee";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 const NAV = [
   { label: "Features",     href: "#features" },
@@ -29,24 +30,13 @@ export default function LandingPage() {
         overflow: "hidden",
       }}>
 
-        {/* Background image — darkened, matches Socle silk/fluid aesthetic */}
+        {/* Animated dot field background */}
+        <AnimatedBackground />
+        {/* Dark overlay for text readability */}
         <div style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "url('/background.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center 40%",
-          filter: "brightness(0.22) saturate(0.65)",
-          zIndex: 0,
-        }} />
-        {/* Dark gradient overlay — keeps edges pure black, text readable */}
-        <div style={{
-          position: "absolute",
-          inset: 0,
-          background: [
-            "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(0,0,0,0.55) 70%, #000 100%)",
-            "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 25%, transparent 70%, rgba(0,0,0,0.6) 100%)",
-          ].join(","),
+          background: "rgba(0, 0, 0, 0.4)",
           zIndex: 1,
         }} />
 
