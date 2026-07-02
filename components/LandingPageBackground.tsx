@@ -5,7 +5,7 @@ import DotField from "@/components/DotField";
 export function LandingPageBackground() {
   return (
     <DotField
-      dotRadius={1.8}
+      dotRadius={1.4}
       dotSpacing={18}
       cursorRadius={360}
       bulgeStrength={22}
