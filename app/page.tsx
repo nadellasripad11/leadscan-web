@@ -259,75 +259,71 @@ export default function LandingPage() {
             borderBottom: "1px solid rgba(255,255,255,0.06)",
           }}
         >
+          {/* Centered heading */}
           <div style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "0 96px",
-            alignItems: "start",
-          }}
-            className="grid-cli"
-          >
-            <div>
-              <p style={{
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: "0.12em",
-                color: "rgba(255,255,255,0.2)",
-                textTransform: "uppercase",
-                margin: "0 0 20px",
-              }}>
-                How it works
-              </p>
-              <h2 style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(28px, 3.5vw, 48px)",
-                fontWeight: 400,
-                letterSpacing: "-0.025em",
-                margin: 0,
-                lineHeight: 1.05,
-                color: "#fff",
-                fontStyle: "italic",
-              }}>
-                Paste a domain.<br />Get a full report.
-              </h2>
-            </div>
+            textAlign: "center",
+            marginBottom: "80px",
+          }}>
+            <p style={{
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.12em",
+              color: "rgba(255,255,255,0.2)",
+              textTransform: "uppercase",
+              margin: "0 0 20px",
+            }}>
+              How it works
+            </p>
+            <h2 style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(28px, 3.5vw, 48px)",
+              fontWeight: 400,
+              letterSpacing: "-0.025em",
+              margin: 0,
+              lineHeight: 1.05,
+              color: "#fff",
+              fontStyle: "italic",
+            }}>
+              Paste a domain.<br />Get a full report.
+            </h2>
+          </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, maxWidth: "800px", margin: "0 auto" }}>
-              {[
-                { n: "01", title: "Enter any domain",  desc: "No account, no API key, no setup. Type stripe.com and press enter." },
-                { n: "02", title: "Real-time scan",    desc: "Tech fingerprinting, signal detection, company enrichment, AI analysis — all in parallel." },
-                { n: "03", title: "Get your report",   desc: "Score, tech stack, signals, profile, and AI-written outreach — ready in under 5 seconds." },
-              ].map(({ n, title, desc }) => (
-                <div
-                  key={n}
-                  style={{
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    borderRadius: "14px",
-                    padding: "24px",
-                    backgroundColor: "rgba(0,0,0,0.35)",
-                    backdropFilter: "blur(8px)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    textAlign: "center",
-                    aspectRatio: "1",
-                  }}
-                >
-                  <span style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: "rgba(255,255,255,0.4)",
-                    fontFamily: "monospace",
-                    letterSpacing: "0.1em",
-                    marginBottom: "12px",
-                  }}>
-                    {n}
-                  </span>
-                  <p style={{ fontSize: 15, fontWeight: 700, margin: "0 0 12px", color: "#fff", letterSpacing: "-0.01em", lineHeight: 1.3 }}>{title}</p>
-                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.6, letterSpacing: "0.01em", flex: 1 }}>{desc}</p>
-                </div>
-              ))}
-            </div>
+          {/* Cards grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, maxWidth: "800px", margin: "0 auto" }}>
+            {[
+              { n: "01", title: "Enter any domain",  desc: "No account, no API key, no setup. Type stripe.com and press enter." },
+              { n: "02", title: "Real-time scan",    desc: "Tech fingerprinting, signal detection, company enrichment, AI analysis — all in parallel." },
+              { n: "03", title: "Get your report",   desc: "Score, tech stack, signals, profile, and AI-written outreach — ready in under 5 seconds." },
+            ].map(({ n, title, desc }) => (
+              <div
+                key={n}
+                style={{
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  borderRadius: "14px",
+                  padding: "24px",
+                  backgroundColor: "rgba(0,0,0,0.35)",
+                  backdropFilter: "blur(8px)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  aspectRatio: "1",
+                }}
+              >
+                <span style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "rgba(255,255,255,0.4)",
+                  fontFamily: "monospace",
+                  letterSpacing: "0.1em",
+                  marginBottom: "12px",
+                }}>
+                  {n}
+                </span>
+                <p style={{ fontSize: 15, fontWeight: 700, margin: "0 0 12px", color: "#fff", letterSpacing: "-0.01em", lineHeight: 1.3 }}>{title}</p>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.6, letterSpacing: "0.01em", flex: 1 }}>{desc}</p>
+              </div>
+            ))}
           </div>
         </section>
 
