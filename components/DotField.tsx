@@ -79,10 +79,11 @@ const DotField = memo(function DotField({
     };
 
     const resize = () => {
-      const rect = root.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const width = Math.max(rect.width, 1);
-      const height = Math.max(rect.height, 1);
+      // Use root's bounding rect if available, fallback to window dimensions
+      const rect = root.getBoundingClientRect();
+      const width = rect.width > 0 ? rect.width : window.innerWidth;
+      const height = rect.height > 0 ? rect.height : window.innerHeight;
 
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
