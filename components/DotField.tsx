@@ -42,7 +42,6 @@ const DotField = memo(function DotField({
   style,
   ...rest
 }: DotFieldProps) {
-  const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dotsRef = useRef<Dot[]>([]);
   const mouseRef = useRef({ x: -9999, y: -9999, active: false });
@@ -52,17 +51,16 @@ const DotField = memo(function DotField({
   const sizeRef = useRef({ width: 0, height: 0, dpr: 1 });
 
   useEffect(() => {
-    const root = rootRef.current;
     const canvas = canvasRef.current;
-    if (!root || !canvas) return;
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     const buildGrid = (width: number, height: number) => {
       const step = dotRadius + dotSpacing;
-      const cols = Math.ceil(width / step);
-      const rows = Math.ceil(height / step);
+      const cols = Math.ceil(width / step) + 1;
+      const rows = Math.ceil(height / step) + 1;
       const padX = (width - (cols - 1) * step) / 2;
       const padY = (height - (rows - 1) * step) / 2;
       const dots: Dot[] = [];
@@ -80,10 +78,8 @@ const DotField = memo(function DotField({
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      // Use root's bounding rect if available, fallback to window dimensions
-      const rect = root.getBoundingClientRect();
-      const width = rect.width > 0 ? rect.width : window.innerWidth;
-      const height = rect.height > 0 ? rect.height : window.innerHeight;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -96,10 +92,9 @@ const DotField = memo(function DotField({
     };
 
     const onPointerMove = (event: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect();
       mouseRef.current = {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
+        x: event.clientX,
+        y: event.clientY,
         active: true,
       };
     };
@@ -155,11 +150,11 @@ const DotField = memo(function DotField({
         dot.x += (targetX - dot.x) * 0.14;
         dot.y += (targetY - dot.y) * 0.14;
 
-        const drift = Math.sin(dot.ax * 0.02 + frame * 0.015) * 0.15;
+        const drift = Math.sin(dot.ax * 0.015 + frame * 0.01) * 0.2;
         const drawX = dot.x;
         const drawY = dot.y + drift;
 
-        let alpha = 0.18;
+        let alpha = 0.15;
         let radius = dotRadius;
         let proximity = 0;
 
@@ -167,9 +162,9 @@ const DotField = memo(function DotField({
           const mdx = mouse.x - drawX;
           const mdy = mouse.y - drawY;
           const md = Math.sqrt(mdx * mdx + mdy * mdy);
-          proximity = clamp(1 - md / cursorRadius, 0, 1);
-          alpha = 0.14 + proximity * 0.42 * engagement;
-          radius = dotRadius * (1 + proximity * 0.35 * engagement);
+          proximity = Math.min(1, 1 - md / cursorRadius);
+          alpha = 0.12 + proximity * 0.35 * engagement;
+          radius = dotRadius * (1 + proximity * 0.3 * engagement);
         }
 
         const nearCursor = proximity > 0.35;
@@ -187,45 +182,35 @@ const DotField = memo(function DotField({
     resize();
     rafRef.current = requestAnimationFrame(draw);
 
-    const resizeObserver = new ResizeObserver(() => resize());
-    resizeObserver.observe(root);
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-    root.addEventListener("pointerleave", onPointerLeave);
+    window.addEventListener("pointerleave", onPointerLeave);
+    window.addEventListener("resize", resize, { passive: true });
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      resizeObserver.disconnect();
       window.removeEventListener("pointermove", onPointerMove);
-      root.removeEventListener("pointerleave", onPointerLeave);
+      window.removeEventListener("pointerleave", onPointerLeave);
+      window.removeEventListener("resize", resize);
     };
   }, [dotRadius, dotSpacing, cursorRadius, bulgeStrength, dotColor, accentColor, showGlow]);
 
   return (
-    <div
-      ref={rootRef}
-      className={`dot-field-container ${className}`.trim()}
+    <canvas
+      ref={canvasRef}
       style={{
-        position: "relative",
+        position: "fixed",
+        top: 0,
+        left: 0,
         width: "100%",
         height: "100%",
-        overflow: "hidden",
+        display: "block",
+        pointerEvents: "none",
+        zIndex: 0,
         ...style,
       }}
+      aria-hidden
       {...rest}
-    >
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          display: "block",
-          pointerEvents: "none",
-        }}
-        aria-hidden
-      />
-    </div>
+    />
   );
 });
 

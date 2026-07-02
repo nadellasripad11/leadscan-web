@@ -2,6 +2,7 @@ import Link from "next/link";
 import HeroSearch from "@/components/HeroSearch";
 import TechMarquee from "@/components/TechMarquee";
 import { LandingPageBackground } from "@/components/LandingPageBackground";
+import { TypingAnimation } from "@/components/TypingAnimation";
 
 const NAV = [
   { label: "Features",     href: "#features" },
@@ -107,9 +108,9 @@ export default function LandingPage() {
               lineHeight: 1,
               letterSpacing: "-0.02em",
               margin: "0 0 32px",
-              color: "rgba(255,255,255,0.5)",
+              color: "#fff",
             }}>
-              in seconds.
+              <TypingAnimation text="in seconds." delay={300} />
             </p>
 
             <p style={{
