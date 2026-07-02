@@ -293,20 +293,20 @@ export default function LandingPage() {
               </h2>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", backgroundColor: "rgba(0, 0, 0, 0.5)", padding: "32px", borderRadius: "16px", backdropFilter: "blur(10px)" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
               {[
                 { n: "01", title: "Enter any domain",  desc: "No account, no API key, no setup. Type stripe.com and press enter." },
                 { n: "02", title: "Real-time scan",    desc: "Tech fingerprinting, signal detection, company enrichment, AI analysis — all in parallel." },
                 { n: "03", title: "Get your report",   desc: "Score, tech stack, signals, profile, and AI-written outreach — ready in under 5 seconds." },
-              ].map(({ n, title, desc }, i, arr) => (
+              ].map(({ n, title, desc }) => (
                 <div
                   key={n}
                   style={{
-                    display: "flex",
-                    gap: 28,
-                    paddingBottom: i < arr.length - 1 ? 32 : 0,
-                    marginBottom: i < arr.length - 1 ? 32 : 0,
-                    borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "12px",
+                    padding: "28px",
+                    backgroundColor: "rgba(0,0,0,0.3)",
+                    backdropFilter: "blur(8px)",
                   }}
                 >
                   <span style={{
@@ -314,16 +314,12 @@ export default function LandingPage() {
                     fontWeight: 600,
                     color: "rgba(255,255,255,0.4)",
                     fontFamily: "monospace",
-                    flexShrink: 0,
-                    marginTop: 2,
-                    letterSpacing: "0.04em",
+                    letterSpacing: "0.08em",
                   }}>
                     {n}
                   </span>
-                  <div>
-                    <p style={{ fontSize: 14, fontWeight: 600, margin: "0 0 6px", color: "#fff", letterSpacing: "-0.01em" }}>{title}</p>
-                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", margin: 0, lineHeight: 1.75, letterSpacing: "0.01em" }}>{desc}</p>
-                  </div>
+                  <p style={{ fontSize: 16, fontWeight: 600, margin: "14px 0 12px", color: "#fff", letterSpacing: "-0.01em" }}>{title}</p>
+                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.6, letterSpacing: "0.01em" }}>{desc}</p>
                 </div>
               ))}
             </div>
