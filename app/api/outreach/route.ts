@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { scrapeCompany } from "@/lib/scraper";
 import { analyzeCompany, generateOutreach } from "@/lib/ai";
 import { validateDomain, checkRateLimit } from "@/lib/validation";
-import { getFromCache } from "@/lib/cache";
 
 export const maxDuration = 30;
 
@@ -38,12 +37,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Try to use cached data if available, otherwise scrape
-    let data = await getFromCache(cleanDomain);
-    if (!data) {
-      const scraped = await scrapeCompany(cleanDomain);
-      data = scraped;
-    }
+    // Always scrape fresh data for outreach (cache contains IntelReport, we need CompanyData)
+    const data = await scrapeCompany(cleanDomain);
 
     let aiSummary;
     if (process.env.GROQ_API_KEY) {
