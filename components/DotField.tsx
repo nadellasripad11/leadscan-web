@@ -209,7 +209,6 @@ const DotField = memo(function DotField({
         ...style,
       }}
       aria-hidden
-      {...rest}
     />
   );
 });
