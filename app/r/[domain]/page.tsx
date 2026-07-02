@@ -68,7 +68,6 @@ export default async function CompanyPage({
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "36px 24px 80px" }}>
         {!report ? (
           <div style={{ background: "rgba(248,113,113,0.07)", border: "1px solid rgba(248,113,113,0.18)", borderRadius: 18, padding: 36, textAlign: "center" }}>
-            <p style={{ fontSize: 32, margin: "0 0 12px" }}>🔍</p>
             <p style={{ color: "#f87171", fontWeight: 700, fontSize: 16, margin: "0 0 6px" }}>Couldn&apos;t scan {domain}</p>
             <p style={{ color: "#71717a", fontSize: 13, margin: "0 0 24px", lineHeight: 1.6 }}>
               The domain may be unreachable, blocking scrapers, or doesn&apos;t have a public homepage.

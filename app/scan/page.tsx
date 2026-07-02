@@ -166,13 +166,12 @@ export default function ScanPage() {
                 <div className="anim-fade-up" style={{ animationDelay: "0.25s", marginTop: 40 }}>
                   <div className="grid-2col" style={{ gap: 14, marginBottom: 14 }}>
                     {[
-                      { icon: "⚡", color: "#fbbf24", title: "Instant results", desc: "Full company report in under 5 seconds." },
-                      { icon: "🔍", color: "#3b82f6", title: "Tech detection", desc: "40+ technologies detected from HTML. No API needed." },
-                      { icon: "📊", color: "#93c5fd", title: "Conviction score", desc: "0–100 score from 4 weighted signals." },
-                      { icon: "✉",  color: "#22c55e", title: "AI outreach", desc: "Personalized cold email, LinkedIn & call opener." },
-                    ].map(({ icon, color, title, desc }) => (
+                      { title: "Instant results", desc: "Full company report in under 5 seconds." },
+                      { title: "Tech detection", desc: "40+ technologies detected from HTML. No API needed." },
+                      { title: "Conviction score", desc: "0–100 score from 4 weighted signals." },
+                      { title: "AI outreach", desc: "Personalized cold email, LinkedIn & call opener." },
+                    ].map(({ title, desc }) => (
                       <div key={title} className="feature-card">
-                        <div style={{ fontSize: 22, marginBottom: 10 }}>{icon}</div>
                         <p style={{ fontWeight: 700, fontSize: 14, margin: "0 0 6px" }}>{title}</p>
                         <p style={{ fontSize: 13, color: "#71717a", margin: 0, lineHeight: 1.55 }}>{desc}</p>
                       </div>

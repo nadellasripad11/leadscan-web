@@ -97,14 +97,13 @@ export default function HowItWorksPage() {
           <div style={{ maxWidth: 900, margin: "0 auto" }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
               {[
-                { icon: "🎯", title: "Conviction Score",    desc: "0–100 lead quality score across 4 weighted signals" },
-                { icon: "🔬", title: "Tech Stack",           desc: "40+ technologies detected from public HTML & headers" },
-                { icon: "📈", title: "Growth Signals",       desc: "Hiring, blog, pricing, investors, changelog" },
-                { icon: "🏢", title: "Company Intelligence", desc: "HQ, headcount, founding year, revenue, stock data" },
-                { icon: "✉️", title: "AI Outreach",          desc: "Cold email, LinkedIn message, and call opener" },
-              ].map(({ icon, title, desc }) => (
+                { title: "Conviction Score",    desc: "0–100 lead quality score across 4 weighted signals" },
+                { title: "Tech Stack",           desc: "40+ technologies detected from public HTML & headers" },
+                { title: "Growth Signals",       desc: "Hiring, blog, pricing, investors, changelog" },
+                { title: "Company Intelligence", desc: "HQ, headcount, founding year, revenue, stock data" },
+                { title: "AI Outreach",          desc: "Cold email, LinkedIn message, and call opener" },
+              ].map(({ title, desc }) => (
                 <Card key={title}>
-                  <div style={{ fontSize: 22, marginBottom: 10 }}>{icon}</div>
                   <p style={{ fontSize: 13, fontWeight: 700, margin: "0 0 5px" }}>{title}</p>
                   <p style={{ fontSize: 12, color: "#71717a", margin: 0, lineHeight: 1.6 }}>{desc}</p>
                 </Card>
