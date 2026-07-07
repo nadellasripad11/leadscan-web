@@ -306,6 +306,27 @@ want something? [open an issue](https://github.com/nadellasripad11/leadscan/issu
 
 ---
 
+## ai usage
+
+**i built this.** the core idea, scraping logic, conviction scoring, and API design are mine. months of real problems and iterations.
+
+**claude (ai) helped with:**
+- code cleanup and production polish (types, error handling, edge cases)
+- refactoring the Wikipedia parser from "works" to "actually works"
+- making the README/GitHub less AI-generated sounding
+- debugging TypeScript/Next.js issues
+- landing page UI iterations
+
+**what claude didn't do:**
+- design the product or features
+- write scraper logic or scoring system
+- make architectural decisions
+- debug business logic (that was me)
+
+so: my vision + execution, claude's polish + second pair of eyes. not an AI project. a human project that had AI help.
+
+---
+
 <div align="center">
 
 **made by [sripad](https://github.com/nadellasripad11)**  
